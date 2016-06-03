@@ -48,5 +48,10 @@ namespace ChessEnginesGenerator
         {
             InitializeComponent();
         }
+
+        private void GenerateButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
