@@ -17,15 +17,15 @@ using System.Windows.Shapes;
 /*
  * Temat pracy dyplomowej magisterskiej (jęz. pol.)
     Implementacja i analiza wydajnościowa generatora silników gier logicznych
-* Temat pracy dyplomowej magisterskiej (jęz. ang.)
+ * Temat pracy dyplomowej magisterskiej (jęz. ang.)
     Implementation and analysis of logical games engines generator
-* Opiekun pracy
+ * Opiekun pracy
     dr hab. inż. Krzysztof Giaro
-* Konsultant pracy
+ * Konsultant pracy
     mgr inż. T. Goluch
-* Cel pracy
+ * Cel pracy
     Celem pracy jest zbadanie wydajności generatorów silników gier logicznych.
-* Zadania do wykonania
+ * Zadania do wykonania
     1.  Przegląd i analiza dostępnych implementacji silników popularnych gier (Go, szachy, warcaby, itp.)
     2.  Implementacja generatora silników wybranej gry,  parametryzowanego takimi wartościami jak: rozmiary planszy, liczba pól aktywnych planszy, zasady gry, liczba graczy itp.
     3.  Analiza wydajnościowo, poprawnościowa zaimplementowanego generatora silników gier

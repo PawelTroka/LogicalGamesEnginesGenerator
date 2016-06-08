@@ -1,0 +1,22 @@
+/*
+ * Temat pracy dyplomowej magisterskiej (jez. pol.)
+    Implementacja i analiza wydajnosciowa generatora silników gier logicznych
+ * Temat pracy dyplomowej magisterskiej (jez. ang.)
+    Implementation and analysis of logical games engines generator
+ * Opiekun pracy
+    dr hab. inz. Krzysztof Giaro
+ * Konsultant pracy
+    mgr inz. T. Goluch
+ * Cel pracy
+    Celem pracy jest zbadanie wydajnosci generatorów silników gier logicznych.
+ * Zadania do wykonania
+    1.  Przeglad i analiza dostepnych implementacji silników popularnych gier (Go, szachy, warcaby, itp.)
+    2.  Implementacja generatora silników wybranej gry,  parametryzowanego takimi wartosciami jak: rozmiary planszy, liczba pól aktywnych planszy, zasady gry, liczba graczy itp.
+    3.  Analiza wydajnosciowo, poprawnosciowa zaimplementowanego generatora silników gier
+ */
+
+//architecture plans:
+//1. Entry point is this generator with GUI
+//2. generator creates new native game engine based on parameters and source code in C++ from another project
+//3 some GUI app like WinBoard can run generated engine
+//4. Tester "ChessEnginesAnalyzer" tests generated engines for performance and correctness, also tests Generator app

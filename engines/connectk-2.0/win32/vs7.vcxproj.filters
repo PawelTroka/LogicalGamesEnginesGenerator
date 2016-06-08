@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ai">
+      <UniqueIdentifier>{7b755f81-a4a5-4b73-885c-5d4a5ef3b6ac}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\ai\ai.c">
+      <Filter>ai</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ai\mesh.c">
+      <Filter>ai</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ai\montec.c">
+      <Filter>ai</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ai\search.c">
+      <Filter>ai</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ai\sequences.c">
+      <Filter>ai</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ai\thread.c">
+      <Filter>ai</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ai\threats.c">
+      <Filter>ai</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ai\window.c">
+      <Filter>ai</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\connectk.c" />
+    <ClCompile Include="..\src\dialogs.c" />
+    <ClCompile Include="..\src\draw.c" />
+    <ClCompile Include="..\src\file.c" />
+    <ClCompile Include="..\src\state.c" />
+    <ClCompile Include="..\src\tests.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="config.h" />
+    <ClInclude Include="..\src\connectk.h" />
+    <ClInclude Include="..\src\shared.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="README.txt" />
+  </ItemGroup>
+</Project>

@@ -5,6 +5,37 @@ VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChessEnginesGenerator", "ChessEnginesGenerator\ChessEnginesGenerator.csproj", "{595C078F-683D-40B1-8A33-C8AA3294F73A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{5383056D-DAA9-45DC-B53A-51106ED53392}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "articles", "articles", "{40E4D3B5-3B59-44C1-A098-D45718AC1273}"
+	ProjectSection(SolutionItems) = preProject
+		docs\articles\A New Family of k-in-a-row Games - I-Chen Wu and Dei-Yen Huang.pdf = docs\articles\A New Family of k-in-a-row Games - I-Chen Wu and Dei-Yen Huang.pdf
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "formalities", "formalities", "{A9922550-FDFA-4C48-B0B9-565E47D19932}"
+	ProjectSection(SolutionItems) = preProject
+		docs\formalities\KartaAbsolwenta_15160.pdf = docs\formalities\KartaAbsolwenta_15160.pdf
+		docs\formalities\required_documents.txt = docs\formalities\required_documents.txt
+		docs\formalities\WniosekDodatkowyDyplom_132334.pdf = docs\formalities\WniosekDodatkowyDyplom_132334.pdf
+		docs\formalities\zarządzenie wytyczne pracy.pdf = docs\formalities\zarządzenie wytyczne pracy.pdf
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "seminar", "seminar", "{5FA5E8E3-D6AC-4BDB-856E-6CAB3B4999AD}"
+	ProjectSection(SolutionItems) = preProject
+		docs\seminar\Seminar-pl.pdf = docs\seminar\Seminar-pl.pdf
+		docs\seminar\Seminar-pl.ppt = docs\seminar\Seminar-pl.ppt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "thesis", "thesis", "{09E866AF-45C1-4212-8DD5-5587B1E27CB2}"
+	ProjectSection(SolutionItems) = preProject
+		docs\thesis\MasterThesis-pl.docx = docs\thesis\MasterThesis-pl.docx
+		docs\thesis\Oswiadczenie_132334.doc = docs\thesis\Oswiadczenie_132334.doc
+		docs\thesis\requirements.txt = docs\thesis\requirements.txt
+		docs\thesis\StronaTytulowa_132334.doc = docs\thesis\StronaTytulowa_132334.doc
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Connect(m,n,k,p,q)EnginesGenerator", "Connect(m,n,k,p,q)EnginesGenerator\Connect(m,n,k,p,q)EnginesGenerator.csproj", "{0DFCC553-0684-4C29-843D-9457429BD165}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,8 +46,18 @@ Global
 		{595C078F-683D-40B1-8A33-C8AA3294F73A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{595C078F-683D-40B1-8A33-C8AA3294F73A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{595C078F-683D-40B1-8A33-C8AA3294F73A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0DFCC553-0684-4C29-843D-9457429BD165}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0DFCC553-0684-4C29-843D-9457429BD165}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0DFCC553-0684-4C29-843D-9457429BD165}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0DFCC553-0684-4C29-843D-9457429BD165}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{40E4D3B5-3B59-44C1-A098-D45718AC1273} = {5383056D-DAA9-45DC-B53A-51106ED53392}
+		{A9922550-FDFA-4C48-B0B9-565E47D19932} = {5383056D-DAA9-45DC-B53A-51106ED53392}
+		{5FA5E8E3-D6AC-4BDB-856E-6CAB3B4999AD} = {5383056D-DAA9-45DC-B53A-51106ED53392}
+		{09E866AF-45C1-4212-8DD5-5587B1E27CB2} = {5383056D-DAA9-45DC-B53A-51106ED53392}
 	EndGlobalSection
 EndGlobal
