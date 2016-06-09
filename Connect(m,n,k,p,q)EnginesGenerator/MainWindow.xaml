@@ -1,12 +1,72 @@
-﻿<Window x:Class="Connect_m_n_k_p_q_EnginesGenerator.MainWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Connect_m_n_k_p_q_EnginesGenerator"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" x:Class="m_n_k_p_q_EnginesGenerator.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="(m,n,k,p,q)EnginesGenerator v1.0.0 © Pawel Troka" Height="612.5" Width="612.5">
     <Grid>
-        
+        <GroupBox x:Name="groupBox" Header="Wining condition" HorizontalAlignment="Left" Margin="305,14,0,0" VerticalAlignment="Top" Height="101" Width="139">
+            <Grid>
+                <xctk:LongUpDown Minimum="1" Value="19" HorizontalAlignment="Left" Margin="47,16,0,0" VerticalAlignment="Top" Width="56"/>
+                <Label x:Name="label" Content="k =" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+                <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="10,47,0,0" VerticalAlignment="Top" Width="93"/>
+
+            </Grid>
+        </GroupBox>
+        <GroupBox x:Name="groupBox_Copy" Header="Stones to place" HorizontalAlignment="Left" Margin="449,14,0,0" VerticalAlignment="Top" Height="101" Width="139">
+            <Grid>
+                <xctk:LongUpDown Minimum="1" Value="1" HorizontalAlignment="Left" Margin="47,16,0,0" VerticalAlignment="Top" Width="56"/>
+                <Label x:Name="label1" Content="p =" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+                <xctk:LongUpDown Minimum="1" Value="1" HorizontalAlignment="Left" Margin="47,47,0,0" VerticalAlignment="Top" Width="56"/>
+                <Label x:Name="label_Copy1" Content="q =" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top"/>
+            </Grid>
+        </GroupBox>
+        <GroupBox x:Name="groupBox_Copy1" Header="Load engine scheme" HorizontalAlignment="Left" Margin="17,14,0,0" VerticalAlignment="Top" Height="101" Width="139">
+            <Grid>
+                <ComboBox x:Name="comboBox1" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="107"/>
+                <Button x:Name="button" Content="Load" HorizontalAlignment="Left" Margin="10,49,0,0" VerticalAlignment="Top" Width="107"/>
+            </Grid>
+        </GroupBox>
+        <GroupBox x:Name="groupBox_Copy2" Header="Board" HorizontalAlignment="Left" Margin="161,14,0,0" VerticalAlignment="Top" Height="101" Width="139">
+            <Grid>
+                <xctk:LongUpDown Minimum="1" Value="19" HorizontalAlignment="Left" Margin="47,16,0,0" VerticalAlignment="Top" Width="56"/>
+                <Label x:Name="label3" Content="m =" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+                <xctk:LongUpDown Minimum="1" Value="19" HorizontalAlignment="Left" Margin="47,47,0,0" VerticalAlignment="Top" Width="56"/>
+                <Label x:Name="label_Copy3" Content="n =" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top"/>
+            </Grid>
+        </GroupBox>
+        <ComboBox x:Name="msbuildPathTextBox" HorizontalAlignment="Left" Height="23" IsEditable="True" Margin="17,155,0,0" Text="C:\Program Files (x86)\MSBuild\14.0\Bin\amd64\MSBuild.exe" VerticalAlignment="Top" Width="427">
+            <ComboBoxItem Content="C:\Program Files (x86)\MSBuild\15.0\Bin\MSBuild.exe"/>
+            <ComboBoxItem Content="C:\Program Files (x86)\MSBuild\15.0\Bin\amd64\MSBuild.exe"/>
+
+            <ComboBoxItem Content="C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe"/>
+            <ComboBoxItem Content="C:\Program Files (x86)\MSBuild\14.0\Bin\amd64\MSBuild.exe"/>
+
+            <ComboBoxItem Content="C:\Program Files (x86)\MSBuild\13.0\Bin\MSBuild.exe"/>
+            <ComboBoxItem Content="C:\Program Files (x86)\MSBuild\13.0\Bin\amd64\MSBuild.exe"/>
+
+            <ComboBoxItem Content="C:\Program Files (x86)\MSBuild\12.0\Bin\MSBuild.exe"/>
+            <ComboBoxItem Content="C:\Program Files (x86)\MSBuild\12.0\Bin\amd64\MSBuild.exe"/>
+
+
+            <ComboBoxItem Content="C:\Program Files\MSBuild\15.0\Bin\MSBuild.exe"/>
+
+            <ComboBoxItem Content="C:\Program Files\MSBuild\14.0\Bin\MSBuild.exe"/>
+
+            <ComboBoxItem Content="C:\Program Files\MSBuild\13.0\Bin\MSBuild.exe"/>
+
+            <ComboBoxItem Content="C:\Program Files\MSBuild\12.0\Bin\MSBuild.exe"/>
+        </ComboBox>
+        <Label x:Name="label2" Content="Path to MSBuild.exe:" HorizontalAlignment="Left" Margin="17,124,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="button1" Content="Change path..." HorizontalAlignment="Left" Margin="449,155,0,0" VerticalAlignment="Top" Width="139"/>
+        <TextBox x:Name="outputTextBox" IsReadOnly="True" IsReadOnlyCaretVisible="False" HorizontalAlignment="Left" Height="159" Margin="10,412,0,0" TextWrapping="Wrap" AcceptsReturn="True" Text="" VerticalAlignment="Top" Width="584"/>
+        <Label x:Name="label4" Content="Output:" HorizontalAlignment="Left" Margin="10,381,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="button2" Content="Compile" HorizontalAlignment="Left" Margin="435,270,0,0" VerticalAlignment="Top" Width="75" Click="button2_Click"/>
+        <Button x:Name="button2_Copy" Content="Compile and Run" HorizontalAlignment="Left" Margin="281,270,0,0" VerticalAlignment="Top" Width="113" Click="button2_Copy_Click"/>
+        <Label x:Name="label5" Content="Flags:" HorizontalAlignment="Left" Margin="17,183,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="flagsTextBox" HorizontalAlignment="Left" Height="23" Margin="62,183,0,0" TextWrapping="Wrap" Text="/p:Configuration=Release" VerticalAlignment="Top" Width="382"/>
+
     </Grid>
 </Window>

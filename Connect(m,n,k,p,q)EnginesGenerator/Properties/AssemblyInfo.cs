@@ -7,11 +7,11 @@ using System.Windows;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Connect(m,n,k,p,q)EnginesGenerator")]
+[assembly: AssemblyTitle("(m,n,k,p,q)EnginesGenerator")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Connect(m,n,k,p,q)EnginesGenerator")]
+[assembly: AssemblyProduct("(m,n,k,p,q)EnginesGenerator")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

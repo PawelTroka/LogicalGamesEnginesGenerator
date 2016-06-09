@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 
-namespace Connect_m_n_k_p_q_EnginesGenerator
+namespace m_n_k_p_q_EnginesGenerator
 {
     /// <summary>
     /// Interaction logic for App.xaml
