@@ -10,6 +10,7 @@ connectk -- UMN CSci 5512W project
 #include <glib.h>
 #include "../shared.h"
 #include "../connectk.h"
+#include <climits>
 
 /* Variables required to check for cache hits */
 static int cache_id = -1, cache_depth = -1, cache_branch = -1;
