@@ -3,8 +3,9 @@
 
 #include "stdafx.h"
 
-
-double hotFunction(double x)
-{
-	return x*x;
+extern "C" {
+	__declspec(dllexport) double hotFunction(double x)
+	{
+		return x*x;
+	}
 }

@@ -24,7 +24,8 @@ namespace m_n_k_p_q_EnginesGenerator
 
         private void button2_Copy_Click(object sender, RoutedEventArgs e)
         {
-            _generator.GenerateEngine(msbuildPathTextBox.Text, flagsTextBox.Text);
+           // _generator.GenerateEngine(msbuildPathTextBox.Text, flagsTextBox.Text);
+            _generator.RunEngine();
         }
     }
 }
