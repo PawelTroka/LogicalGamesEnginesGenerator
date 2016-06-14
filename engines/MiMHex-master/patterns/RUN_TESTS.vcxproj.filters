@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="D:\PawelTroka-Projects\LogicalGamesEnginesGenerator\engines\MiMHex-master\CMakeFiles\0567f35b7d5a76cac05a345de13118b9\RUN_TESTS_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{DB4DA841-17CD-33F0-9CEE-09B0D0713F67}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

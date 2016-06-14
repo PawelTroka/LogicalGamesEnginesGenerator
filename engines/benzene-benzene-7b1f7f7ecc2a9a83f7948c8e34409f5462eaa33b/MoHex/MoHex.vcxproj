@@ -1,0 +1,373 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{B4A05C61-522F-4EE3-B428-D745BD94B534}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>MoHex</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\benzenetest\BenzeneTestEngine.cpp" />
+    <ClCompile Include="..\src\benzenetest\BenzeneTestMain.cpp" />
+    <ClCompile Include="..\src\benzenetest\BenzeneTestProgram.cpp" />
+    <ClCompile Include="..\src\book\Book.cpp" />
+    <ClCompile Include="..\src\book\BookCheck.cpp" />
+    <ClCompile Include="..\src\book\BookCommands.cpp" />
+    <ClCompile Include="..\src\book\CacheBook.cpp" />
+    <ClCompile Include="..\src\commonengine\CommonHtpEngine.cpp" />
+    <ClCompile Include="..\src\commonengine\CommonProgram.cpp" />
+    <ClCompile Include="..\src\commonengine\PlayAndSolve.cpp" />
+    <ClCompile Include="..\src\commonengine\SwapCheck.cpp" />
+    <ClCompile Include="..\src\hex\BenzenePlayer.cpp" />
+    <ClCompile Include="..\src\hex\BoardUtil.cpp" />
+    <ClCompile Include="..\src\hex\ConstBoard.cpp" />
+    <ClCompile Include="..\src\hex\Decompositions.cpp" />
+    <ClCompile Include="..\src\hex\EndgameUtil.cpp" />
+    <ClCompile Include="..\src\hex\Game.cpp" />
+    <ClCompile Include="..\src\hex\GraphUtil.cpp" />
+    <ClCompile Include="..\src\hex\Groups.cpp" />
+    <ClCompile Include="..\src\hex\HandCodedPattern.cpp" />
+    <ClCompile Include="..\src\hex\HashedPatternSet.cpp" />
+    <ClCompile Include="..\src\hex\HexAbSearch.cpp" />
+    <ClCompile Include="..\src\hex\HexBoard.cpp" />
+    <ClCompile Include="..\src\hex\HexEnvironment.cpp" />
+    <ClCompile Include="..\src\hex\HexEval.cpp" />
+    <ClCompile Include="..\src\hex\HexHtpEngine.cpp" />
+    <ClCompile Include="..\src\hex\HexPoint.cpp" />
+    <ClCompile Include="..\src\hex\HexProp.cpp" />
+    <ClCompile Include="..\src\hex\HexSgUtil.cpp" />
+    <ClCompile Include="..\src\hex\ICEngine.cpp" />
+    <ClCompile Include="..\src\hex\IcePatternSet.cpp" />
+    <ClCompile Include="..\src\hex\InferiorCells.cpp" />
+    <ClCompile Include="..\src\hex\NeighborTracker.cpp" />
+    <ClCompile Include="..\src\hex\Pattern.cpp" />
+    <ClCompile Include="..\src\hex\PatternState.cpp" />
+    <ClCompile Include="..\src\hex\Resistance.cpp" />
+    <ClCompile Include="..\src\hex\RingGodel.cpp" />
+    <ClCompile Include="..\src\hex\SequenceHash.cpp" />
+    <ClCompile Include="..\src\hex\StoneBoard.cpp" />
+    <ClCompile Include="..\src\hex\test\BitsetIteratorTest.cpp" />
+    <ClCompile Include="..\src\hex\test\BoardIteratorTest.cpp" />
+    <ClCompile Include="..\src\hex\test\BoardUtilTest.cpp" />
+    <ClCompile Include="..\src\hex\test\ConstBoardTest.cpp" />
+    <ClCompile Include="..\src\hex\test\DecompositionsTest.cpp" />
+    <ClCompile Include="..\src\hex\test\EndgameUtilTest.cpp" />
+    <ClCompile Include="..\src\hex\test\GraphUtilTest.cpp" />
+    <ClCompile Include="..\src\hex\test\GroupsTest.cpp" />
+    <ClCompile Include="..\src\hex\test\HexBoardTest.cpp" />
+    <ClCompile Include="..\src\hex\test\HexColorTest.cpp" />
+    <ClCompile Include="..\src\hex\test\HexPointTest.cpp" />
+    <ClCompile Include="..\src\hex\test\ICEngineTest.cpp" />
+    <ClCompile Include="..\src\hex\test\InferiorCellsTest.cpp" />
+    <ClCompile Include="..\src\hex\test\PatternStateTest.cpp" />
+    <ClCompile Include="..\src\hex\test\RingGodelTest.cpp" />
+    <ClCompile Include="..\src\hex\test\SequenceHashTest.cpp" />
+    <ClCompile Include="..\src\hex\test\StateDBTest.cpp" />
+    <ClCompile Include="..\src\hex\test\StoneBoardTest.cpp" />
+    <ClCompile Include="..\src\hex\test\VCListTest.cpp" />
+    <ClCompile Include="..\src\hex\test\VCSetTest.cpp" />
+    <ClCompile Include="..\src\hex\test\VCTest.cpp" />
+    <ClCompile Include="..\src\hex\test\VCUtilTest.cpp" />
+    <ClCompile Include="..\src\hex\test\ZobristHashTest.cpp" />
+    <ClCompile Include="..\src\hex\TwoDistance.cpp" />
+    <ClCompile Include="..\src\hex\VC.cpp" />
+    <ClCompile Include="..\src\hex\VCBuilder.cpp" />
+    <ClCompile Include="..\src\hex\VCCommands.cpp" />
+    <ClCompile Include="..\src\hex\VCList.cpp" />
+    <ClCompile Include="..\src\hex\VCPattern.cpp" />
+    <ClCompile Include="..\src\hex\VCSet.cpp" />
+    <ClCompile Include="..\src\hex\VCUtil.cpp" />
+    <ClCompile Include="..\src\hex\ZobristHash.cpp" />
+    <ClCompile Include="..\src\mohex\MoHexEngine.cpp" />
+    <ClCompile Include="..\src\mohex\MoHexMain.cpp" />
+    <ClCompile Include="..\src\mohex\MoHexPlayer.cpp" />
+    <ClCompile Include="..\src\mohex\MoHexPlayoutPolicy.cpp" />
+    <ClCompile Include="..\src\mohex\MoHexPriorKnowledge.cpp" />
+    <ClCompile Include="..\src\mohex\MoHexProgram.cpp" />
+    <ClCompile Include="..\src\mohex\MoHexSearch.cpp" />
+    <ClCompile Include="..\src\mohex\MoHexThreadState.cpp" />
+    <ClCompile Include="..\src\mohex\MoHexUtil.cpp" />
+    <ClCompile Include="..\src\simpleplayers\HandicapPlayer.cpp" />
+    <ClCompile Include="..\src\simpleplayers\PerfectPlayer.cpp" />
+    <ClCompile Include="..\src\simpleplayers\VulPreCheck.cpp" />
+    <ClCompile Include="..\src\solver\DfpnCommands.cpp" />
+    <ClCompile Include="..\src\solver\DfpnSolver.cpp" />
+    <ClCompile Include="..\src\solver\DfsCommands.cpp" />
+    <ClCompile Include="..\src\solver\DfsData.cpp" />
+    <ClCompile Include="..\src\solver\DfsSolver.cpp" />
+    <ClCompile Include="..\src\solver\ProofUtil.cpp" />
+    <ClCompile Include="..\src\test\TestMain.cpp" />
+    <ClCompile Include="..\src\util\BenzeneException.cpp" />
+    <ClCompile Include="..\src\util\BenzeneProgram.cpp" />
+    <ClCompile Include="..\src\util\Bitset.cpp" />
+    <ClCompile Include="..\src\util\Logger.cpp" />
+    <ClCompile Include="..\src\util\lssolve.cpp" />
+    <ClCompile Include="..\src\util\Misc.cpp" />
+    <ClCompile Include="..\src\util\test\AtomicMemoryTest.cpp" />
+    <ClCompile Include="..\src\util\test\BitsetTest.cpp" />
+    <ClCompile Include="..\src\util\test\ChangeLogTest.cpp" />
+    <ClCompile Include="..\src\util\test\DigraphTest.cpp" />
+    <ClCompile Include="..\src\util\test\HashMapTest.cpp" />
+    <ClCompile Include="..\src\util\test\LinkedListTest.cpp" />
+    <ClCompile Include="..\src\util\test\LoggerTest.cpp" />
+    <ClCompile Include="..\src\util\test\SortedSequenceTest.cpp" />
+    <ClCompile Include="..\src\util\test\UnionFindTest.cpp" />
+    <ClCompile Include="..\src\wolve\WolveEngine.cpp" />
+    <ClCompile Include="..\src\wolve\WolveMain.cpp" />
+    <ClCompile Include="..\src\wolve\WolvePlayer.cpp" />
+    <ClCompile Include="..\src\wolve\WolveProgram.cpp" />
+    <ClCompile Include="..\src\wolve\WolveSearch.cpp" />
+    <ClCompile Include="..\src\wolve\WolveTimeControl.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\benzenetest\BenzeneTestEngine.hpp" />
+    <ClInclude Include="..\src\benzenetest\BenzeneTestProgram.hpp" />
+    <ClInclude Include="..\src\book\Book.hpp" />
+    <ClInclude Include="..\src\book\BookBuilder.hpp" />
+    <ClInclude Include="..\src\book\BookBuilderCommands.hpp" />
+    <ClInclude Include="..\src\book\BookCheck.hpp" />
+    <ClInclude Include="..\src\book\BookCommands.hpp" />
+    <ClInclude Include="..\src\book\CacheBook.hpp" />
+    <ClInclude Include="..\src\commonengine\CommonHtpEngine.hpp" />
+    <ClInclude Include="..\src\commonengine\CommonProgram.hpp" />
+    <ClInclude Include="..\src\commonengine\PlayAndSolve.hpp" />
+    <ClInclude Include="..\src\commonengine\SwapCheck.hpp" />
+    <ClInclude Include="..\src\hex\BenzenePlayer.hpp" />
+    <ClInclude Include="..\src\hex\BitsetIterator.hpp" />
+    <ClInclude Include="..\src\hex\BoardIterator.hpp" />
+    <ClInclude Include="..\src\hex\BoardUtil.hpp" />
+    <ClInclude Include="..\src\hex\ConstBoard.hpp" />
+    <ClInclude Include="..\src\hex\Decompositions.hpp" />
+    <ClInclude Include="..\src\hex\EndgameUtil.hpp" />
+    <ClInclude Include="..\src\hex\Game.hpp" />
+    <ClInclude Include="..\src\hex\GraphUtil.hpp" />
+    <ClInclude Include="..\src\hex\Groups.hpp" />
+    <ClInclude Include="..\src\hex\HandCodedPattern.hpp" />
+    <ClInclude Include="..\src\hex\HashedPatternSet.hpp" />
+    <ClInclude Include="..\src\hex\Hex.hpp" />
+    <ClInclude Include="..\src\hex\HexAbSearch.hpp" />
+    <ClInclude Include="..\src\hex\HexBoard.hpp" />
+    <ClInclude Include="..\src\hex\HexColor.hpp" />
+    <ClInclude Include="..\src\hex\HexEnvironment.hpp" />
+    <ClInclude Include="..\src\hex\HexEval.hpp" />
+    <ClInclude Include="..\src\hex\HexHtpEngine.hpp" />
+    <ClInclude Include="..\src\hex\HexModState.hpp" />
+    <ClInclude Include="..\src\hex\HexPlayer.hpp" />
+    <ClInclude Include="..\src\hex\HexPoint.hpp" />
+    <ClInclude Include="..\src\hex\HexPoints11x11.hpp" />
+    <ClInclude Include="..\src\hex\HexPoints13x13.hpp" />
+    <ClInclude Include="..\src\hex\HexPoints14x14.hpp" />
+    <ClInclude Include="..\src\hex\HexPoints19x19.hpp" />
+    <ClInclude Include="..\src\hex\HexProp.hpp" />
+    <ClInclude Include="..\src\hex\HexSgUtil.hpp" />
+    <ClInclude Include="..\src\hex\HexState.hpp" />
+    <ClInclude Include="..\src\hex\HexStateAssertRestored.hpp" />
+    <ClInclude Include="..\src\hex\ICEngine.hpp" />
+    <ClInclude Include="..\src\hex\IcePatternSet.hpp" />
+    <ClInclude Include="..\src\hex\InferiorCells.hpp" />
+    <ClInclude Include="..\src\hex\Move.hpp" />
+    <ClInclude Include="..\src\hex\NeighborTracker.hpp" />
+    <ClInclude Include="..\src\hex\Pattern.hpp" />
+    <ClInclude Include="..\src\hex\PatternState.hpp" />
+    <ClInclude Include="..\src\hex\Resistance.hpp" />
+    <ClInclude Include="..\src\hex\RingGodel.hpp" />
+    <ClInclude Include="..\src\hex\SearchedState.hpp" />
+    <ClInclude Include="..\src\hex\SequenceHash.hpp" />
+    <ClInclude Include="..\src\hex\StateDB.hpp" />
+    <ClInclude Include="..\src\hex\StoneBoard.hpp" />
+    <ClInclude Include="..\src\hex\TwoDistance.hpp" />
+    <ClInclude Include="..\src\hex\VC.hpp" />
+    <ClInclude Include="..\src\hex\VCBuilder.hpp" />
+    <ClInclude Include="..\src\hex\VCCommands.hpp" />
+    <ClInclude Include="..\src\hex\VCList.hpp" />
+    <ClInclude Include="..\src\hex\VCPattern.hpp" />
+    <ClInclude Include="..\src\hex\VCSet.hpp" />
+    <ClInclude Include="..\src\hex\VCUtil.hpp" />
+    <ClInclude Include="..\src\hex\ZobristHash.hpp" />
+    <ClInclude Include="..\src\hex\ZobristHashes.hpp" />
+    <ClInclude Include="..\src\mohex\MoHexEngine.hpp" />
+    <ClInclude Include="..\src\mohex\MoHexPlayer.hpp" />
+    <ClInclude Include="..\src\mohex\MoHexPlayoutPolicy.hpp" />
+    <ClInclude Include="..\src\mohex\MoHexPriorKnowledge.hpp" />
+    <ClInclude Include="..\src\mohex\MoHexProgram.hpp" />
+    <ClInclude Include="..\src\mohex\MoHexSearch.hpp" />
+    <ClInclude Include="..\src\mohex\MoHexThreadState.hpp" />
+    <ClInclude Include="..\src\mohex\MoHexUtil.hpp" />
+    <ClInclude Include="..\src\simpleplayers\HandicapPlayer.hpp" />
+    <ClInclude Include="..\src\simpleplayers\PerfectPlayer.hpp" />
+    <ClInclude Include="..\src\simpleplayers\VulPreCheck.hpp" />
+    <ClInclude Include="..\src\solver\BenzeneSolver.hpp" />
+    <ClInclude Include="..\src\solver\DfpnCommands.hpp" />
+    <ClInclude Include="..\src\solver\DfpnSolver.hpp" />
+    <ClInclude Include="..\src\solver\DfsCommands.hpp" />
+    <ClInclude Include="..\src\solver\DfsData.hpp" />
+    <ClInclude Include="..\src\solver\DfsSolver.hpp" />
+    <ClInclude Include="..\src\solver\ProofUtil.hpp" />
+    <ClInclude Include="..\src\solver\SolverDB.hpp" />
+    <ClInclude Include="..\src\util\AtomicMemory.hpp" />
+    <ClInclude Include="..\src\util\Benzene.hpp" />
+    <ClInclude Include="..\src\util\BenzeneAssert.hpp" />
+    <ClInclude Include="..\src\util\BenzeneBitset.hpp" />
+    <ClInclude Include="..\src\util\BenzeneException.hpp" />
+    <ClInclude Include="..\src\util\BenzeneProgram.hpp" />
+    <ClInclude Include="..\src\util\Bitset.hpp" />
+    <ClInclude Include="..\src\util\ChangeLog.hpp" />
+    <ClInclude Include="..\src\util\Digraph.hpp" />
+    <ClInclude Include="..\src\util\HashDB.hpp" />
+    <ClInclude Include="..\src\util\HashMap.hpp" />
+    <ClInclude Include="..\src\util\LinkedList.hpp" />
+    <ClInclude Include="..\src\util\Logger.hpp" />
+    <ClInclude Include="..\src\util\lssolve.h" />
+    <ClInclude Include="..\src\util\mat.hpp" />
+    <ClInclude Include="..\src\util\Misc.hpp" />
+    <ClInclude Include="..\src\util\SafeBool.hpp" />
+    <ClInclude Include="..\src\util\SortedSequence.hpp" />
+    <ClInclude Include="..\src\util\TransTable.hpp" />
+    <ClInclude Include="..\src\util\Types.hpp" />
+    <ClInclude Include="..\src\util\UnionFind.hpp" />
+    <ClInclude Include="..\src\util\vec.hpp" />
+    <ClInclude Include="..\src\wolve\WolveEngine.hpp" />
+    <ClInclude Include="..\src\wolve\WolvePlayer.hpp" />
+    <ClInclude Include="..\src\wolve\WolveProgram.hpp" />
+    <ClInclude Include="..\src\wolve\WolveSearch.hpp" />
+    <ClInclude Include="..\src\wolve\WolveTimeControl.hpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

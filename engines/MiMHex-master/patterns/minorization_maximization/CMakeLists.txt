@@ -1,0 +1,2 @@
+INCLUDE_DIRECTORIES (${MIMHEX_SOURCE_DIR})
+ADD_EXECUTABLE (gammas_calc gammas_calc.cpp)

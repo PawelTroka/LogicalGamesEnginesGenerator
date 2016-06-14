@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\PawelTroka-Projects\LogicalGamesEnginesGenerator\engines\MiMHex-master\tests\sampler_test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\PawelTroka-Projects\LogicalGamesEnginesGenerator\engines\MiMHex-master\tests\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{2AD65B0F-AEAC-35D1-BA64-100D3A4BE7B3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
