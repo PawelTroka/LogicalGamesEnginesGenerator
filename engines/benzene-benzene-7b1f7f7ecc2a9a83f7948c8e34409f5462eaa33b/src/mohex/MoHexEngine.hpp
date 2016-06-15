@@ -9,6 +9,10 @@
 #include "CommonHtpEngine.hpp"
 #include "BookBuilderCommands.hpp"
 #include "MoHexPlayer.hpp"
+#include "../util/Benzene.hpp"
+#include "../commonengine/CommonHtpEngine.hpp"
+#include "../hex/HexHtpEngine.hpp"
+#include "../book/BookCheck.hpp"
 
 _BEGIN_BENZENE_NAMESPACE_
 

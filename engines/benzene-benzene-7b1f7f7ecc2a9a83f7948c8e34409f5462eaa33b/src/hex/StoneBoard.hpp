@@ -8,6 +8,8 @@
 #include "Hex.hpp"
 #include "ConstBoard.hpp"
 #include "ZobristHash.hpp"
+#include "../util/Types.hpp"
+#include "../util/Bitset.hpp"
 
 _BEGIN_BENZENE_NAMESPACE_
 

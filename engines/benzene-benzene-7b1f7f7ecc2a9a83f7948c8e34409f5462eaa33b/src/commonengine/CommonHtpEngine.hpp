@@ -13,6 +13,9 @@
 #include "DfsCommands.hpp"
 #include "SolverDB.hpp"
 #include "VCCommands.hpp"
+#include "../hex/HexHtpEngine.hpp"
+#include "../hex/HexEnvironment.hpp"
+#include "../solver/DfsSolver.hpp"
 
 _BEGIN_BENZENE_NAMESPACE_
 
