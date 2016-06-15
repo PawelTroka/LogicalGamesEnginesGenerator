@@ -99,8 +99,8 @@ namespace m_n_k_p_q_EnginesGenerator
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
-              //      CreateNoWindow = true,
-                //    WindowStyle = ProcessWindowStyle.Hidden,
+                    CreateNoWindow = true,
+                    WindowStyle = ProcessWindowStyle.Hidden,
 
                 
         };

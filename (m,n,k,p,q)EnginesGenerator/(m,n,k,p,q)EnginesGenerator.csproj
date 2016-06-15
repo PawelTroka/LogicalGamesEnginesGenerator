@@ -127,16 +127,31 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="%28m,n,k,p,q%29GameEngine\%28m,n,k,p,q%29GameEngine.cpp">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="%28m,n,k,p,q%29GameEngine\%28m,n,k,p,q%29GameEngine.vcxproj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="%28m,n,k,p,q%29GameEngine\%28m,n,k,p,q%29GameEngine.vcxproj.filters">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="%28m,n,k,p,q%29GameEngine\Board.cpp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="%28m,n,k,p,q%29GameEngine\Board.h">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="%28m,n,k,p,q%29GameEngine\Game.cpp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="%28m,n,k,p,q%29GameEngine\Game.h">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="%28m,n,k,p,q%29GameEngine\main.cpp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="%28m,n,k,p,q%29GameEngine\Move.h">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="%28m,n,k,p,q%29GameEngine\Types.h">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
