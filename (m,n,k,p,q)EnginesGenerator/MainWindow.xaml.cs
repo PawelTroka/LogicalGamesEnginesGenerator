@@ -27,5 +27,10 @@ namespace m_n_k_p_q_EnginesGenerator
            // _generator.GenerateEngine(msbuildPathTextBox.Text, flagsTextBox.Text);
             _generator.RunEngine();
         }
+
+        private void Button2_Copy1_OnClick(object sender, RoutedEventArgs e)
+        {
+            _generator.SendCommand(inputTextBox.Text);
+        }
     }
 }

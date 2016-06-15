@@ -116,12 +116,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="%28m,n,k,p,q%29GameEngine\%28m,n,k,p,q%29GameEngine.vcxproj">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="%28m,n,k,p,q%29GameEngine\%28m,n,k,p,q%29GameEngine.vcxproj.filters">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -136,22 +130,13 @@
     <Content Include="%28m,n,k,p,q%29GameEngine\%28m,n,k,p,q%29GameEngine.cpp">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="%28m,n,k,p,q%29GameEngine\%28m,n,k,p,q%29GameEngine.vcxproj.user">
+    <Content Include="%28m,n,k,p,q%29GameEngine\%28m,n,k,p,q%29GameEngine.vcxproj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="%28m,n,k,p,q%29GameEngine\dllmain.cpp">
+    <Content Include="%28m,n,k,p,q%29GameEngine\%28m,n,k,p,q%29GameEngine.vcxproj.filters">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Resource Include="%28m,n,k,p,q%29GameEngine\ReadMe.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Content Include="%28m,n,k,p,q%29GameEngine\stdafx.cpp">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="%28m,n,k,p,q%29GameEngine\stdafx.h">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="%28m,n,k,p,q%29GameEngine\targetver.h">
+    <Content Include="%28m,n,k,p,q%29GameEngine\main.cpp">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

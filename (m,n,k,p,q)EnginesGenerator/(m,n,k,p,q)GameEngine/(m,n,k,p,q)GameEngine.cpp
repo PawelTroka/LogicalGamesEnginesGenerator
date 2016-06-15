@@ -1,7 +1,7 @@
 // (m,n,k,p,q)GameEngine.cpp : Defines the exported functions for the DLL application.
 //
 
-#include "stdafx.h"
+
 #include <cstdint>
 /*
 #define M {_m_placeholder_}
@@ -86,6 +86,10 @@ public:
 
 	}
 
+	Board()
+	{
+	}
+
 	Board(Board& b)
 	{
 #if REQUIRES_ARRAYS
@@ -144,6 +148,10 @@ enum PlayerType
 class Game
 {
 public:
+	Game() : board()
+	{
+	}
+
 	void StartGame()
 	{
 		board.Clear();
@@ -168,9 +176,9 @@ public:
 
 private:
 	arrayIndex_t movesCount=0;
-	bool isFirstMove;
+	bool isFirstMove=true;
 	Board board;
-	Color currentColor;
+	Color currentColor=Color::Black;
 	PlayerType players[2];
 } game;
 
@@ -178,18 +186,3 @@ struct Move
 {
 	coord x, y;
 };
-
-extern "C"
-{//http://stackoverflow.com/questions/10109590/unable-to-find-an-entry-point-when-calling-c-dll-in-c-sharp/10109659#10109659
-	
-
-	__declspec(dllexport) void startGame()
-	{
-		game.StartGame();
-	}
-
-	__declspec(dllexport) double hotFunction(double x)
-	{
-		return x*x;
-	}
-}
