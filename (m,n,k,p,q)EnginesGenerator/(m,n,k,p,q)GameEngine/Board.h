@@ -25,7 +25,7 @@ public:
 	Board(Board& b);
 
 	bool IsEmpty(coord x, coord y) const;
-
+	bool IsColor(coord x, coord y, Color color) const;
 private:
 #if BOARD_SIZE > 64
 	bool blackPieces[M*N];

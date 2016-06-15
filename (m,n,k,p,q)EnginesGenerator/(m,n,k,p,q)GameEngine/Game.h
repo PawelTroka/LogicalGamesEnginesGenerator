@@ -12,6 +12,7 @@ public:
 	bool IsValidMove(coord x, coord y) const;
 
 	bool MakeMove(coord x, coord y);
+	arrayIndex_t CountPieces(coord x, coord y, coord dist, Color color);
 	bool GetMove();
 	void WriteMove(coord x, coord y) const;
 	void NextTurn();
@@ -23,7 +24,7 @@ public:
 
 private:
 	arrayIndex_t movesLeft = Q;
-	bool isFirstMove = true;
+	bool gameStarted = true;
 	Board board;
 	Color currentColor = Color::Black;
 	PlayerType players[2];

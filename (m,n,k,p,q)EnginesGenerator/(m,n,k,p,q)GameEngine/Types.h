@@ -10,9 +10,9 @@
 #define _USE_LOCAL_DEFINES
 
 #ifdef _USE_LOCAL_DEFINES
-#define M 3
-#define N 3
-#define K 3
+#define M 8
+#define N 8
+#define K 6
 #define P 2
 #define Q 1
 #endif
@@ -21,8 +21,8 @@
 #define REQUIRES_ARRAYS BOARD_SIZE > 64
 
 
-#define CHECK_BIT(var,pos) ((var) & (1<<(pos)))
-#define SET_BIT(number,pos) number |= 1 << pos;
+#define CHECK_BIT(var,pos) ((var) & (1i64<<(pos)))
+#define SET_BIT(number,pos) number |= 1i64 << pos;
 #define POSITION(x,y) (y*M + x)
 #include <cstdint>
 #include <iostream>
@@ -33,7 +33,8 @@ typedef uint16_t arrayIndex_t;
 enum Color
 {
 	Black,
-	White
+	White,
+	None
 };
 
 enum PlayerType

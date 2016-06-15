@@ -30,6 +30,28 @@ bool Board::IsEmpty(coord x, coord y) const
 #endif		
 }
 
+bool Board::IsColor(coord x, coord y,Color color) const
+{
+	arrayIndex_t position = POSITION(x, y);
+
+	if (color == Color::Black)
+	{
+#if REQUIRES_ARRAYS
+		return blackPieces[position];
+#else
+		return CHECK_BIT(blackPieces, position);
+#endif
+	}
+	else if(color == Color::White)
+	{
+#if REQUIRES_ARRAYS
+		return whitePieces[position];
+#else
+		return CHECK_BIT(whitePieces, position);
+#endif
+	}
+	return false;
+}
 
 void Board::PlacePiece(coord x, coord y, bool isBlack)
 {

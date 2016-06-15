@@ -61,13 +61,21 @@
         </ComboBox>
         <Label x:Name="label2" Content="Path to MSBuild.exe:" HorizontalAlignment="Left" Margin="17,124,0,0" VerticalAlignment="Top"/>
         <Button x:Name="button1" Content="Change path..." HorizontalAlignment="Left" Margin="449,155,0,0" VerticalAlignment="Top" Width="139"/>
-        <TextBox x:Name="outputTextBox" IsReadOnly="True" IsReadOnlyCaretVisible="False" HorizontalAlignment="Left" Height="159" Margin="10,412,0,0" TextWrapping="Wrap" AcceptsReturn="True" Text="" VerticalAlignment="Top" Width="584"/>
+        <TextBox x:Name="outputTextBox" VerticalScrollBarVisibility="Auto" IsReadOnly="True" IsReadOnlyCaretVisible="False" HorizontalAlignment="Left" Height="159" Margin="10,412,0,0" TextWrapping="Wrap" AcceptsReturn="True" Text="" VerticalAlignment="Top" Width="584" FontFamily="Consolas" FontSize="16"/>
         <Label x:Name="label4" Content="Output:" HorizontalAlignment="Left" Margin="10,381,0,0" VerticalAlignment="Top"/>
         <Button x:Name="button2" Content="Compile" HorizontalAlignment="Left" Margin="399,270,0,0" VerticalAlignment="Top" Width="113" Click="button2_Click"/>
         <Button x:Name="button2_Copy" Content="Run" HorizontalAlignment="Left" Margin="281,270,0,0" VerticalAlignment="Top" Width="113" Click="button2_Copy_Click"/>
         <Label x:Name="label5" Content="Flags:" HorizontalAlignment="Left" Margin="17,183,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="flagsTextBox" HorizontalAlignment="Left" Height="23" Margin="62,183,0,0" TextWrapping="Wrap" Text="/p:Configuration=Release /p:Platform=x64" VerticalAlignment="Top" Width="382"/>
-        <TextBox x:Name="inputTextBox"  HorizontalAlignment="Left" Height="81" Margin="7,295,0,0" TextWrapping="Wrap" AcceptsReturn="True" Text="" VerticalAlignment="Top" Width="584"/>
+        <ComboBox x:Name="inputTextBox" IsEditable="True"  HorizontalAlignment="Left" Height="81" Margin="7,295,0,0"  Text="" VerticalAlignment="Top" Width="584" FontSize="16">
+            <ComboBoxItem Content="newgame"/>
+            <ComboBoxItem Content="newgame black ai white human"/>
+            <ComboBoxItem Content="newgame black human white human"/>
+            <ComboBoxItem Content="newgame black ai white ai"/>
+            <ComboBoxItem Content="makemove x y"/>
+            <ComboBoxItem Content="printboard"/>
+
+        </ComboBox>
         <Label x:Name="label4_Copy" Content="Input:" HorizontalAlignment="Left" Margin="10,264,0,0" VerticalAlignment="Top"/>
         <Button x:Name="button2_Copy1" Content="Send input" HorizontalAlignment="Left" Margin="161,270,0,0" VerticalAlignment="Top" Width="113" Click="Button2_Copy1_OnClick"/>
 
