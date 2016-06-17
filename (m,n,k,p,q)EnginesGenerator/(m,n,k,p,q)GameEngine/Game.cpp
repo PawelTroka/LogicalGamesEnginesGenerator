@@ -49,7 +49,7 @@ bool Game::MakeMove(coord x, coord y)
 
 arrayIndex_t Game::CountPieces(coord x, coord y, coord dist, Color color)
 {
-	
+	return 0;
 }
 
 bool Game::GetMove()

@@ -2,9 +2,12 @@
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
+using m_n_k_p_q_EnginesGenerator;
 
 namespace m_n_k_p_q_EnginesGenerator
 {
+
+
     class EnginesGenerator
     {
         private readonly Action<string> _callback;
@@ -31,15 +34,21 @@ namespace m_n_k_p_q_EnginesGenerator
 
         private readonly string _engineProjectExeFullPath;
         private readonly string _engineProjectFullPath;
+        ///p:DefineConstants="M 2; N 2"
+        private readonly string basicFlags = @" /p:Configuration=Release /p:Platform=x64 /t:Clean,Build ";
         private ProcessInBackground engine;
 
-        public void GenerateEngine(string compilerPath, string flags= "/p:Configuration=Release /p:Platform=x64")
+        public void GenerateEngine(string compilerPath, string flags, EngineParameters engineParameters)
         {
-            (new ProcessInBackground(compilerPath, _engineProjectFullPath + " " + flags, _callback,false)).Run();
+
+            var engineParametersAsCompilerFlags = $@" /p:AdditionalPreprocessorDefinitions=""_USE_GENERATOR_DEFINES;{((engineParameters.WinCondition==WinCondition.ExactlyK) ? "EXACTLY_K_TO_WIN;" : "")}M={engineParameters.M};N={engineParameters.N};K={engineParameters.K};Q={engineParameters.Q};P={engineParameters.P};"" ";
+
+            (new ProcessInBackground(compilerPath, _engineProjectFullPath + basicFlags + engineParametersAsCompilerFlags + flags, _callback,false)).Run();
         }
 
 
-
+        // /p:AdditionalPreprocessorDefinitions="_USE_LOCAL_DEFINES"
+        // /p:AdditionalPreprocessorDefinitions=""M=3;N=3;K=3;Q=1;P=1;""
         public void RunEngine()
         {
             engine = (new ProcessInBackground(_engineProjectExeFullPath, "", _callback, true));

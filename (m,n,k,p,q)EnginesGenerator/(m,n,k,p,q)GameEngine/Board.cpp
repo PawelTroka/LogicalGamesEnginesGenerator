@@ -11,8 +11,8 @@ Board::Board(Board& b)
 #if REQUIRES_ARRAYS
 	for (arrayIndex_t i = 0; i<BOARD_SIZE; i++)
 	{
-		blackPieces[i] = b[i];
-		whitePieces[i] = b[i];
+		blackPieces[i] = b.blackPieces[i];
+		whitePieces[i] = b.whitePieces[i];
 	}
 #else
 	blackPieces = b.blackPieces;

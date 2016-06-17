@@ -7,7 +7,11 @@
 #define Q {_q_placeholder_}
 */
 
+//#define _USE_GENERATOR_DEFINES
+
+#ifndef _USE_GENERATOR_DEFINES
 #define _USE_LOCAL_DEFINES
+#endif
 
 #ifdef _USE_LOCAL_DEFINES
 #define M 8
@@ -15,6 +19,11 @@
 #define K 6
 #define P 2
 #define Q 1
+//#define EXACTLY_K_TO_WIN
+#endif
+
+#ifndef EXACTLY_K_TO_WIN
+#define K_OR_MORE_TO_WIN 
 #endif
 
 #define BOARD_SIZE M*N
