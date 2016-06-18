@@ -5,7 +5,7 @@
 class AIPlayer
 {
 public:
-	AIPlayer(const Board& board);
+	AIPlayer(Board& board);
 	~AIPlayer();
 	Move GetMove() const;
 	bool IsAdjacent(coord x, coord y) const;
@@ -14,6 +14,6 @@ private:
 
 
 
-	Board board;
+	Board* board;
 };
 

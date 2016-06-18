@@ -5,6 +5,7 @@
 #include <sstream>
 #include <iostream>
 #include <vector>
+#include <chrono>
 
 
 #include "Types.h"
@@ -50,7 +51,7 @@ bool Game::MakeMove(coord x, coord y)
 
 bool Game::GetMove()
 {
-	if(players[currentColor] == PlayerType::AI && movesLeft>0)
+	if(players[currentColor] == PlayerType::AI && movesLeft>0 && gameStarted)
 	{
 		/*
 		coord x = N/2;
@@ -60,14 +61,19 @@ bool Game::GetMove()
 
 		for (coord iy = 0; iy<M; iy++)
 			for (coord ix = 0; ix<N; ix++)
-			{
+			{m
 				
 			}
 		*/
-
+		auto t1 = std::chrono::high_resolution_clock::now();
 		auto aiMove = aiPlayer.GetMove();
-
 		board.PlacePiece(aiMove.x, aiMove.y, currentColor == Color::Black);
+		auto t2 = std::chrono::high_resolution_clock::now();
+
+
+		auto duration = std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
+		sync_cout << "aiPlayer.GetMove() duration is " << duration <<"microseconds"<< sync_endl;
+
 		WriteMove(aiMove.x, aiMove.y);
 		if(!CheckGameEnd(aiMove.x, aiMove.y))
 			NextTurn();
@@ -192,12 +198,32 @@ void Game::GameLoop(int argc, char* argv[])
 			StartGame();
 			sync_cout << "game started" << sync_endl;
 		}
+		else if (token == "isready") sync_cout << "readyok" << sync_endl;
+		else if (token == "printboard")
+		{
+			for (arrayIndex_t y = 0; y<board.Height(); y++)
+
+			{
+				for (arrayIndex_t x = 0; x<board.Width(); x++)
+				{
+
+					if (board.IsColor(x, y, Color::Black))
+						sync_cout << "X";
+					else if (board.IsColor(x, y, Color::White))
+						sync_cout << "O";
+					else
+						sync_cout << " ";
+				}
+				sync_cout << sync_endl;
+			}
+		}
+		else if (token == "info")
+			sync_cout << "engine info: " << engine_info(true) << sync_endl;
 		else if (!gameStarted)
 		{
 			sync_cout << "game NOT started or ended, call newgame first" << sync_endl;
 		}
-		else if (token == "info")
-		sync_cout << "engine info: " << engine_info(true) << sync_endl;
+
 
 		//makemove x y
 		else if(token=="makemove")
@@ -218,26 +244,9 @@ void Game::GameLoop(int argc, char* argv[])
 		}
 
 
-		else if (token == "isready") sync_cout << "readyok" << sync_endl;
 
-		else if (token == "printboard")
-		{
-			for (arrayIndex_t y = 0; y<board.Height(); y++)
-			
-			{
-				for (arrayIndex_t x = 0; x<board.Width(); x++)
-				{
-					
-					if (board.IsColor(x, y,Color::Black))
-						sync_cout << "X";
-					else if(board.IsColor(x, y, Color::White))
-						sync_cout << "O";
-					else
-						sync_cout << " ";
-				}
-				sync_cout << sync_endl;
-			}
-		}
+
+
 		else
 		sync_cout << "Unknown command: " << cmd << sync_endl;
 	}

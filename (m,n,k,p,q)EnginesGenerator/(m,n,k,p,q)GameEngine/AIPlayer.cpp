@@ -2,9 +2,9 @@
 #include <vector>
 #include <ctime>
 
-AIPlayer::AIPlayer(const Board& board)
+AIPlayer::AIPlayer(Board& board)
 {
-	this->board = board;
+	this->board = &board;
 	std::srand(std::time(nullptr)); //use current time as seed for random generator
 }
 
@@ -17,8 +17,8 @@ Move AIPlayer::GetMove() const
 	Move move;
 	std::vector<Move> empties;
 
-	for (move.y = 0; move.y<board.Height(); move.y++)
-		for (move.x = 0; move.x<board.Width(); move.x++)
+	for (move.y = 0; move.y<board->Height(); move.y++)
+		for (move.x = 0; move.x<board->Width(); move.x++)
 		{
 			if (IsAdjacent(move.x, move.y))
 				empties.push_back(move);
@@ -26,8 +26,8 @@ Move AIPlayer::GetMove() const
 	
 	if(empties.empty())
 	{
-		move.y = board.Height() / 2;
-		move.x = board.Width() / 2;
+		move.y = board->Height() / 2;
+		move.x = board->Width() / 2;
 		return move;
 	}
 
@@ -39,7 +39,7 @@ Move AIPlayer::GetMove() const
 
 bool AIPlayer::IsAdjacent(coord x, coord y) const
 {
-	if (!this->board.IsEmpty(x,y))
+	if (!(this->board->IsEmpty(x,y)))
 		return false;
 	for (char dy = -1; dy < 2; dy++)
 	{
@@ -47,7 +47,7 @@ bool AIPlayer::IsAdjacent(coord x, coord y) const
 		{
 			if (dx==0 && dy==0)
 				continue;
-			auto count = board.CountPieces(x, y, Color::None, dx, dy);
+			auto count = board->CountPieces(x, y, Color::None, dx, dy);
 			if (count < 2 /*&& p != PIECE_NONE*/)
 				return true;
 		}
