@@ -32,7 +32,7 @@
 
 #define CHECK_BIT(var,pos) ((var) & (1i64<<(pos)))
 #define SET_BIT(number,pos) number |= 1i64 << pos;
-#define POSITION(x,y) (y*M + x)
+
 #include <cstdint>
 #include <iostream>
 #include <ostream>

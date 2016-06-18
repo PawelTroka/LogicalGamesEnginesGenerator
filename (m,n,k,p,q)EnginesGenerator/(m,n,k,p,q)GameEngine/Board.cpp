@@ -2,11 +2,12 @@
 #include "Types.h"
 #include "Board.h"
 
+// ReSharper disable once CppPossiblyUninitializedMember
 Board::Board()
 {
 }
 
-Board::Board(Board& b)
+Board::Board(const Board& b)
 {
 #if REQUIRES_ARRAYS
 	for (arrayIndex_t i = 0; i<BOARD_SIZE; i++)
@@ -34,7 +35,9 @@ bool Board::IsColor(coord x, coord y,Color color) const
 {
 	arrayIndex_t position = POSITION(x, y);
 
-	if (color == Color::Black)
+	if (color == Color::None)
+		return IsEmpty(x, y);
+	else if (color == Color::Black)
 	{
 #if REQUIRES_ARRAYS
 		return blackPieces[position];
@@ -51,6 +54,23 @@ bool Board::IsColor(coord x, coord y,Color color) const
 #endif
 	}
 	return false;
+}
+
+uint16_t Board::CountPieces(char x, char y, Color color, char dx, char dy) const
+{
+	arrayIndex_t count;
+
+	if (dx==0 && dy==0)
+		return IsColor(x,y,color) ? 1 : 0;
+	for (count = 0; x >= 0 && x < Width() && y >= 0 && y < Height(); count++)
+	{	
+		if (!IsColor(x,y,color))
+			break;
+		x += dx;
+		y += dy;
+	}
+	
+	return count;
 }
 
 void Board::PlacePiece(coord x, coord y, bool isBlack)

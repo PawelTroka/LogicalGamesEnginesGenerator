@@ -1,6 +1,7 @@
 #pragma once
 #include "Board.h"
 #include <string>
+#include "AIPlayer.h"
 
 class Game
 {
@@ -12,20 +13,22 @@ public:
 	bool IsValidMove(coord x, coord y) const;
 
 	bool MakeMove(coord x, coord y);
-	arrayIndex_t CountPieces(coord x, coord y, coord dist, Color color);
 	bool GetMove();
+	bool CheckWin(coord x, coord y, coord& x1, coord& y1, coord& x2, coord& y2) const;
 	void WriteMove(coord x, coord y) const;
+	bool CheckGameEnd(coord x, coord y);
 	void NextTurn();
 
-	std::string engine_info(bool b);
+	static std::string engine_info(bool b);
 
 	void GameLoop(int argc, char* argv[]);
 
 
 private:
 	arrayIndex_t movesLeft = Q;
-	bool gameStarted = true;
+	bool gameStarted = false;
 	Board board;
+	AIPlayer aiPlayer;
 	Color currentColor = Color::Black;
 	PlayerType players[2];
 };

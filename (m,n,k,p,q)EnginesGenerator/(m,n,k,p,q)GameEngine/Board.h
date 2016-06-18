@@ -8,12 +8,14 @@
 *  m x n Board is like below (m rows, n columns)
 *        n
 *    **********
+*    *        *
 *  m *        *
+*    *        *
 *    **********
 */
 
 
-struct Board
+class Board
 {
 public:
 	void Clear();
@@ -22,10 +24,14 @@ public:
 
 	Board();
 
-	Board(Board& b);
+	Board(const Board& b);
 
+	static inline coord Height() { return M; }
+	static inline coord Width() { return N; }
+	#define POSITION(x,y) (y*N + x)
 	bool IsEmpty(coord x, coord y) const;
 	bool IsColor(coord x, coord y, Color color) const;
+	uint16_t CountPieces(char x, char y, Color color, char dx, char dy) const;
 private:
 #if BOARD_SIZE > 64
 	bool blackPieces[M*N];

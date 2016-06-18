@@ -4,4 +4,5 @@
 struct Move
 {
 	coord x, y;
+	int weight;
 };
