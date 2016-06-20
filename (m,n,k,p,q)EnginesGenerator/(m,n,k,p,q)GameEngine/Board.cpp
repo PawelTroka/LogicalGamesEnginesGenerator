@@ -21,6 +21,15 @@ Board::Board(const Board& b)
 #endif
 }
 
+Color Board::GetColor(coord x, coord y) const
+{
+	if (IsEmpty(x, y))
+		return Color::None;
+	if (IsColor(x, y, Color::Black))
+		return Color::Black;
+	return Color::White;
+}
+
 bool Board::IsEmpty(coord x, coord y) const
 {
 	arrayIndex_t position = POSITION(x, y);
@@ -42,7 +51,7 @@ bool Board::IsColor(coord x, coord y,Color color) const
 #if REQUIRES_ARRAYS
 		return blackPieces[position];
 #else
-		return CHECK_BIT(blackPieces, position);
+		return CHECK_BIT(blackPieces, position)==1;
 #endif
 	}
 	else if(color == Color::White)
@@ -50,26 +59,31 @@ bool Board::IsColor(coord x, coord y,Color color) const
 #if REQUIRES_ARRAYS
 		return whitePieces[position];
 #else
-		return CHECK_BIT(whitePieces, position);
+		return CHECK_BIT(whitePieces, position)==1;
 #endif
 	}
 	return false;
 }
 
-uint16_t Board::CountPieces(char x, char y, Color color, char dx, char dy) const
+uint16_t Board::CountPieces(char x, char y, Color color, char dx, char dy, Color* breakingColor) const
 {
 	arrayIndex_t count;
+	auto currentColor=Color::None;
 
 	if (dx==0 && dy==0)
 		return IsColor(x,y,color) ? 1 : 0;
 	for (count = 0; x >= 0 && x < Width() && y >= 0 && y < Height(); count++)
 	{	
-		if (!IsColor(x,y,color))
+		currentColor = GetColor(x, y);
+		if (color!=currentColor)
 			break;
 		x += dx;
 		y += dy;
 	}
-	
+	if (breakingColor != nullptr)
+	// ReSharper disable once CppLocalVariableMightNotBeInitialized
+		*breakingColor = currentColor;
+
 	return count;
 }
 

@@ -25,13 +25,14 @@ public:
 	Board();
 
 	Board(const Board& b);
+	Color GetColor(coord x, coord y) const;
 
 	static inline coord Height() { return M; }
 	static inline coord Width() { return N; }
 	#define POSITION(x,y) (y*N + x)
 	bool IsEmpty(coord x, coord y) const;
 	bool IsColor(coord x, coord y, Color color) const;
-	uint16_t CountPieces(char x, char y, Color color, char dx, char dy) const;
+	uint16_t CountPieces(char x, char y, Color color, char dx, char dy, Color* breakingColor) const;
 private:
 #if BOARD_SIZE > 64
 	bool blackPieces[M*N];

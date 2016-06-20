@@ -84,14 +84,15 @@ bool Game::GetMove()
 
 bool Game::CheckWin(coord x, coord y, coord& x1, coord& y1, coord& x2, coord& y2) const
 {
-	char c1, c2, xs[] = { 1, 1, 0, -1 }, ys[] = { 0, 1, 1, 1 };
+	uint16_t c1, c2;
+	char xs[] = { 1, 1, 0, -1 }, ys[] = { 0, 1, 1, 1 };
 
 	if (board.IsEmpty(x,y))
 		return false;
 
 	for (char i = 0; i < 4; i++) {
-		c1 = board.CountPieces(x, y, currentColor, xs[i], ys[i]);
-		c2 = board.CountPieces(x, y, currentColor, -xs[i], -ys[i]);
+		c1 = board.CountPieces(x, y, currentColor, xs[i], ys[i], nullptr);
+		c2 = board.CountPieces(x, y, currentColor, -xs[i], -ys[i], nullptr);
 
 #if defined(K_OR_MORE_TO_WIN)
 		if (c1 + c2 - 1 >= K)
@@ -99,10 +100,10 @@ bool Game::CheckWin(coord x, coord y, coord& x1, coord& y1, coord& x2, coord& y2
 		if (c1 + c2 - 1 == K)
 #endif
 		{
-				x1 = x + xs[i] * (c1 - 1);
-				y1 = y + ys[i] * (c1 - 1);
-				x2 = x - xs[i] * (c2 - 1);
-				y2 = y - ys[i] * (c2 - 1);
+				x1 = coord(x + xs[i] * (c1 - 1));
+				y1 = coord(y + ys[i] * (c1 - 1));
+				x2 = coord(x - xs[i] * (c2 - 1));
+				y2 = coord(y - ys[i] * (c2 - 1));
 			return true;
 		}
 	}
@@ -142,7 +143,10 @@ void Game::NextTurn()
 
 std::string Game::engine_info(bool b)
 {
-	return "(m,n,k,p,q)GameEngine v1.0.0 by Pawel Troka";
+	if(b)
+		return "(m,n,k,p,q)GameEngine v1.0.0 by Pawel Troka";
+	else
+		return "(m,n,k,p,q)GameEngine v1.0.0 by Pawel Troka";
 }
 
 void Game::GameLoop(int argc, char* argv[])
@@ -201,10 +205,10 @@ void Game::GameLoop(int argc, char* argv[])
 		else if (token == "isready") sync_cout << "readyok" << sync_endl;
 		else if (token == "printboard")
 		{
-			for (arrayIndex_t y = 0; y<board.Height(); y++)
+			for (coord y = 0; y<board.Height(); y++)
 
 			{
-				for (arrayIndex_t x = 0; x<board.Width(); x++)
+				for (coord x = 0; x<board.Width(); x++)
 				{
 
 					if (board.IsColor(x, y, Color::Black))
@@ -229,9 +233,9 @@ void Game::GameLoop(int argc, char* argv[])
 		else if(token=="makemove")
 		{
 			is >> token;
-			coord x = atoi(token.c_str())-1;
+			coord x = coord(atoi(token.c_str()))-1;
 			is >> token;
-			coord y = atoi(token.c_str())-1;
+			coord y = coord(atoi(token.c_str()))-1;
 			if (MakeMove(x, y))
 			{
 				WriteMove(x, y);

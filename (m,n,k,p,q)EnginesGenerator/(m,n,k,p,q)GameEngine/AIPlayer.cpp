@@ -2,17 +2,17 @@
 #include <vector>
 #include <ctime>
 
-AIPlayer::AIPlayer(Board& board)
+AIPlayer::AIPlayer(Board& board) : random()
 {
 	this->board = &board;
-	std::srand(std::time(nullptr)); //use current time as seed for random generator
+	//std::srand(std::time(nullptr)); //use current time as seed for random generator
 }
 
 AIPlayer::~AIPlayer()
 {
 }
 
-Move AIPlayer::GetMove() const
+Move AIPlayer::GetMove() 
 {
 	Move move;
 	std::vector<Move> empties;
@@ -31,7 +31,7 @@ Move AIPlayer::GetMove() const
 		return move;
 	}
 
-	auto index = rand() % empties.size();
+	auto index = random.GetValue(0, empties.size());//rand() % empties.size();
 
 	return empties[index];
 }
@@ -47,8 +47,9 @@ bool AIPlayer::IsAdjacent(coord x, coord y) const
 		{
 			if (dx==0 && dy==0)
 				continue;
-			auto count = board->CountPieces(x, y, Color::None, dx, dy);
-			if (count < 2 /*&& p != PIECE_NONE*/)
+			Color breakingColor;
+			auto count = board->CountPieces(x, y, Color::None, dx, dy, &breakingColor);
+			if (count < 2 && breakingColor != Color::None)
 				return true;
 		}
 	}

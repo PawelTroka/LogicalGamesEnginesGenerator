@@ -52,6 +52,8 @@ enum PlayerType
 	AI
 };
 
+
+
 enum SyncCout { IO_LOCK, IO_UNLOCK };
  std::ostream& operator<<(std::ostream&, SyncCout);
 
