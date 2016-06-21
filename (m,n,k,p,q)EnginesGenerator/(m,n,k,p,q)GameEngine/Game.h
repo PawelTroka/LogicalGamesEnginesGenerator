@@ -1,6 +1,7 @@
 #pragma once
 #include "Board.h"
 #include <string>
+#include <vector>
 #include "AIPlayer.h"
 
 class Game
@@ -25,6 +26,8 @@ public:
 
 
 private:
+	uint16_t perfCount=0;
+	std::vector<double> timesInMicrosecunds;
 	arrayIndex_t movesLeft = Q;
 	bool gameStarted = false;
 	Board board;

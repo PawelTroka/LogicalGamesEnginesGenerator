@@ -7,7 +7,7 @@
 #include <vector>
 #include <chrono>
 
-
+#include <numeric>
 #include "Types.h"
 #include "Board.h"
 #include "Game.h"
@@ -72,6 +72,9 @@ bool Game::GetMove()
 
 
 		auto duration = std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
+		
+		timesInMicrosecunds.push_back(duration);
+		
 		sync_cout << "aiPlayer.GetMove() duration is " << duration <<"microseconds"<< sync_endl;
 
 		WriteMove(aiMove.x, aiMove.y);
@@ -203,6 +206,11 @@ void Game::GameLoop(int argc, char* argv[])
 			sync_cout << "game started" << sync_endl;
 		}
 		else if (token == "isready") sync_cout << "readyok" << sync_endl;
+		else if(token=="perf")
+		{
+			sync_cout << "average aiPlayer.GetMove execution is "<< std::accumulate(timesInMicrosecunds.begin(), timesInMicrosecunds.end(), 0.0) / timesInMicrosecunds.size() << sync_endl;
+			
+		}
 		else if (token == "printboard")
 		{
 			for (coord y = 0; y<board.Height(); y++)

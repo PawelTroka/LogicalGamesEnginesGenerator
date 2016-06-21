@@ -150,6 +150,15 @@
     <Content Include="%28m,n,k,p,q%29GameEngine\%28m,n,k,p,q%29GameEngine.vcxproj.filters">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="%28m,n,k,p,q%29GameEngine\%28m,n,k,p,q%29GameEngine.vcxproj.user">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="%28m,n,k,p,q%29GameEngine\AIPlayer.cpp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="%28m,n,k,p,q%29GameEngine\AIPlayer.h">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="%28m,n,k,p,q%29GameEngine\Board.cpp">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -166,6 +175,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="%28m,n,k,p,q%29GameEngine\Move.h">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="%28m,n,k,p,q%29GameEngine\Random.cpp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="%28m,n,k,p,q%29GameEngine\Random.h">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="%28m,n,k,p,q%29GameEngine\Types.h">
