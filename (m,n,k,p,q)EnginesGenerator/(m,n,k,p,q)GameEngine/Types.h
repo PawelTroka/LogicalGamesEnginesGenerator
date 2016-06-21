@@ -28,7 +28,7 @@
 
 #define BOARD_SIZE M*N
 #define REQUIRES_ARRAYS BOARD_SIZE > 64
-
+#define ENGINE_INFO "("+M","+N+","+K+","+P+","+Q+")"
 
 #define CHECK_BIT(var,pos) ((var) & (1i64<<(pos)))
 #define SET_BIT(number,pos) number |= 1i64 << pos;

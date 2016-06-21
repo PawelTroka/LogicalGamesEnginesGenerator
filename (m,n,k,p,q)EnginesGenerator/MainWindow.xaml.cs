@@ -1,5 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Markup;
@@ -87,6 +89,8 @@ namespace m_n_k_p_q_EnginesGenerator
         {
             InitializeComponent();
             _generator = new EnginesGenerator(async (s) => await Dispatcher.InvokeAsync(() => outputTextBox.AppendText(s + Environment.NewLine)));
+            msbuildPathTextBox_Copy.Text = Path.Combine(
+                System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location),"GeneratedEngines");
         }
 
         private void button2_Click(object sender, RoutedEventArgs e)
@@ -101,7 +105,7 @@ namespace m_n_k_p_q_EnginesGenerator
                 WinCondition = (WinCondition)winingConditionComboBox.SelectedIndex,
             };
 
-            _generator.GenerateEngine(msbuildPathTextBox.Text, flagsTextBox.Text, engineParameters);
+            _generator.GenerateEngine(msbuildPathTextBox.Text, msbuildPathTextBox_Copy.Text, flagsTextBox.Text, engineParameters);
         }
 
         private void button2_Copy_Click(object sender, RoutedEventArgs e)
@@ -130,23 +134,52 @@ namespace m_n_k_p_q_EnginesGenerator
                     mLongUpDown.Value = nLongUpDown.Value = 15;
                     pLongUpDown.Value = 2;
                     qLongUpDown.Value = 1;
-                    winingConditionComboBox.SelectedValue = WinCondition.KOrMore;
+                    winingConditionComboBox.SelectedValue = WinCondition.K_OR_MORE_TO_WIN;
 
                     break;
                 case EngineScheme.StandardGomoku:
                     kLongUpDown.Value = 5;
                     mLongUpDown.Value = nLongUpDown.Value = 15;
                     pLongUpDown.Value = qLongUpDown.Value = 1;
-                    winingConditionComboBox.SelectedValue = WinCondition.ExactlyK;
+                    winingConditionComboBox.SelectedValue = WinCondition.EXACTLY_K_TO_WIN;
                     break;
                 case EngineScheme.FreeStyleGomoku:
                     kLongUpDown.Value = 5;
                     mLongUpDown.Value = nLongUpDown.Value = 15;
                     pLongUpDown.Value = qLongUpDown.Value = 1;
-                    winingConditionComboBox.SelectedValue = WinCondition.KOrMore;
+                    winingConditionComboBox.SelectedValue = WinCondition.K_OR_MORE_TO_WIN;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        private void Button2_Copy2_OnClick(object sender, RoutedEventArgs e)
+        {
+            _generator.CleanOutput(msbuildPathTextBox.Text);
+        }
+
+        private void button1_Copy_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start(msbuildPathTextBox_Copy.Text);
+        }
+
+        private void Button1_Copy_OnClick(object sender, RoutedEventArgs e)
+        {
+            var dialog = new System.Windows.Forms.FolderBrowserDialog() {SelectedPath = msbuildPathTextBox_Copy.Text,ShowNewFolderButton = true};
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                msbuildPathTextBox_Copy.Text = dialog.SelectedPath;
+            }
+
+        }
+
+        private void button1_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new System.Windows.Forms.OpenFileDialog();//{ CheckPathExists = true,InitialDirectory = msbuildPathTextBox.Text,  DefaultExt = "exe",FileName = msbuildPathTextBox.Text };
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                msbuildPathTextBox.Text = dialog.FileName;
             }
         }
     }

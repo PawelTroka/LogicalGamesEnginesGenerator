@@ -147,7 +147,16 @@ void Game::NextTurn()
 std::string Game::engine_info(bool b)
 {
 	if(b)
-		return "(m,n,k,p,q)GameEngine v1.0.0 by Pawel Troka";
+	{
+		std::string ret = "("+std::to_string(M)+","+std::to_string(N)+","+std::to_string(K)+","+std::to_string(P)+","+std::to_string(Q)+")";
+
+#if defined(K_OR_MORE_TO_WIN)
+		ret += "K_OR_MORE_TO_WIN";
+#elif defined(EXACTLY_K_TO_WIN)
+		ret += "EXACTLY_K_TO_WIN";
+#endif
+		return ret;
+	}
 	else
 		return "(m,n,k,p,q)GameEngine v1.0.0 by Pawel Troka";
 }

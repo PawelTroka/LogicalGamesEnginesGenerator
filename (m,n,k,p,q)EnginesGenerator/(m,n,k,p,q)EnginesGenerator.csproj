@@ -55,6 +55,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -100,6 +101,7 @@
     <Compile Include="EmbeddedDllClass.cs" />
     <Compile Include="EngineParameters.cs" />
     <Compile Include="EnginesGenerator.cs" />
+    <Compile Include="ProcessInBackground.cs" />
     <Compile Include="WinCondition.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -186,6 +188,9 @@
     <Content Include="%28m,n,k,p,q%29GameEngine\Types.h">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="GeneratedEngines\_HERE_GOES_GENERATED_ENGINES_BY_DEFAULT_">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

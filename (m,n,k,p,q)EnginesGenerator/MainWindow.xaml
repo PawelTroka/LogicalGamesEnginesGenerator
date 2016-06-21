@@ -7,7 +7,7 @@
         xmlns:mNKPQEnginesGenerator="clr-namespace:m_n_k_p_q_EnginesGenerator"
         x:Class="m_n_k_p_q_EnginesGenerator.MainWindow"
         mc:Ignorable="d"
-        Title="(m,n,k,p,q)EnginesGenerator v1.0.0 © Pawel Troka" Height="700" Width="700">
+        Title="(m,n,k,p,q)EnginesGenerator v1.0.0 © Pawel Troka" Height="746" Width="700">
     <Grid>
         <GroupBox x:Name="groupBox" Header="Wining condition" HorizontalAlignment="Left" Margin="366,14,0,0" VerticalAlignment="Top" Height="101" Width="164">
             <Grid>
@@ -20,7 +20,7 @@
 
             </Grid>
         </GroupBox>
-        <GroupBox x:Name="groupBox_Copy" Header="Stones to place" HorizontalAlignment="Left" Margin="543,10,0,0" VerticalAlignment="Top" Height="101" Width="139">
+        <GroupBox x:Name="groupBox_Copy" Header="Stones to place" HorizontalAlignment="Left" Margin="535,14,0,0" VerticalAlignment="Top" Height="101" Width="139">
             <Grid>
                 <xctk:LongUpDown x:Name="pLongUpDown" Minimum="1" Value="1" HorizontalAlignment="Left" Margin="47,16,0,0" VerticalAlignment="Top" Width="56"/>
                 <Label x:Name="label1" Content="p =" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
@@ -67,14 +67,14 @@
             <ComboBoxItem Content="C:\Program Files\MSBuild\12.0\Bin\MSBuild.exe"/>
         </ComboBox>
         <Label x:Name="label2" Content="Path to MSBuild.exe:" HorizontalAlignment="Left" Margin="17,124,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="button1" Content="Change path..." HorizontalAlignment="Left" Margin="543,155,0,0" VerticalAlignment="Top" Width="139"/>
-        <TextBox x:Name="outputTextBox" VerticalScrollBarVisibility="Auto" IsReadOnly="True" IsReadOnlyCaretVisible="False" HorizontalAlignment="Left" Height="302" Margin="10,357,0,0" TextWrapping="Wrap" AcceptsReturn="True" Text="" VerticalAlignment="Top" Width="672" FontFamily="Consolas" FontSize="16"/>
-        <Label x:Name="label4" Content="Output:" HorizontalAlignment="Left" Margin="10,326,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="button2" Content="Compile" HorizontalAlignment="Left" Margin="569,249,0,0" VerticalAlignment="Top" Width="113" Click="button2_Click"/>
-        <Button x:Name="button2_Copy" Content="Run" HorizontalAlignment="Left" Margin="451,249,0,0" VerticalAlignment="Top" Width="113" Click="button2_Copy_Click"/>
+        <Button x:Name="button1" Content="Change path..." HorizontalAlignment="Left" Margin="543,155,0,0" VerticalAlignment="Top" Width="139" Height="23" Click="button1_Click"/>
+        <TextBox x:Name="outputTextBox" VerticalScrollBarVisibility="Auto" IsReadOnly="True" IsReadOnlyCaretVisible="False" HorizontalAlignment="Left" Height="302" Margin="10,403,0,0" TextWrapping="Wrap" AcceptsReturn="True" Text="" VerticalAlignment="Top" Width="672" FontFamily="Consolas" FontSize="16"/>
+        <Label x:Name="label4" Content="Output:" HorizontalAlignment="Left" Margin="10,372,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="button2" Content="Generate" HorizontalAlignment="Left" Margin="569,295,0,0" VerticalAlignment="Top" Width="113" Click="button2_Click"/>
+        <Button x:Name="button2_Copy" Content="Run" HorizontalAlignment="Left" Margin="451,295,0,0" VerticalAlignment="Top" Width="113" Click="button2_Copy_Click"/>
         <Label x:Name="label5" Content="Flags:" HorizontalAlignment="Left" Margin="17,183,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="flagsTextBox" HorizontalAlignment="Left" Height="23" Margin="71,183,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="459"/>
-        <ComboBox x:Name="inputTextBox" IsEditable="True"  HorizontalAlignment="Left" Height="31" Margin="7,290,0,0"  Text="" VerticalAlignment="Top" Width="675" FontSize="16">
+        <ComboBox x:Name="inputTextBox" IsEditable="True"  HorizontalAlignment="Left" Height="31" Margin="7,336,0,0"  Text="" VerticalAlignment="Top" Width="675" FontSize="16">
             <ComboBoxItem Content="newgame"/>
             <ComboBoxItem Content="newgame black ai white human"/>
             <ComboBoxItem Content="newgame black human white human"/>
@@ -83,8 +83,15 @@
             <ComboBoxItem Content="printboard"/>
 
         </ComboBox>
-        <Label x:Name="label4_Copy" Content="Input:" HorizontalAlignment="Left" Margin="10,264,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="button2_Copy1" Content="Send input" HorizontalAlignment="Left" Margin="331,249,0,0" VerticalAlignment="Top" Width="113" Click="Button2_Copy1_OnClick"/>
+        <Label x:Name="label4_Copy" Content="Input:" HorizontalAlignment="Left" Margin="10,310,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="button2_Copy1" Content="Send input" HorizontalAlignment="Left" Margin="331,295,0,0" VerticalAlignment="Top" Width="113" Click="Button2_Copy1_OnClick"/>
+        <Button x:Name="button2_Copy2" Content="Clean output" HorizontalAlignment="Left" Margin="569,270,0,0" VerticalAlignment="Top" Width="113" Click="Button2_Copy2_OnClick"/>
+        <TextBox x:Name="msbuildPathTextBox_Copy" HorizontalAlignment="Left" Height="23"  Margin="17,242,0,0" Text="" VerticalAlignment="Top" Width="513">
+
+        </TextBox>
+        <Label x:Name="label2_Copy" Content="Output engines directory:" HorizontalAlignment="Left" Margin="17,211,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="button1_Copy" Content="Change directory..." HorizontalAlignment="Left" Margin="543,242,0,0" VerticalAlignment="Top" Width="139" Height="23" Click="Button1_Copy_OnClick"/>
+        <Button x:Name="button1_Copy1" Content="Open directory" HorizontalAlignment="Left" Margin="543,214,0,0" VerticalAlignment="Top" Width="139" Height="23" Click="button1_Copy_Click"/>
 
     </Grid>
 </Window>
