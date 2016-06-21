@@ -14,8 +14,8 @@
 #endif
 
 #ifdef _USE_LOCAL_DEFINES
-#define M 8
-#define N 8
+#define M 5
+#define N 13
 #define K 3
 #define P 2
 #define Q 1

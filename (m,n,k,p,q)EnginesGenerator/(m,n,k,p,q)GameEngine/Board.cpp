@@ -32,34 +32,34 @@ Color Board::GetColor(coord x, coord y) const
 
 bool Board::IsEmpty(coord x, coord y) const
 {
-	arrayIndex_t position = POSITION(x, y);
+	//arrayIndex_t position = POSITION(x, y);
 #if REQUIRES_ARRAYS
-	return !blackPieces[position] && !whitePieces[position];
+	return !blackPieces[POSITION(x, y)] && !whitePieces[POSITION(x, y)];
 #else
-	return !(CHECK_BIT(blackPieces, position)) && !(CHECK_BIT(whitePieces, position));
+	return !(CHECK_BIT(blackPieces, POSITION(x, y))) && !(CHECK_BIT(whitePieces, POSITION(x, y)));
 #endif		
 }
 
 bool Board::IsColor(coord x, coord y,Color color) const
 {
-	arrayIndex_t position = POSITION(x, y);
+	//arrayIndex_t position = POSITION(x, y);
 
 	if (color == Color::None)
 		return IsEmpty(x, y);
 	else if (color == Color::Black)
 	{
 #if REQUIRES_ARRAYS
-		return blackPieces[position];
+		return blackPieces[POSITION(x, y)];
 #else
-		return CHECK_BIT(blackPieces, position)==1;
+		return CHECK_BIT(blackPieces, POSITION(x, y))==1;
 #endif
 	}
 	else if(color == Color::White)
 	{
 #if REQUIRES_ARRAYS
-		return whitePieces[position];
+		return whitePieces[POSITION(x, y)];
 #else
-		return CHECK_BIT(whitePieces, position)==1;
+		return CHECK_BIT(whitePieces, POSITION(x, y))==1;
 #endif
 	}
 	return false;
