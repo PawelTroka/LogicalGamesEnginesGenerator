@@ -191,8 +191,8 @@ void Game::GameLoop(int argc, char* argv[])
 
 	do
 	{
-		if(gameStarted)
-			while (GetMove()){}
+		if (gameStarted)
+			while (GetMove()) {}
 
 		if (argc == 1 && !getline(std::cin, cmd)) // Block here waiting for input or EOF
 			cmd = "quit";
@@ -208,11 +208,11 @@ void Game::GameLoop(int argc, char* argv[])
 		{
 			players[Color::Black] = PlayerType::Human;
 			players[Color::White] = PlayerType::AI;
-			for(uint8_t i=0; is>>token;i++)
+			for (uint8_t i = 0; is >> token; i++)
 			{
-				if(token=="black")
+				if (token == "black")
 				{
-					if(is >> token)
+					if (is >> token)
 					{
 						if (token == "ai")
 							players[Color::Black] = PlayerType::AI;
@@ -220,13 +220,13 @@ void Game::GameLoop(int argc, char* argv[])
 							players[Color::White] = PlayerType::Human;
 					}
 				}
-				else if(token=="white")
+				else if (token == "white")
 				{
 					if (is >> token)
 					{
 						if (token == "ai")
 							players[Color::White] = PlayerType::AI;
-						else if(token=="human")
+						else if (token == "human")
 							players[Color::White] = PlayerType::Human;
 					}
 				}
@@ -235,16 +235,16 @@ void Game::GameLoop(int argc, char* argv[])
 			sync_cout << "game started" << sync_endl;
 		}
 		else if (token == "isready") sync_cout << "readyok" << sync_endl;
-		else if(token=="perf")
+		else if (token == "perf")
 		{
-			sync_cout << "average AIPlayer::GetMove() execution is "<< std::accumulate(aiGetMoveTimesInMicroseconds.begin(), aiGetMoveTimesInMicroseconds.end(), 0.0) / aiGetMoveTimesInMicroseconds.size() << sync_endl;		
-			sync_cout << "average Game::CheckWin() execution is " << std::accumulate(checkGameEndTimesInMicroseconds.begin(), checkGameEndTimesInMicroseconds.end(), 0.0) / checkGameEndTimesInMicroseconds.size() << sync_endl;
+			sync_cout << "average AIPlayer::GetMove() execution is " << std::accumulate(aiGetMoveTimesInMicroseconds.begin(), aiGetMoveTimesInMicroseconds.end(), 0.0) / aiGetMoveTimesInMicroseconds.size() << "microseconds" << sync_endl;
+			sync_cout << "average Game::CheckWin() execution is " << std::accumulate(checkGameEndTimesInMicroseconds.begin(), checkGameEndTimesInMicroseconds.end(), 0.0) / checkGameEndTimesInMicroseconds.size() << "microseconds" << sync_endl;
 		}
 		else if (token == "printboard")
 		{
-			for (coord y = 0; y<board.Height(); y++)
+			for (coord y = 0; y < board.Height(); y++)
 			{
-				for (coord x = 0; x<board.Width(); x++)
+				for (coord x = 0; x < board.Width(); x++)
 				{
 
 					if (board.IsColor(x, y, Color::Black))
@@ -259,14 +259,16 @@ void Game::GameLoop(int argc, char* argv[])
 		}
 		else if (token == "info")
 			sync_cout << "engine info: " << engine_info(true) << sync_endl;
-		else if (!gameStarted)
-		{
-			sync_cout << "game NOT started or ended, call newgame first" << sync_endl;
-		}
+
+		else if (token == "quit"
+	|| token == "exit" || token == "stop")
+			sync_cout << "(m,n,k,p,q)GameEngine has exited" << sync_endl;
+
+
 
 
 		//makemove x y
-		else if(token=="makemove")
+		else if(token=="makemove" && gameStarted)
 		{
 			is >> token;
 			coord x = coord(atoi(token.c_str()))-1;
@@ -283,10 +285,10 @@ void Game::GameLoop(int argc, char* argv[])
 			else
 				sync_cout << "invalid move"<< sync_endl;
 		}
-
-
-
-
+		else if (!gameStarted)
+		{
+			sync_cout << "game NOT started or ended, call newgame first" << sync_endl;
+		}
 
 		else
 		sync_cout << "Unknown command: " << cmd << sync_endl;

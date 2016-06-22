@@ -81,7 +81,8 @@
             <ComboBoxItem Content="newgame black ai white ai"/>
             <ComboBoxItem Content="makemove x y"/>
             <ComboBoxItem Content="printboard"/>
-
+            <ComboBoxItem Content="perf"/>
+            <ComboBoxItem Content="exit"/>
         </ComboBox>
         <Label x:Name="label4_Copy" Content="Input:" HorizontalAlignment="Left" Margin="10,310,0,0" VerticalAlignment="Top"/>
         <Button x:Name="button2_Copy1" Content="Send input" HorizontalAlignment="Left" Margin="331,295,0,0" VerticalAlignment="Top" Width="113" Click="Button2_Copy1_OnClick"/>

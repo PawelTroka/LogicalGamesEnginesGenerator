@@ -15,49 +15,42 @@ namespace m_n_k_p_q_EnginesGenerator
         public EnginesGenerator(Action<string> callback)
         {
             _callback = callback;
-            _engineProjectFullPath = Path.Combine(_currentDirectory, _engineProjectName,
-                _engineProjectFullName);
-            _engineExeFullPath = Path.Combine(_currentDirectory, _engineProjectName,"x64","Release",
-    _engineExeName);
+            _engineProjectFullPath = Path.Combine(_currentDirectory, EngineProjectName,
+                EngineProjectFullName);
         }
 
         private readonly string _currentDirectory =
             Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+        private const string EngineProjectName = "(m,n,k,p,q)GameEngine";
+        private const string EngineProjectFullName = EngineProjectName+".vcxproj";
 
-
-        private const string _engineProjectName = "(m,n,k,p,q)GameEngine";
-
-        private const string _engineProjectFullName = _engineProjectName+".vcxproj";
-
-        private const string _engineExeName = _engineProjectName + ".exe";
-
-
-        private readonly string _engineExeFullPath;
         private readonly string _engineProjectFullPath;
+
+        private string _engineExeFullPath;
 
         ///p:DefineConstants="M 2; N 2"
         private const string BuildBasicFlags = @" /p:Configuration=Release /p:Platform=x64 /t:Build ";
 
         private const string CleanBasicFlags = @" /p:Configuration=Release /p:Platform=x64 /t:Clean ";
         private ProcessInBackground _engine;
-
+        private string _engineAssemblyName;
         public void GenerateEngine(string compilerPath, string outputDir, string flags, EngineParameters engineParameters)
         {
             if (outputDir.Last() == '\\')
                 outputDir = outputDir.Substring(0, outputDir.Length - 1);//+= @"\";
 
 
-            var assemblyName = $@"({engineParameters.M},{engineParameters.N},{engineParameters.K},{engineParameters.P},{engineParameters.Q})GameEngine";
+             _engineAssemblyName = $@"({engineParameters.M},{engineParameters.N},{engineParameters.K},{engineParameters.P},{engineParameters.Q})GameEngine";
+
+
 
             if (engineParameters.K < Math.Max(engineParameters.M, engineParameters.N))
-                assemblyName += "_" + engineParameters.WinCondition.ToString();
-
-            var engineParametersAsCompilerFlags = $@" /p:AdditionalPreprocessorDefinitions=""_USE_GENERATOR_DEFINES;{((engineParameters.WinCondition==WinCondition.EXACTLY_K_TO_WIN) ? "EXACTLY_K_TO_WIN;" : "")}M={engineParameters.M};N={engineParameters.N};K={engineParameters.K};Q={engineParameters.Q};P={engineParameters.P};"" /p:OutDir=""{outputDir}""  /p:AssemblyName=""{assemblyName}""";// /p:AssemblyName=""{assemblyName}""
+                _engineAssemblyName += "_" + engineParameters.WinCondition.ToString();
 
 
+            _engineExeFullPath = Path.Combine(outputDir, _engineAssemblyName);
 
-
-
+            var engineParametersAsCompilerFlags = $@" /p:AdditionalPreprocessorDefinitions=""_USE_GENERATOR_DEFINES;{((engineParameters.WinCondition==WinCondition.EXACTLY_K_TO_WIN) ? "EXACTLY_K_TO_WIN;" : "")}M={engineParameters.M};N={engineParameters.N};K={engineParameters.K};Q={engineParameters.Q};P={engineParameters.P};"" /p:OutDir=""{outputDir}""  /p:AssemblyName=""{_engineAssemblyName}""";// /p:AssemblyName=""{assemblyName}""
             (new ProcessInBackground(compilerPath, _engineProjectFullPath + BuildBasicFlags + engineParametersAsCompilerFlags + flags, _callback,false)).Run();
         }
 
@@ -75,17 +68,12 @@ namespace m_n_k_p_q_EnginesGenerator
             _engine = (new ProcessInBackground(_engineExeFullPath, "", _callback, true));
             _engine.Run();
            // engine.Send("2\n");
+           _callback.Invoke($@"{_engineAssemblyName}.exe started");
         }
 
         public void SendCommand(string cmd)
         {
             _engine?.Send(cmd);
-        }
-
-        private static class EngineWrapper
-        {
-            [DllImport(_engineExeName,  CallingConvention = CallingConvention.Cdecl)/*EntryPoint = "hotFunction", CharSet = CharSet.Unicode, SetLastError = true)*/]
-            public static extern double hotFunction(double x);
         }
     }
 }
