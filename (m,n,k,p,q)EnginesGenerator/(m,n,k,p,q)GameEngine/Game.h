@@ -26,9 +26,10 @@ public:
 
 
 private:
-	uint16_t perfCount=0;
-	std::vector<double> timesInMicrosecunds;
-	arrayIndex_t movesLeft = Q;
+	std::vector<double> aiGetMoveTimesInMicroseconds;
+	std::vector<double> checkGameEndTimesInMicroseconds;
+	uint16_t movesLeft = Q;
+	uint16_t movesMade = 0;
 	bool gameStarted = false;
 	Board board;
 	AIPlayer aiPlayer;

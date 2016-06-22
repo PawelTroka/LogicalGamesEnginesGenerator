@@ -16,7 +16,7 @@
 #ifdef _USE_LOCAL_DEFINES
 #define M 5
 #define N 13
-#define K 3
+#define K 6
 #define P 2
 #define Q 1
 //#define EXACTLY_K_TO_WIN
