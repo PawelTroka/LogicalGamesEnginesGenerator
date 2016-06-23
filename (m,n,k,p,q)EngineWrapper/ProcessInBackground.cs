@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace m_n_k_p_q_EnginesGenerator
+namespace _m_n_k_p_q_EngineWrapper
 {
     public class ProcessInBackground
     {
@@ -26,10 +26,23 @@ namespace m_n_k_p_q_EnginesGenerator
         public void Run()
         {
             process.Start();
+            
             process.BeginOutputReadLine();
             process.BeginErrorReadLine();
             if(!_input)
                 process.WaitForExit();
+        }
+
+
+        public void StopAsync()
+        {
+            process.CancelOutputRead();
+        }
+
+
+        public void StartAsync()
+        {
+            process.BeginOutputReadLine();
         }
 
         public void Send(string cmd)

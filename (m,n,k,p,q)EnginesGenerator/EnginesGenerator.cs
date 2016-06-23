@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using m_n_k_p_q_EnginesGenerator;
+using _m_n_k_p_q_EngineWrapper;
 
 namespace m_n_k_p_q_EnginesGenerator
 {
