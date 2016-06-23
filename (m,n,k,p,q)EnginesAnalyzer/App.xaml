@@ -1,0 +1,9 @@
+﻿<Application x:Class="_m_n_k_p_q_EnginesAnalyzer.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:_m_n_k_p_q_EnginesAnalyzer"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+         
+    </Application.Resources>
+</Application>

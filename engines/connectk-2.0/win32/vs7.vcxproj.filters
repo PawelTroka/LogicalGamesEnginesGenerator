@@ -2,7 +2,7 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="ai">
-      <UniqueIdentifier>{7b755f81-a4a5-4b73-885c-5d4a5ef3b6ac}</UniqueIdentifier>
+      <UniqueIdentifier>{e14472ec-f2bf-4416-8ce0-1afcb0b4db63}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -44,5 +44,8 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="README.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

@@ -101,7 +101,6 @@
     <Compile Include="EmbeddedDllClass.cs" />
     <Compile Include="EngineParameters.cs" />
     <Compile Include="EnginesGenerator.cs" />
-    <Compile Include="ProcessInBackground.cs" />
     <Compile Include="WinCondition.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -191,6 +190,12 @@
     <None Include="GeneratedEngines\_HERE_GOES_GENERATED_ENGINES_BY_DEFAULT_">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\%28m,n,k,p,q%29EngineWrapper\%28m,n,k,p,q%29EngineWrapper.csproj">
+      <Project>{0da77162-c401-404e-af05-8e1e3316af24}</Project>
+      <Name>%28m,n,k,p,q%29EngineWrapper</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -3,7 +3,7 @@ using System.Diagnostics;
 
 namespace m_n_k_p_q_EnginesGenerator
 {
-    class ProcessInBackground
+    public class ProcessInBackground
     {
         private readonly bool _input;
 

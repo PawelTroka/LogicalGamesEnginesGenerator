@@ -54,7 +54,7 @@ namespace m_n_k_p_q_EnginesGenerator
             (new ProcessInBackground(compilerPath, _engineProjectFullPath + BuildBasicFlags + engineParametersAsCompilerFlags + flags, _callback,false)).Run();
         }
 
-        ///p:OutDir=D:\chuj\ /p:AssemblyName=Foo
+        ///p:OutDir=D:\location\ /p:AssemblyName=Foo
 
         public void CleanOutput(string compilerPath)
         {

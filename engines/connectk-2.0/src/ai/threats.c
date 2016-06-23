@@ -24,7 +24,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include <math.h>
 #include <glib.h>
 #include "../shared.h"
-#include <climits>
 
 /* Bits per threat level */
 #define BITS_PER_THREAT 6
