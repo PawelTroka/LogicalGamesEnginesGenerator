@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace m_n_k_p_q_EnginesGenerator
+namespace _m_n_k_p_q_EngineWrapper
 {
-    class EngineParameters : INotifyPropertyChanged
+    public class EngineParameters : INotifyPropertyChanged
     {
         private ulong _m;
         private ulong _n;

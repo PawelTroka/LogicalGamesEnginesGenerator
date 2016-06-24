@@ -1,6 +1,6 @@
 using System.ComponentModel;
 
-namespace m_n_k_p_q_EnginesGenerator
+namespace _m_n_k_p_q_EngineWrapper
 {
     public enum WinCondition
     {

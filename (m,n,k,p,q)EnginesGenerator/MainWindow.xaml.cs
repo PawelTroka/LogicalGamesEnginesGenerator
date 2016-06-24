@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Markup;
 using Microsoft.Build.Utilities;
 using Microsoft.Practices.Unity;
+using _m_n_k_p_q_EngineWrapper;
 
 
 namespace m_n_k_p_q_EnginesGenerator

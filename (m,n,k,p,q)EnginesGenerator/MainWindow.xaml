@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:mNKPQEnginesGenerator="clr-namespace:m_n_k_p_q_EnginesGenerator"
+        xmlns:mNkpqEnginesGenerator="clr-namespace:_m_n_k_p_q_EngineWrapper;assembly=m_n_k_p_q_EngineWrapper"
         x:Class="m_n_k_p_q_EnginesGenerator.MainWindow"
         mc:Ignorable="d"
         Title="(m,n,k,p,q)EnginesGenerator v1.0.0 © Pawel Troka" Height="746" Width="700">
@@ -13,7 +14,7 @@
             <Grid>
                 <xctk:LongUpDown x:Name="kLongUpDown" Minimum="1" Value="19" HorizontalAlignment="Left" Margin="47,16,0,0" VerticalAlignment="Top" Width="103"/>
                 <Label x:Name="label" Content="k =" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-                <ComboBox x:Name="winingConditionComboBox" ItemsSource="{Binding Source={mNKPQEnginesGenerator:Enumeration {x:Type mNKPQEnginesGenerator:WinCondition}}}" 
+                <ComboBox x:Name="winingConditionComboBox" ItemsSource="{Binding Source={mNKPQEnginesGenerator:Enumeration {x:Type mNkpqEnginesGenerator:WinCondition}}}" 
     DisplayMemberPath="Description" 
     SelectedIndex="1"
     SelectedValuePath="Value" HorizontalAlignment="Left" Margin="10,47,0,0" VerticalAlignment="Top" Width="140"/>

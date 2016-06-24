@@ -45,6 +45,11 @@ namespace _m_n_k_p_q_EngineWrapper
             process.BeginOutputReadLine();
         }
 
+        public string GetLine()
+        {
+            return process.StandardOutput.ReadLine();
+        }
+
         public void Send(string cmd)
         {
             process.StandardInput.WriteLine(cmd);
