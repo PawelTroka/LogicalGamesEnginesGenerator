@@ -56,29 +56,55 @@ namespace _m_n_k_p_q_EnginesAnalyzer
             {
                 using (var engine = new EngineWrapper(path, null, null))
                 {
+                    _progressHandler.Report($"---- Testing engine: {engine.EngineName}{Environment.NewLine}");
                     engine.Run();
 
+                    var correctnessTests = (new CorrectnessTests(engine));
+                    var result = correctnessTests.FirstTurnHumanVsHumanMovesTest();
 
 
-                    _progressHandler.Report($"----");
+                   _progressHandler.Report($"  {nameof(correctnessTests.FirstTurnHumanVsHumanMovesTest)} - {(result ?  "Succes!" : "failed...")}--{Environment.NewLine}");
                 }
             }
         }
 
     }
+    
+    public static class RandomProvider
+    {
+        public static Random Generator = new Random();
+    }
 
     public class CorrectnessTests
     {
-        private EngineWrapper _engine;
+        private readonly EngineWrapper _engine;
+
+        private static readonly Move[] possibleMoves= new Move[]
+        {
+            new Move(1,1),new Move(1,2),new Move(2,1),new Move(2,2),new Move(2,3),new Move(3,2),new Move(3,3),       
+        };
 
         public CorrectnessTests(EngineWrapper engine)
         {
             _engine = engine;
         }
 
-        public bool Test1()
+        public bool FirstTurnHumanVsHumanMovesTest()
         {
-            //_engine.StartGame(GameType.BlackHumanVsWhiteAi);
+            var engineParameters = _engine.GetEngineInfo();
+
+            _engine.StartGame(GameType.TwoHumans);
+            _engine.StopAsync();
+
+            for (ulong i = 0; i < engineParameters.Q+engineParameters.P; i++)
+            {
+                var move = new Move(possibleMoves[i].X, possibleMoves[i].Y) {Player = (i<engineParameters.Q) ? Player.Black : Player.White};
+                _engine.MakeMove(move);
+                var returnedMove = _engine.GetMoveSync();
+                if (move != returnedMove)
+                    return false;
+            }
+
             return true;
 
         }

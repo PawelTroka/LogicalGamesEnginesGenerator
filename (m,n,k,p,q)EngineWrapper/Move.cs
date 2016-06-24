@@ -3,8 +3,44 @@ using System.Text.RegularExpressions;
 
 namespace _m_n_k_p_q_EngineWrapper
 {
-    public class Move
+    public class Move : IEquatable<Move>
     {
+        public bool Equals(Move other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return X == other.X && Y == other.Y && Player == other.Player;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((Move) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var hashCode = X.GetHashCode();
+                hashCode = (hashCode*397) ^ Y.GetHashCode();
+                hashCode = (hashCode*397) ^ (int) Player;
+                return hashCode;
+            }
+        }
+
+        public static bool operator ==(Move left, Move right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(Move left, Move right)
+        {
+            return !Equals(left, right);
+        }
+
         public Move(byte x, byte y)
         {
             this.X = x;

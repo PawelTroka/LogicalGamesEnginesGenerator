@@ -56,6 +56,11 @@ namespace _m_n_k_p_q_EnginesAnalyzer
 
             button.IsEnabled = true;
         }
+
+        private void button_Copy_Click(object sender, RoutedEventArgs e)
+        {
+            _tester.RunCorrectnessTests(msbuildPathTextBox_Copy.Text);
+        }
     }
 
 

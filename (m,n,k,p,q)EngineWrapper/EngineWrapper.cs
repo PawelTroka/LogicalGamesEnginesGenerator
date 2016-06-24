@@ -29,7 +29,7 @@ namespace _m_n_k_p_q_EngineWrapper
         private readonly Action<Move> _moveMadeCallback;
         private WrapperMode _mode=WrapperMode.Async;
 
-        private void StopAsync()
+        public void StopAsync()
         {
             _mode=WrapperMode.Sync;
         }
@@ -51,6 +51,18 @@ namespace _m_n_k_p_q_EngineWrapper
             _lastLine = null;
 
             return ret;
+        }
+
+        public Move GetMoveSync()
+        {
+            StopAsync();
+            var line = GetLine();
+            Move move;
+            while (!Move.TryParse(line, out move))
+            {
+                line = GetLine();
+            }
+            return move;
         }
 
         public string EngineName { get; }

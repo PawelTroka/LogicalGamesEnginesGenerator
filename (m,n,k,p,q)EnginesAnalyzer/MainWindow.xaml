@@ -20,7 +20,7 @@
         <Button x:Name="button1_Copy1" Content="Open directory" HorizontalAlignment="Left" Margin="543,10,0,0" VerticalAlignment="Top" Width="139" Height="24" Click="button1_Copy_Click"/>
         <Label x:Name="label4" Content="Output:" HorizontalAlignment="Left" Margin="17,164,0,0" VerticalAlignment="Top"/>
         <Button x:Name="button" Content="Run performance tests..." HorizontalAlignment="Left" Margin="17,113,0,0" VerticalAlignment="Top" Width="305" Height="46" FontSize="24" Click="button_Click"/>
-        <Button x:Name="button_Copy" Content="Run correctness tests..." HorizontalAlignment="Left" Margin="376,113,0,0" VerticalAlignment="Top" Width="306" Height="46" FontSize="24"/>
+        <Button x:Name="button_Copy" Content="Run correctness tests..." HorizontalAlignment="Left" Margin="376,113,0,0" VerticalAlignment="Top" Width="306" Height="46" FontSize="24" Click="button_Copy_Click"/>
         <xctk:LongUpDown x:Name="iterationsLongUpDown" Minimum="1" Value="100" HorizontalAlignment="Left" Margin="154,85,0,0" VerticalAlignment="Top" Width="56"/>
         <Label x:Name="label3" Content="Number of iterations =" HorizontalAlignment="Left" Margin="17,82,0,0" VerticalAlignment="Top"/>
     </Grid>
