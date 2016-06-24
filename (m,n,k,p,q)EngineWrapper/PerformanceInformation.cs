@@ -1,9 +1,9 @@
 namespace _m_n_k_p_q_EngineWrapper
 {
-    public class PerforamanceInformation
+    public class PerformanceInformation
     {
-        public PerforamanceInformation() { }
-        public PerforamanceInformation(double averageAiGetMoveExecution, double averageCheckWinExecution, string aiGetMoveExecutionUnit, string checkWinExecutionUnit)
+        public PerformanceInformation() { }
+        public PerformanceInformation(double averageAiGetMoveExecution, double averageCheckWinExecution, string aiGetMoveExecutionUnit, string checkWinExecutionUnit)
         {
             AverageAiGetMoveExecution = averageAiGetMoveExecution;
             AverageCheckWinExecution = averageCheckWinExecution;

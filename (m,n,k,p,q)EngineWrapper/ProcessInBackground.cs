@@ -10,52 +10,35 @@ namespace _m_n_k_p_q_EngineWrapper
         public ProcessInBackground(string filename, string arguments,Action<string> callback, bool input)
         {
             _input = input;
-            baseStartInfo.FileName = filename;
-            baseStartInfo.Arguments = arguments;
+            _baseStartInfo.FileName = filename;
+            _baseStartInfo.Arguments = arguments;
 
 
-            baseStartInfo.RedirectStandardInput= input;
+            _baseStartInfo.RedirectStandardInput= input;
 
-            process = new Process() { StartInfo = baseStartInfo };
-            
-            process.OutputDataReceived += (o, e) => callback?.Invoke(e.Data);
-            process.ErrorDataReceived += (o, e) => callback?.Invoke(e.Data);
+            _process = new Process() { StartInfo = _baseStartInfo };
+          
+            _process.OutputDataReceived += (o, e) => callback?.Invoke(e.Data);
+            _process.ErrorDataReceived += (o, e) => callback?.Invoke(e.Data);
             
         }
 
         public void Run()
         {
-            process.Start();
+            _process.Start();
             
-            process.BeginOutputReadLine();
-            process.BeginErrorReadLine();
+            _process.BeginOutputReadLine();
+            _process.BeginErrorReadLine();
             if(!_input)
-                process.WaitForExit();
-        }
-
-
-        public void StopAsync()
-        {
-            process.CancelOutputRead();
-        }
-
-
-        public void StartAsync()
-        {
-            process.BeginOutputReadLine();
-        }
-
-        public string GetLine()
-        {
-            return process.StandardOutput.ReadLine();
+                _process.WaitForExit();
         }
 
         public void Send(string cmd)
         {
-            process.StandardInput.WriteLine(cmd);
+            _process.StandardInput.WriteLine(cmd);
         }
 
-        private ProcessStartInfo baseStartInfo = new ProcessStartInfo()
+        private readonly ProcessStartInfo _baseStartInfo = new ProcessStartInfo()
         {
 
             UseShellExecute = false,
@@ -67,6 +50,6 @@ namespace _m_n_k_p_q_EngineWrapper
                 
         };
 
-        private Process process;
+        private readonly Process _process;
     }
 }

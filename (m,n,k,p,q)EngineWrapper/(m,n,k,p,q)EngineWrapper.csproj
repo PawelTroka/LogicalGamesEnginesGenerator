@@ -47,7 +47,7 @@
     <Compile Include="GameState.cs" />
     <Compile Include="GameType.cs" />
     <Compile Include="Move.cs" />
-    <Compile Include="PerforamanceInformation.cs" />
+    <Compile Include="PerformanceInformation.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="ProcessInBackground.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
