@@ -23,7 +23,7 @@ namespace _m_n_k_p_q_EngineWrapper
 
         private readonly List<string> _engineOutputs = new List<string>();
 
-        private Action<GameState> _gameStateChangedCallback;
+        private readonly Action<GameState> _gameStateChangedCallback;
 
 
         private readonly Action<Move> _moveMadeCallback;
@@ -250,7 +250,7 @@ namespace _m_n_k_p_q_EngineWrapper
         {
             return Task.Run(() =>
             {
-                while (!_gameOver) { Thread.Sleep(100); }
+                while (!_gameOver) { Thread.Sleep(20); }
             });
         }
 

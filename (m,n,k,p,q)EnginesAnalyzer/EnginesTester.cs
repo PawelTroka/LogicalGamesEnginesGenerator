@@ -31,7 +31,7 @@ namespace _m_n_k_p_q_EnginesAnalyzer
         public async Task RunPerformanceTests(string enginesDirectory, long iterations)
         {
             _enginesPaths = Directory.GetFiles(enginesDirectory, @"*.exe");
-            _progressHandler.Report($"---- Testing Engines from {enginesDirectory} ----{Environment.NewLine}");
+            _progressHandler.Report($"{Environment.NewLine}---- Testing Engines from {enginesDirectory} ----{Environment.NewLine}");
             foreach (var path in _enginesPaths)
             {
                 using (var engine = new EngineWrapper(path,null,null))
@@ -43,7 +43,7 @@ namespace _m_n_k_p_q_EnginesAnalyzer
                         await engine.WaitForGameOver();
                     }
                     var pi = engine.GetPerformanceInformation();
-                    _progressHandler.Report($"----------------{Environment.NewLine}{engine.EngineName}: {pi}{Environment.NewLine}----------------");
+                    _progressHandler.Report($"----{Environment.NewLine}{engine.EngineName}{Environment.NewLine}{pi}{Environment.NewLine}----{Environment.NewLine}");
                 }
             }
         }
