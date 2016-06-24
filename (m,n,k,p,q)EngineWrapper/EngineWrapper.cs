@@ -72,6 +72,9 @@ namespace _m_n_k_p_q_EngineWrapper
             //    throw new Exception($"Engine didnt exit properly {response}");
         }
 
+
+
+
         public void CallbackHandler(string message)
         {
             _engineOutputs.Add(message);
@@ -86,55 +89,22 @@ namespace _m_n_k_p_q_EngineWrapper
             }
             else
             {
-                var match = MoveCallbackRegex.Match(message);
-                if (match.Success)
+                Move move;
+                if (Move.TryParse(message, out move))
                 {
-                    var playerStr = match.Groups[1].Value;
-
-
-
-                    var move = new Move(byte.Parse(match.Groups[2].Value), byte.Parse(match.Groups[3].Value));
-
-                    if (playerStr.ToLowerInvariant().Contains("black"))
-                        move.Player = Player.Black;
-                    else if (playerStr.ToLowerInvariant().Contains("white"))
-                        move.Player = Player.White;
-                    else
-                        throw new Exception($"Wrong callback from engine: {message}");
-
                     _movesOutput.Add(move);
                     _moveMadeCallback?.Invoke(move);
-
                     return;
+                
                 }
 
-                match = WinnerIsCallbackRegex.Match(message);
-                if (match.Success)
+                GameState gs;
+                if (GameStateExtensions.TryParse(message,out gs))
                 {
-                    var playerStr = match.Groups[1].Value;
-
-                    if (playerStr.ToLowerInvariant().Contains("black"))
-                    {
-                        _gameStateChangedCallback?.Invoke(GameState.WinnerIsBlack);
-                        _gameOver = true;
-                    }
-                    else if (playerStr.ToLowerInvariant().Contains("white"))
-                    {
-                        _gameStateChangedCallback?.Invoke(GameState.WinnerIsWhite);
-                        _gameOver = true;
-                    }
-                    else
-                        throw new Exception($"Wrong callback from engine: {message}");
-
-
+                    _gameStateChangedCallback?.Invoke(gs);
+                    _gameOver = gs.IsGameOver();
                     return;
                 }
-
-                match = DrawCallbackRegex.Match(message);
-                if (!match.Success) return;
-
-                _gameStateChangedCallback?.Invoke(GameState.Draw);
-                _gameOver = true;
             }
         }
 
@@ -142,34 +112,17 @@ namespace _m_n_k_p_q_EngineWrapper
         public EngineParameters GetEngineInfo()
         {
             StopAsync();
-
-            var engineParameters = new EngineParameters();
-
-
             _engine.Send("info");
             var info = GetLine();
 
+            EngineParameters engineParameters;
 
-            var match = _engineInfoRegex.Match(info);
-            if(!match.Success)
-                throw new Exception($"engine info wrong {info}");
-
-            engineParameters.M = ulong.Parse(match.Groups[1].Value);
-            engineParameters.N = ulong.Parse(match.Groups[2].Value);
-            engineParameters.K = ulong.Parse(match.Groups[3].Value);
-            engineParameters.P = ulong.Parse(match.Groups[4].Value);
-            engineParameters.Q = ulong.Parse(match.Groups[5].Value);
-
-            engineParameters.WinCondition =
-                (match.Groups[6].Value.ToLowerInvariant().Contains("EXACTLY_K_TO_WIN".ToLowerInvariant()))
-                    ? WinCondition.EXACTLY_K_TO_WIN
-                    : WinCondition.K_OR_MORE_TO_WIN;
-
-
-
-            
-            StartAsync();
-            return engineParameters;
+            if (EngineParameters.TryParse(info, out engineParameters))
+            {
+                StartAsync();
+                return engineParameters;
+            }
+             throw new Exception($"engine info wrong {info}");
         }
 
         public void Run()
@@ -178,67 +131,22 @@ namespace _m_n_k_p_q_EngineWrapper
             _gameStateChangedCallback?.Invoke(GameState.NotStarted);
         }
 
-
-        private readonly Regex _engineInfoRegex = new Regex(@"\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)\s*_?\s*(EXACTLY_K_TO_WIN|K_OR_MORE_TO_WIN)?", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-
-
-
-        private static readonly Regex DrawCallbackRegex = new Regex(@"\s*draw\s*", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-
-        private static readonly Regex WinnerIsCallbackRegex = new Regex(@"\s*winner\s+is\s+(black|white)\s*", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-
-        private static readonly Regex MoveCallbackRegex = new Regex(@"\s*move\s+(black|white)\s+(\d+)\s+(\d+)\s*", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-
-        private static readonly Regex AiGetMovePerfCallbackRegex = new Regex(@".*ai.*move.+?(\d+(?:.|,)?\d*)\s*(\w*)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-
-        private static readonly Regex GameCheckWinPerfCallbackRegex = new Regex(@".*check.*win.+?(\d+(?:.|,)?\d*)\s*(\w*)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-
-
-
-        public PerformanceInformation GetPerformanceInformation()//TODO: make it cleaner, reafctor
+        public PerformanceInformation GetPerformanceInformation()
         {
-            var pi = new PerformanceInformation();
             StopAsync();
 
             _engine.Send("perf");
             var perf1 = GetLine();
             var perf2 = GetLine();
 
+            PerformanceInformation pi;
 
-            var match = AiGetMovePerfCallbackRegex.Match(perf1);
-            if (match.Success)
+            if (PerformanceInformation.TryParse(perf1 + perf2, out pi))
             {
-                pi.AverageAiGetMoveExecution = double.Parse(match.Groups[1].Value.Replace(",", "."),
-                    CultureInfo.InvariantCulture);
-                pi.AiGetMoveExecutionUnit = match.Groups[2].Value;
+                StartAsync();
+                return pi;
             }
-            match = AiGetMovePerfCallbackRegex.Match(perf2);
-
-            if (match.Success)
-            {
-                pi.AverageAiGetMoveExecution = double.Parse(match.Groups[1].Value.Replace(",", "."),
-                    CultureInfo.InvariantCulture);
-                pi.AiGetMoveExecutionUnit = match.Groups[2].Value;
-            }
-
-            match = GameCheckWinPerfCallbackRegex.Match(perf1);
-            if (match.Success)
-            {
-                pi.AverageCheckWinExecution = double.Parse(match.Groups[1].Value.Replace(",", "."),
-                    CultureInfo.InvariantCulture);
-                pi.CheckWinExecutionUnit = match.Groups[2].Value;
-            }
-
-            match = GameCheckWinPerfCallbackRegex.Match(perf2);
-            if (match.Success)
-            {
-                pi.AverageCheckWinExecution = double.Parse(match.Groups[1].Value.Replace(",", "."),
-                    CultureInfo.InvariantCulture);
-                pi.CheckWinExecutionUnit = match.Groups[2].Value;
-            }
-
-            StartAsync();
-            return pi;
+            throw  new Exception($"GetPerformanceInformation failed for {perf1} and {perf2}");
         }
 
         public void MakeMove(Move move)
@@ -279,12 +187,8 @@ namespace _m_n_k_p_q_EngineWrapper
             }
             if(!GetLine().Contains("game started"))
                 throw new Exception($"StartGame failed for {gameType}");
-            else
-            {
-                _gameStateChangedCallback?.Invoke(GameState.Started);
-                StartAsync();
-            }
-
+            _gameStateChangedCallback?.Invoke(GameState.Started);
+            StartAsync();
         }
 
         public void Dispose()

@@ -31,7 +31,7 @@ namespace _m_n_k_p_q_EnginesAnalyzer
         public async Task RunPerformanceTests(string enginesDirectory, long iterations)
         {
             _enginesPaths = Directory.GetFiles(enginesDirectory, @"*.exe");
-            _progressHandler.Report($"{Environment.NewLine}---- Testing Engines from {enginesDirectory} ----{Environment.NewLine}");
+            _progressHandler.Report($"{Environment.NewLine}---- Testing performance of engines from {enginesDirectory} ----{Environment.NewLine}");
             foreach (var path in _enginesPaths)
             {
                 using (var engine = new EngineWrapper(path,null,null))
@@ -48,6 +48,39 @@ namespace _m_n_k_p_q_EnginesAnalyzer
             }
         }
 
+        public void RunCorrectnessTests(string enginesDirectory)
+        {
+            _enginesPaths = Directory.GetFiles(enginesDirectory, @"*.exe");
+            _progressHandler.Report($"{Environment.NewLine}---- Testing correctness of engines from {enginesDirectory} ----{Environment.NewLine}");
+            foreach (var path in _enginesPaths)
+            {
+                using (var engine = new EngineWrapper(path, null, null))
+                {
+                    engine.Run();
 
+
+
+                    _progressHandler.Report($"----");
+                }
+            }
+        }
+
+    }
+
+    public class CorrectnessTests
+    {
+        private EngineWrapper _engine;
+
+        public CorrectnessTests(EngineWrapper engine)
+        {
+            _engine = engine;
+        }
+
+        public bool Test1()
+        {
+            //_engine.StartGame(GameType.BlackHumanVsWhiteAi);
+            return true;
+
+        }
     }
 }
