@@ -2,6 +2,7 @@
 
 using System;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using _m_n_k_p_q_EngineWrapper;
 
@@ -27,7 +28,7 @@ namespace _m_n_k_p_q_EnginesAnalyzer
         }
         
 
-        public async Task RunPerformanceTests(string enginesDirectory, long iterations)
+        public void RunPerformanceTests(string enginesDirectory, long iterations)
         {
             _enginesPaths = Directory.GetFiles(enginesDirectory, @"*.exe");
             _progressHandler.Report($"{Environment.NewLine}---- Testing performance of engines from {enginesDirectory} ----{Environment.NewLine}");
@@ -38,8 +39,13 @@ namespace _m_n_k_p_q_EnginesAnalyzer
                     engine.Run();
                     for (long i = 0; i < iterations; i++)
                     {
+                        engine.StopAsync();
                         engine.StartGame(GameType.TwoAIs);
-                        await engine.WaitForGameOver();
+                        while (!engine.GetGameStateSync().IsGameOver())
+                        {
+                            Thread.Sleep(20);
+                        }
+                        engine.ClearMessageQueue();
                     }
                     var pi = engine.GetPerformanceInformation();
                     _progressHandler.Report($"----{Environment.NewLine}{engine.EngineName}{Environment.NewLine}{pi}{Environment.NewLine}----{Environment.NewLine}");

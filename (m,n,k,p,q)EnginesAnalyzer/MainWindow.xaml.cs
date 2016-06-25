@@ -52,7 +52,7 @@ namespace _m_n_k_p_q_EnginesAnalyzer
 
             var txt = msbuildPathTextBox_Copy.Text;
             var val = iterationsLongUpDown.Value.Value;
-            await _tester.RunPerformanceTests(txt, val);
+            await Task.Run(()=> _tester.RunPerformanceTests(txt, val));
 
             button.IsEnabled = true;
         }

@@ -97,7 +97,10 @@ namespace _m_n_k_p_q_EngineWrapper
 
         private ConcurrentQueue<string> _messages = new ConcurrentQueue<string>();
 
-
+        public void ClearMessageQueue()
+        {
+            _messages = new ConcurrentQueue<string>();
+        }
         public void CallbackHandler(string message)
         {
             _engineOutputs.Add(message);
