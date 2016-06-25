@@ -51,7 +51,7 @@ bool Board::IsColor(coord x, coord y,Color color) const
 #if REQUIRES_ARRAYS
 		return blackPieces[POSITION(x, y)];
 #else
-		return CHECK_BIT(blackPieces, POSITION(x, y))==1;
+		return CHECK_BIT(blackPieces, POSITION(x, y))!=0;
 #endif
 	}
 	else if(color == Color::White)
@@ -59,7 +59,7 @@ bool Board::IsColor(coord x, coord y,Color color) const
 #if REQUIRES_ARRAYS
 		return whitePieces[POSITION(x, y)];
 #else
-		return CHECK_BIT(whitePieces, POSITION(x, y))==1;
+		return CHECK_BIT(whitePieces, POSITION(x, y))!=0;
 #endif
 	}
 	return false;

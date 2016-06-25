@@ -14,10 +14,10 @@
 #endif
 
 #ifdef _USE_LOCAL_DEFINES
-#define M 5
-#define N 13
-#define K 6
-#define P 2
+#define M 3
+#define N 3
+#define K 3
+#define P 1
 #define Q 1
 //#define EXACTLY_K_TO_WIN
 #endif
@@ -30,8 +30,14 @@
 #define REQUIRES_ARRAYS BOARD_SIZE > 64
 #define ENGINE_INFO "("+M","+N+","+K+","+P+","+Q+")"
 
+
+#if BOARD_SIZE > 32
 #define CHECK_BIT(var,pos) ((var) & (1i64<<(pos)))
 #define SET_BIT(number,pos) number |= 1i64 << pos;
+#else
+#define CHECK_BIT(var,pos) ((var) & (1 << (pos)))
+#define SET_BIT(number,pos) number |= 1 << pos;
+#endif
 
 #include <cstdint>
 #include <iostream>

@@ -14,7 +14,8 @@ namespace _m_n_k_p_q_EngineWrapper
     public enum WrapperMode
     {
         Async,
-        Sync
+        Sync,
+        ForcedSync,
     }
     public class EngineWrapper : IDisposable //TODO: handle duration callbacks
     {
@@ -31,7 +32,9 @@ namespace _m_n_k_p_q_EngineWrapper
 
         public void StopAsync()
         {
+            
             _mode=WrapperMode.Sync;
+        //    _lastLine = null;//??????????????????????
         }
 
         private void StartAsync()
@@ -51,6 +54,19 @@ namespace _m_n_k_p_q_EngineWrapper
             _lastLine = null;
 
             return ret;
+        }
+        
+
+        public GameState GetGameStateSync()
+        {
+            StopAsync();
+            var line = GetLine();
+            GameState state;
+            while (!GameStateExtensions.TryParse(line, out state))
+            {
+                line = GetLine();
+            }
+            return state;
         }
 
         public Move GetMoveSync()
@@ -141,6 +157,24 @@ namespace _m_n_k_p_q_EngineWrapper
         {
             _engine.Run();
             _gameStateChangedCallback?.Invoke(GameState.NotStarted);
+        }
+
+        public Player GetCurrentPlayer()
+        {
+           //////////////////////////////////////////// StopAsync();
+            _engine.Send("getplayer");
+            var line = GetLine();
+
+            Player player;
+
+            if (PlayerExtensions.TryParse(line, out player))
+            {
+                /////////////////////////////////////StartAsync();
+                return player;
+            }
+            throw new Exception("GetCurrentPlayer() failed");
+
+              
         }
 
         public PerformanceInformation GetPerformanceInformation()
