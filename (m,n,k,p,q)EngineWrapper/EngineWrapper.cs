@@ -163,18 +163,15 @@ namespace _m_n_k_p_q_EngineWrapper
         {
            //////////////////////////////////////////// StopAsync();
             _engine.Send("getplayer");
-            var line = GetLine();
-
             Player player;
 
-            if (PlayerExtensions.TryParse(line, out player))
+            while (!PlayerExtensions.TryParse(GetLine(), out player))
             {
-                /////////////////////////////////////StartAsync();
-                return player;
             }
+            /////////////////////////////////////StartAsync();
+                return player;
+            
             throw new Exception("GetCurrentPlayer() failed");
-
-              
         }
 
         public PerformanceInformation GetPerformanceInformation()
@@ -209,7 +206,7 @@ namespace _m_n_k_p_q_EngineWrapper
         }
 
         private bool _gameOver = false;
-        public void StartGame(GameType gameType)
+        public void StartGame(GameType gameType, bool sync=false)
         {
             StopAsync();
             _gameOver = false;
@@ -234,6 +231,7 @@ namespace _m_n_k_p_q_EngineWrapper
             while(!GetLine().Contains("game started"))
                 //throw new Exception($"StartGame failed for {gameType}");
             _gameStateChangedCallback?.Invoke(GameState.Started);
+            if(!sync)
             StartAsync();
         }
 

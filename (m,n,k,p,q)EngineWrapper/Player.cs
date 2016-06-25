@@ -1,4 +1,6 @@
-﻿namespace _m_n_k_p_q_EngineWrapper
+﻿using System.Text.RegularExpressions;
+
+namespace _m_n_k_p_q_EngineWrapper
 {
     public enum Player
     {
@@ -8,15 +10,18 @@
 
     public static class PlayerExtensions
     {
+       // private static readonly Regex BlackPlayerRegex = new Regex(@"\s*black\s*",RegexOptions.Compiled|RegexOptions.IgnoreCase);
+
+      //  private static readonly Regex WhitePlayerRegex = new Regex(@"\s*white\s*", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         public static bool TryParse(string str, out Player player)
         {
             player = default(Player);
-            if (str.ToLowerInvariant().Contains("black"))
+            if (str.ToLowerInvariant().Replace(" ","").Replace("\n"," ").Replace("\r","")=="black")
             {
                 player = Player.Black;
                 return true;
             }
-            else if (str.ToLowerInvariant().Contains("white"))
+            else if (str.ToLowerInvariant().Replace(" ", "").Replace("\n", " ").Replace("\r", "") == "white")
             {
                 player = Player.White;
                 return true;

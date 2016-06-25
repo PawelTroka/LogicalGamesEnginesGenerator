@@ -76,6 +76,10 @@ namespace _m_n_k_p_q_EngineWrapper
                 //throw new Exception($"Move.TryParse() could not parse: {str}");
             }
             move = null;
+
+            if (str.ToLowerInvariant().Contains("invalid move"))
+                return true;
+
             return false;
         }
     }
