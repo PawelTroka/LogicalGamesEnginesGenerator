@@ -69,9 +69,6 @@ namespace _m_n_k_p_q_EnginesAnalyzer
                         if (result) successCount++;
                         _progressHandler.Report($"  {correctnessTest.Name} - {(result ? "Succes!" : "failed...")}--{Environment.NewLine}");
                     }
-
-
-
                 }
             }
             _progressHandler.Report($"{Environment.NewLine}---- Correctness tests {successCount}/{testCount} succeeded!");

@@ -90,7 +90,7 @@ namespace _m_n_k_p_q_EnginesAnalyzer
             _engine.StartGame(GameType.TwoHumans);
             _engine.StopAsync();
 
-            //first turn
+            //black turn
             for (ulong i = 0; i < engineParameters.Q; i++)
             {
                 if (_engine.GetCurrentPlayer() != Player.Black)
@@ -99,7 +99,7 @@ namespace _m_n_k_p_q_EnginesAnalyzer
 
             }
 
-            //ai's turn
+            //white turn
             for (ulong i = 0; i < engineParameters.P; i++)
             {
                 if (_engine.GetCurrentPlayer() != Player.White)
@@ -107,6 +107,7 @@ namespace _m_n_k_p_q_EnginesAnalyzer
                 _engine.MakeMove(possibleMoves[engineParameters.Q+i]);
 
             }
+            //should be again black turn
             return _engine.GetCurrentPlayer() == Player.Black;
         }
 
@@ -139,20 +140,10 @@ namespace _m_n_k_p_q_EnginesAnalyzer
         {
             _engine.StartGame(GameType.TwoHumans);
 
-
             if (engineParameters.K < Math.Max(engineParameters.M, engineParameters.N) || Math.Min(engineParameters.M, engineParameters.N)<3)//engine doesnt allow wining plus we assume m*n<=3k so min(m,n) must be at least 3
                 return true;
 
-            var blackWiningMoves = new List<Move>();
-
-            for (ulong i = 0; i < engineParameters.K; i++)
-            {
-                if (engineParameters.K <= engineParameters.N)
-                    blackWiningMoves.Add(new Move((byte)(engineParameters.N - i), (byte)engineParameters.M) {Player = Player.Black});
-                else if (engineParameters.K <= engineParameters.M)
-                    blackWiningMoves.Add(new Move((byte)(engineParameters.N), (byte)(engineParameters.M - i)) {Player = Player.Black});
-            }
-
+            var blackWiningMoves = WiningMovesFromEnd(engineParameters.K, Player.Black);
 
             var whitePossibleMoves = new List<Move>();
 
@@ -168,16 +159,12 @@ namespace _m_n_k_p_q_EnginesAnalyzer
             var whiteMove = 0;
             for (ulong blackMove = 0; blackMove < engineParameters.K; blackMove++)
             {
-
                 while (_engine.GetCurrentPlayer() != Player.Black)
                 {
                     _engine.MakeMove(whitePossibleMoves[2*whiteMove]);
-
                     var retMove = _engine.GetMoveSync();
-
                     if (retMove != whitePossibleMoves[2*whiteMove])
                         return false;
-
                     whiteMove++;
                 }
 
@@ -188,7 +175,122 @@ namespace _m_n_k_p_q_EnginesAnalyzer
             return _engine.GetGameStateSync()==GameState.WinnerIsBlack;
         }
 
+        public bool HumanVsHumanBlackWinIfKOrMoreToWinTest()
+        {
+            _engine.StartGame(GameType.TwoHumans);
 
+            //we need max(m,n)>k if we wanna test K_OR_MORE vs EXACTLY_K behaviour
+            if (engineParameters.K <= Math.Max(engineParameters.M, engineParameters.N) || Math.Min(engineParameters.M, engineParameters.N) < 3)//engine doesnt allow wining plus we assume m*n<=3k so min(m,n) must be at least 3
+                return true;
+
+            var blackWiningMoves = WiningMovesFromEnd(engineParameters.K + 1, Player.Black);
+
+
+            var whiteWiningMoves = WiningMovesFromStart(engineParameters.K + 1, Player.White);
+            var whitePossibleMoves = new List<Move>();
+
+            foreach (var possibleMove in possibleMoves)
+            {
+                if (!blackWiningMoves.Any(m => m.X == possibleMove.X && m.Y == possibleMove.Y) && !whiteWiningMoves.Any(m => m.X == possibleMove.X && m.Y == possibleMove.Y))
+                {
+                    whitePossibleMoves.Add(possibleMove);
+                    whitePossibleMoves.Last().Player = Player.White;
+                }
+            }
+            _engine.StopAsync();
+            var whiteMove = 0;
+
+            _engine.MakeMove(blackWiningMoves[0]);
+            if (_engine.GetMoveSync() != blackWiningMoves[0])
+                return false;
+
+            //we skipped move blackWiningMoves[1] for now
+            for (ulong blackMove = 2; blackMove < engineParameters.K+1; blackMove++)
+            {
+
+                while (_engine.GetCurrentPlayer() != Player.Black)
+                {
+                    if (whiteMove < (int) engineParameters.K-1)
+                    {
+                        _engine.MakeMove(whiteWiningMoves[whiteMove]);
+                        var retMove = _engine.GetMoveSync();
+
+                        if (retMove != whiteWiningMoves[whiteMove])
+                            return false;
+                    }
+                    else
+                    {
+                        _engine.MakeMove(whitePossibleMoves[whiteMove - (int) engineParameters.K+1]);
+                        var retMove = _engine.GetMoveSync();
+
+                        if (retMove != whitePossibleMoves[whiteMove - (int)engineParameters.K+1])
+                            return false;
+                    }
+                    whiteMove++;
+                }
+
+                _engine.MakeMove(blackWiningMoves[(int)blackMove]);
+                if (_engine.GetMoveSync() != blackWiningMoves[(int)blackMove])
+                    return false;
+            }
+
+            _engine.MakeMove(blackWiningMoves[1]);
+            if (_engine.GetMoveSync() != blackWiningMoves[1])
+                return false;
+
+            if (engineParameters.WinCondition == WinCondition.K_OR_MORE_TO_WIN)
+                return _engine.GetGameStateSync() == GameState.WinnerIsBlack;
+            else if (engineParameters.WinCondition == WinCondition.EXACTLY_K_TO_WIN)
+            {
+                _engine.MakeMove(whiteWiningMoves[(int)engineParameters.K-1]);
+                var retMove = _engine.GetMoveSync();
+
+                if (retMove != whiteWiningMoves[(int)engineParameters.K - 1])
+                    return false;
+                return _engine.GetGameStateSync() == GameState.WinnerIsWhite;
+            }
+            return false;
+        }
+
+        private List<Move> WiningMovesFromEnd(ulong count, Player player)
+        {
+            var winingMoves = new List<Move>();
+
+            for (ulong i = 0; i < count; i++)
+            {
+                if (count <= engineParameters.N)
+                    winingMoves.Add(new Move((byte) (engineParameters.N - i), (byte) engineParameters.M)
+                    {
+                        Player = player
+                    });
+                else if (count <= engineParameters.M)
+                    winingMoves.Add(new Move((byte) (engineParameters.N), (byte) (engineParameters.M - i))
+                    {
+                        Player = player
+                    });
+            }
+            return winingMoves;
+        }
+
+        private List<Move> WiningMovesFromStart(ulong count, Player player)
+        {
+            var winingMoves = new List<Move>();
+
+            for (ulong i = 0; i < count; i++)
+            {
+                if (count <= engineParameters.N)
+                    winingMoves.Add(new Move((byte)(i), 0)
+                    {
+                        Player = player
+                    });
+                else if (count <= engineParameters.M)
+                    winingMoves.Add(new Move(0, (byte)(i))
+                    {
+                        Player = player
+                    });
+            }
+            return winingMoves;
+        }
 
         public bool FirstTurnHumanVsHumanMovesTest()
         {
@@ -238,6 +340,7 @@ namespace _m_n_k_p_q_EnginesAnalyzer
             return true;
         }
 
+
        public bool FirstTurnAiVsHumanMovesTest()
         {
             _engine.StopAsync();
@@ -267,6 +370,27 @@ namespace _m_n_k_p_q_EnginesAnalyzer
                 var returnedMove = _engine.GetMoveSync();
                 if (move != returnedMove)
                     return false;
+            }
+            return true;
+        }
+
+
+        //checks if AIs are making right moves in first phase of the game
+        public bool FirstTurnAiVsAiMovesTest()
+        {
+            _engine.StopAsync();
+
+            var movesMade = new List<Move>();
+            _engine.StartGame(GameType.TwoAIs);
+
+
+            //ai's two turns
+            for (ulong i = 0; i < engineParameters.Q+engineParameters.P; i++)
+            {
+                var aiMove = _engine.GetMoveSync();
+                if (movesMade.Count > 0 && !movesMade.Any(m => m.IsAdjacent(aiMove)))
+                    return false;
+                movesMade.Add(aiMove);
             }
             return true;
         }

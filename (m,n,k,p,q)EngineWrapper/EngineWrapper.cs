@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -38,11 +39,12 @@ namespace _m_n_k_p_q_EngineWrapper
 
         public string GetLine()
         {
-            while (_messages.Count==0)//(_lastLine == null)
+            string ret;
+            while (!_messages.TryDequeue(out ret))//(_lastLine == null)
             {
                 Thread.Sleep(20);
             }
-            var ret = _messages.Dequeue();//lastLine;
+          //  var ret = ;//lastLine;
             //_lastLine = null;
 
             return ret;
@@ -93,7 +95,7 @@ namespace _m_n_k_p_q_EngineWrapper
             //    throw new Exception($"Engine didnt exit properly {response}");
         }
 
-        private readonly Queue<string> _messages = new Queue<string>();
+        private ConcurrentQueue<string> _messages = new ConcurrentQueue<string>();
 
 
         public void CallbackHandler(string message)
@@ -222,6 +224,8 @@ namespace _m_n_k_p_q_EngineWrapper
         private bool _gameOver = false;
         public void StartGame(GameType gameType)
         {
+            _messages = new ConcurrentQueue<string>();/////////////////???????????????????????????????????????
+
             var restoreAsync = false;
             if (_mode == WrapperMode.Async)
             {
