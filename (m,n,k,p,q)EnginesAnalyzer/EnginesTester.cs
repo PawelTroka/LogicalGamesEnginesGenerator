@@ -1,8 +1,10 @@
 ﻿// (m,n,k,p,q)EnginesAnalyzer Copyright © 2016 - 2016 Pawel Troka
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using _m_n_k_p_q_EngineWrapper;
 
@@ -60,10 +62,15 @@ namespace _m_n_k_p_q_EnginesAnalyzer
                     engine.Run();
 
                     var correctnessTests = (new CorrectnessTests(engine));
-                    var result = correctnessTests.FirstTurnHumanVsHumanMovesTest();
+
+                    foreach (var correctnessTest in correctnessTests.GetTests())
+                    {
+                        var result = (bool)correctnessTest.Invoke(correctnessTests, null);
+                        _progressHandler.Report($"  {correctnessTest.Name} - {(result ? "Succes!" : "failed...")}--{Environment.NewLine}");
+                    }
 
 
-                   _progressHandler.Report($"  {nameof(correctnessTests.FirstTurnHumanVsHumanMovesTest)} - {(result ?  "Succes!" : "failed...")}--{Environment.NewLine}");
+
                 }
             }
         }
@@ -84,15 +91,29 @@ namespace _m_n_k_p_q_EnginesAnalyzer
             new Move(1,1),new Move(1,2),new Move(2,1),new Move(2,2),new Move(2,3),new Move(3,2),new Move(3,3),       
         };
 
+        private EngineParameters engineParameters;
+
         public CorrectnessTests(EngineWrapper engine)
         {
             _engine = engine;
+            engineParameters = _engine.GetEngineInfo();
+        }
+
+        public IEnumerable<MethodInfo> GetTests()
+        {
+            var methods = this.GetType().GetMethods();
+            foreach (var methodInfo in methods)
+            {
+                if (!methodInfo.IsConstructor && !methodInfo.IsAbstract && !methodInfo.GetParameters().Any() &&
+                    methodInfo.ReturnType == typeof(bool))
+                {
+                    yield return methodInfo;
+                }
+            }
         }
 
         public bool FirstTurnHumanVsHumanMovesTest()
         {
-            var engineParameters = _engine.GetEngineInfo();
-
             _engine.StartGame(GameType.TwoHumans);
             _engine.StopAsync();
 
@@ -104,6 +125,38 @@ namespace _m_n_k_p_q_EnginesAnalyzer
                 if (move != returnedMove)
                     return false;
             }
+
+            return true;
+
+        }
+
+        public bool FirstTurnHumanVsAiMovesTest()
+        {
+            _engine.StartGame(GameType.BlackHumanVsWhiteAi);
+            _engine.StopAsync();
+
+            var movesMade = new List<Move>();
+
+            //human's turn
+            for (ulong i = 0; i < engineParameters.Q; i++)
+            {
+                var move = new Move(possibleMoves[i].X, possibleMoves[i].Y) { Player = Player.Black };
+                _engine.MakeMove(move);
+                var returnedMove = _engine.GetMoveSync();
+                if (move != returnedMove)
+                    return false;
+                movesMade.Add(returnedMove);
+            }
+
+            //ai's turn
+            for (ulong i = 0; i < engineParameters.P; i++)
+            {
+                var aiMove = _engine.GetMoveSync();
+                if (!movesMade.Any(m => m.IsAdjacent(aiMove)))
+                    return false;
+                movesMade.Add(aiMove);
+            }
+
 
             return true;
 

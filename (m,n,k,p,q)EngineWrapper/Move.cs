@@ -48,6 +48,12 @@ namespace _m_n_k_p_q_EngineWrapper
             //this.Player = player;
         }
 
+        public bool IsAdjacent(Move move)
+        {
+            // ReSharper disable once RedundantCast
+            return Math.Abs((int)this.X - (int)move.X) <= 1 && Math.Abs((int)this.Y - (int)move.Y) <= 1;
+        }
+
         public byte X { get; set; }
         public byte Y { get; set; }
 
