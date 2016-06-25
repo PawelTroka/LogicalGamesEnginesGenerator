@@ -238,16 +238,16 @@ namespace _m_n_k_p_q_EnginesAnalyzer
             return true;
         }
 
-      /*  public bool FirstTurnAiVsHumanMovesTest()
+       public bool FirstTurnAiVsHumanMovesTest()
         {
             _engine.StopAsync();
-            _engine.StartGame(GameType.BlackAIvsWhiteHuman, true);
-
 
             var movesMade = new List<Move>();
 
 
             var movesAvalaible = possibleMoves.ToList();
+            _engine.StartGame(GameType.BlackAIvsWhiteHuman);
+
 
             //ai's turn
             for (ulong i = 0; i < engineParameters.Q; i++)
@@ -269,7 +269,7 @@ namespace _m_n_k_p_q_EnginesAnalyzer
                     return false;
             }
             return true;
-        }*/
+        }
 
     }
 }

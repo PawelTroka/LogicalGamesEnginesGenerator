@@ -10,13 +10,6 @@ using System.Threading.Tasks;
 
 namespace _m_n_k_p_q_EngineWrapper
 {
-
-    public enum WrapperMode
-    {
-        Async,
-        Sync,
-        ForcedSync,
-    }
     public class EngineWrapper : IDisposable //TODO: handle duration callbacks
     {
         private readonly ProcessInBackground _engine;
@@ -31,27 +24,26 @@ namespace _m_n_k_p_q_EngineWrapper
         private WrapperMode _mode=WrapperMode.Async;
 
         public void StopAsync()
-        {
-            
+        {        
             _mode=WrapperMode.Sync;
         //    _lastLine = null;//??????????????????????
         }
 
-        private void StartAsync()
+        public void StartAsync()
         {
             _mode = WrapperMode.Async;
         }
 
-        private string _lastLine = null;
+      //  private string _lastLine = null;
 
         public string GetLine()
         {
-            while (_lastLine == null)
+            while (_messages.Count==0)//(_lastLine == null)
             {
-                
+                Thread.Sleep(20);
             }
-            var ret = _lastLine;
-            _lastLine = null;
+            var ret = _messages.Dequeue();//lastLine;
+            //_lastLine = null;
 
             return ret;
         }
@@ -72,11 +64,9 @@ namespace _m_n_k_p_q_EngineWrapper
         public Move GetMoveSync()
         {
             StopAsync();
-            var line = GetLine();
             Move move;
-            while (!Move.TryParse(line, out move))
+            while (!Move.TryParse(GetLine(), out move))
             {
-                line = GetLine();
             }
             return move;
         }
@@ -95,12 +85,15 @@ namespace _m_n_k_p_q_EngineWrapper
         {
             StopAsync();
             _engine.Send("quit");
-            var response = GetLine();//TODO: fix code below
-          //  if(!response.ToLowerInvariant().Contains("has exited"))
+            //var response = GetLine();
+            while (!GetLine().ToLowerInvariant().Contains("has exited"))
+            {
+                
+            }
             //    throw new Exception($"Engine didnt exit properly {response}");
         }
 
-
+        private readonly Queue<string> _messages = new Queue<string>();
 
 
         public void CallbackHandler(string message)
@@ -109,11 +102,12 @@ namespace _m_n_k_p_q_EngineWrapper
 
             if (_mode == WrapperMode.Sync)
             {
-                while (_lastLine != null)
+                _messages.Enqueue(message);
+                /*while (_lastLine != null)
                 {
 
                 }
-                _lastLine = message;
+                _lastLine = message;*/
             }
             else
             {
@@ -139,7 +133,13 @@ namespace _m_n_k_p_q_EngineWrapper
         
         public EngineParameters GetEngineInfo()
         {
-            StopAsync();
+            var restoreAsync = false;
+            if (_mode == WrapperMode.Async)
+            {
+                restoreAsync = true;
+                StopAsync();
+            }
+
             _engine.Send("info");
             var info = GetLine();
 
@@ -147,7 +147,8 @@ namespace _m_n_k_p_q_EngineWrapper
 
             if (EngineParameters.TryParse(info, out engineParameters))
             {
-                StartAsync();
+                if(restoreAsync)
+                    StartAsync();
                 return engineParameters;
             }
              throw new Exception($"engine info wrong {info}");
@@ -161,23 +162,35 @@ namespace _m_n_k_p_q_EngineWrapper
 
         public Player GetCurrentPlayer()
         {
-           //////////////////////////////////////////// StopAsync();
+            var restoreAsync = false;
+            if (_mode == WrapperMode.Async)
+            {
+                restoreAsync = true;
+                StopAsync();
+            }
             _engine.Send("getplayer");
             Player player;
 
             while (!PlayerExtensions.TryParse(GetLine(), out player))
             {
             }
-            /////////////////////////////////////StartAsync();
-                return player;
+
+            if(restoreAsync)
+                StartAsync();
+
+            return player;
             
             throw new Exception("GetCurrentPlayer() failed");
         }
 
         public PerformanceInformation GetPerformanceInformation()
         {
-            StopAsync();
-
+            var restoreAsync = false;
+            if (_mode == WrapperMode.Async)
+            {
+                restoreAsync = true;
+                StopAsync();
+            }
             _engine.Send("perf");
             var perf1 = GetLine();
             var perf2 = GetLine();
@@ -186,6 +199,7 @@ namespace _m_n_k_p_q_EngineWrapper
 
             if (PerformanceInformation.TryParse(perf1 + perf2, out pi))
             {
+                if(restoreAsync)
                 StartAsync();
                 return pi;
             }
@@ -206,9 +220,15 @@ namespace _m_n_k_p_q_EngineWrapper
         }
 
         private bool _gameOver = false;
-        public void StartGame(GameType gameType, bool sync=false)
+        public void StartGame(GameType gameType)
         {
-            StopAsync();
+            var restoreAsync = false;
+            if (_mode == WrapperMode.Async)
+            {
+                restoreAsync = true;
+                StopAsync();
+            }
+
             _gameOver = false;
 
             switch (gameType)
@@ -231,8 +251,9 @@ namespace _m_n_k_p_q_EngineWrapper
             while(!GetLine().Contains("game started"))
                 //throw new Exception($"StartGame failed for {gameType}");
             _gameStateChangedCallback?.Invoke(GameState.Started);
-            if(!sync)
-            StartAsync();
+
+            if (!restoreAsync)
+                StartAsync();
         }
 
         public void Dispose()
