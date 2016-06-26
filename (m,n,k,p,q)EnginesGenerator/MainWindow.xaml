@@ -8,8 +8,12 @@
         xmlns:mNkpqEnginesGenerator="clr-namespace:_m_n_k_p_q_EngineWrapper;assembly=m_n_k_p_q_EngineWrapper"
         x:Class="m_n_k_p_q_EnginesGenerator.MainWindow"
         mc:Ignorable="d"
-        Title="(m,n,k,p,q)EnginesGenerator v1.0.0 © Pawel Troka" Height="746" Width="700">
+        Title="(m,n,k,p,q)EnginesGenerator v1.0.0 © Pawel Troka" Height="800" Width="700">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="400"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
         <GroupBox x:Name="groupBox" Header="Wining condition" HorizontalAlignment="Left" Margin="366,14,0,0" VerticalAlignment="Top" Height="101" Width="164">
             <Grid>
                 <xctk:LongUpDown x:Name="kLongUpDown" Minimum="1" Value="19" HorizontalAlignment="Left" Margin="47,16,0,0" VerticalAlignment="Top" Width="103"/>
@@ -69,8 +73,8 @@
         </ComboBox>
         <Label x:Name="label2" Content="Path to MSBuild.exe:" HorizontalAlignment="Left" Margin="17,124,0,0" VerticalAlignment="Top"/>
         <Button x:Name="button1" Content="Change path..." HorizontalAlignment="Left" Margin="543,155,0,0" VerticalAlignment="Top" Width="139" Height="23" Click="button1_Click"/>
-        <TextBox x:Name="outputTextBox" VerticalScrollBarVisibility="Auto" IsReadOnly="True" IsReadOnlyCaretVisible="False" HorizontalAlignment="Left" Height="302" Margin="10,403,0,0" TextWrapping="Wrap" AcceptsReturn="True" Text="" VerticalAlignment="Top" Width="672" FontFamily="Consolas" FontSize="16"/>
-        <Label x:Name="label4" Content="Output:" HorizontalAlignment="Left" Margin="10,372,0,0" VerticalAlignment="Top"/>
+        <TextBox Grid.Row="1" x:Name="outputTextBox" Margin="10 30 10 10" VerticalScrollBarVisibility="Auto" IsReadOnly="True" IsReadOnlyCaretVisible="False" TextWrapping="Wrap" AcceptsReturn="True" Text="" FontFamily="Consolas" FontSize="16"/>
+        <Label x:Name="label4" Content="Output:" HorizontalAlignment="Left" Grid.Row="1" Margin="10 2 10 10"  VerticalAlignment="Top"/>
         <Button x:Name="button2" Content="Generate" HorizontalAlignment="Left" Margin="569,295,0,0" VerticalAlignment="Top" Width="113" Click="button2_Click"/>
         <Button x:Name="button2_Copy" Content="Run" HorizontalAlignment="Left" Margin="451,295,0,0" VerticalAlignment="Top" Width="113" Click="button2_Copy_Click"/>
         <Label x:Name="label5" Content="Flags:" HorizontalAlignment="Left" Margin="17,183,0,0" VerticalAlignment="Top"/>

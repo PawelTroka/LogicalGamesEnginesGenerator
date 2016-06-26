@@ -2,80 +2,15 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Windows;
-using System.Windows.Markup;
 using Microsoft.Build.Utilities;
 using Microsoft.Practices.Unity;
 using _m_n_k_p_q_EngineWrapper;
-
+using System.Threading.Tasks;
+using Task = System.Threading.Tasks.Task;
 
 namespace m_n_k_p_q_EnginesGenerator
 {
-
-    public class EnumerationExtension : MarkupExtension
-    {
-        private Type _enumType;
-
-
-        public EnumerationExtension(Type enumType)
-        {
-            if (enumType == null)
-                throw new ArgumentNullException("enumType");
-
-            EnumType = enumType;
-        }
-
-        public Type EnumType
-        {
-            get { return _enumType; }
-            private set
-            {
-                if (_enumType == value)
-                    return;
-
-                var enumType = Nullable.GetUnderlyingType(value) ?? value;
-
-                if (enumType.IsEnum == false)
-                    throw new ArgumentException("Type must be an Enum.");
-
-                _enumType = value;
-            }
-        }
-
-        public override object ProvideValue(IServiceProvider serviceProvider)
-        {
-            var enumValues = Enum.GetValues(EnumType);
-
-            return (
-              from object enumValue in enumValues
-              select new EnumerationMember
-              {
-                  Value = enumValue,
-                  Description = GetDescription(enumValue)
-              }).ToArray();
-        }
-
-        private string GetDescription(object enumValue)
-        {
-            var descriptionAttribute = EnumType
-              .GetField(enumValue.ToString())
-              .GetCustomAttributes(typeof(DescriptionAttribute), false)
-              .FirstOrDefault() as DescriptionAttribute;
-
-
-            return descriptionAttribute != null
-              ? descriptionAttribute.Description
-              : enumValue.ToString();
-        }
-
-        public class EnumerationMember
-        {
-            public string Description { get; set; }
-            public object Value { get; set; }
-        }
-    }
-
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -94,8 +29,10 @@ namespace m_n_k_p_q_EnginesGenerator
                 System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location),"GeneratedEngines");
         }
 
-        private void button2_Click(object sender, RoutedEventArgs e)
+        private async void button2_Click(object sender, RoutedEventArgs e)
         {
+            button2.IsEnabled = false;
+
             var engineParameters = new EngineParameters()
             {
                 K= (ulong)kLongUpDown.Value,
@@ -105,8 +42,12 @@ namespace m_n_k_p_q_EnginesGenerator
                 Q=(ulong)qLongUpDown.Value,
                 WinCondition = (WinCondition)winingConditionComboBox.SelectedIndex,
             };
+            var compilerPath = msbuildPathTextBox.Text;
+            var outputDir = msbuildPathTextBox_Copy.Text;
+            var flags = flagsTextBox.Text;
 
-            _generator.GenerateEngine(msbuildPathTextBox.Text, msbuildPathTextBox_Copy.Text, flagsTextBox.Text, engineParameters);
+            await Task.Run(()=> _generator.GenerateEngine(compilerPath, outputDir, flags, engineParameters));
+            button2.IsEnabled = true;
         }
 
         private void button2_Copy_Click(object sender, RoutedEventArgs e)

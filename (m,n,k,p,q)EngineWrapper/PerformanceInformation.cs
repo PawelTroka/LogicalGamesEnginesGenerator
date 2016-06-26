@@ -3,55 +3,63 @@ using System.Text.RegularExpressions;
 
 namespace _m_n_k_p_q_EngineWrapper
 {
-    public class PerformanceInformation
+    public struct ValueWithUnit
     {
-        public PerformanceInformation() { }
-        public PerformanceInformation(double averageAiGetMoveExecution, double averageCheckWinExecution, string aiGetMoveExecutionUnit, string checkWinExecutionUnit)
+        public ValueWithUnit(double value, string unit)
         {
-            AverageAiGetMoveExecution = averageAiGetMoveExecution;
-            AverageCheckWinExecution = averageCheckWinExecution;
-            AiGetMoveExecutionUnit = aiGetMoveExecutionUnit;
-            CheckWinExecutionUnit = checkWinExecutionUnit;
+            Value = value;
+            Unit = unit;
         }
 
-        private static readonly Regex AiGetMovePerfCallbackRegex = new Regex(@".*ai.*move.+?(\d+(?:.|,)?\d*)\s*(\w*)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        public double Value { get; }
+        public string Unit { get; }
 
-        private static readonly Regex GameCheckWinPerfCallbackRegex = new Regex(@".*check.*win.+?(\d+(?:.|,)?\d*)\s*(\w*)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        public override string ToString()
+        {
+            return $"{Value} {Unit}";
+        }
+    }
+    public class PerformanceInformation
+    {
+        private static readonly Regex AiGetMovePerfCallbackRegex = new Regex(@".*ai.+?move.+?(\d+(?:\.|,)?\d*)\s*(\w*)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+        private static readonly Regex GameCheckWinPerfCallbackRegex = new Regex(@".*checkwin.+?(\d+(?:\.|,)?\d*)\s*(\w*)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex GameGetMovesPerfCallbackRegex = new Regex(@".*getmoves.+?(\d+(?:\.|,)?\d*)\s*(\w*)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
 
 
         public static bool TryParse(string str, out PerformanceInformation pi)
         {
             pi = new PerformanceInformation();
+
             var match = AiGetMovePerfCallbackRegex.Match(str);
-            if (match.Success)
-            {
-                pi.AverageAiGetMoveExecution = double.Parse(match.Groups[1].Value.Replace(",", "."),
-                    CultureInfo.InvariantCulture);
-                pi.AiGetMoveExecutionUnit = match.Groups[2].Value;
-            }
+            if (!match.Success) return false;
+            pi.AverageAiGetMoveExecution = new ValueWithUnit(double.Parse(match.Groups[1].Value.Replace(",", "."),
+                CultureInfo.InvariantCulture), match.Groups[2].Value);
 
             match = GameCheckWinPerfCallbackRegex.Match(str);
-            if (match.Success)
-            {
-                pi.AverageCheckWinExecution = double.Parse(match.Groups[1].Value.Replace(",", "."),
-                    CultureInfo.InvariantCulture);
-                pi.CheckWinExecutionUnit = match.Groups[2].Value;
-                return true;
-            }
-            return false;
+            if (!match.Success) return false;
+            pi.AverageCheckWinExecution = new ValueWithUnit(double.Parse(match.Groups[1].Value.Replace(",", "."),
+                CultureInfo.InvariantCulture), match.Groups[2].Value);
+
+            match = GameGetMovesPerfCallbackRegex.Match(str);
+            if (!match.Success) return false;
+            pi.AverageGetMovesExecution = new ValueWithUnit(double.Parse(match.Groups[1].Value.Replace(",", "."),
+                CultureInfo.InvariantCulture), match.Groups[2].Value);
+
+            return true;
         }
 
-        public double AverageAiGetMoveExecution { get; set; }
-        public string AiGetMoveExecutionUnit { get; set; }
-        public double AverageCheckWinExecution { get; set; }
-
-        public string CheckWinExecutionUnit { get; set; }
+        public ValueWithUnit AverageAiGetMoveExecution { get; set; }
+        public ValueWithUnit AverageCheckWinExecution { get; set; }
+        public ValueWithUnit AverageGetMovesExecution { get; set; }
 
 
         public override string ToString()
         {
-            return $@"AIPlayer::GetMove() average execution time is {AverageAiGetMoveExecution}{AiGetMoveExecutionUnit}
-Game::CheckWin() average execution time is {AverageCheckWinExecution}{CheckWinExecutionUnit}";
+            return $@"AIPlayer::GetMove() average execution time is {AverageAiGetMoveExecution}
+Game::CheckWin() average execution time is {AverageCheckWinExecution}
+Game::GetMoves() average execution time is {AverageGetMovesExecution}";
         }
     }
 }

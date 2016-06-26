@@ -73,6 +73,42 @@ namespace _m_n_k_p_q_EngineWrapper
             return move;
         }
 
+
+        private static readonly Regex GetMovesRegex = new Regex(@"\s*moves:\s*");
+        private static readonly Regex MoveFromGetMovesRegex = new Regex(@"\s*\(\s*(\d+)\s+(\d+)\s*\)\s*");
+
+        public IEnumerable<Move> GetMovesSync()
+        {
+            var restoreAsync = false;
+            if (_mode == WrapperMode.Async)
+            {
+                restoreAsync = true;
+                StopAsync();
+            }
+            _engine.Send("getmoves");
+
+
+            string line = "";
+
+            while (!GetMovesRegex.IsMatch(line))
+            {
+                line = GetLine();
+            }
+
+            var moves = new List<Move>();
+
+            var match = MoveFromGetMovesRegex.Match(line);
+            while (match.Success)
+            {
+                moves.Add(new Move(byte.Parse(match.Groups[1].Value), byte.Parse(match.Groups[2].Value)));
+                match=match.NextMatch();
+            }
+
+            if (restoreAsync)
+                StartAsync();
+            return moves;
+        }
+
         public string EngineName { get; }
 
         public EngineWrapper(string path, Action<GameState> gameStateChangedCallback, Action<Move> moveMadeCallback)
@@ -188,6 +224,8 @@ namespace _m_n_k_p_q_EngineWrapper
             throw new Exception("GetCurrentPlayer() failed");
         }
 
+
+
         public PerformanceInformation GetPerformanceInformation()
         {
             var restoreAsync = false;
@@ -197,18 +235,18 @@ namespace _m_n_k_p_q_EngineWrapper
                 StopAsync();
             }
             _engine.Send("perf");
-            var perf1 = GetLine();
-            var perf2 = GetLine();
+            var perf = GetLine() + GetLine() + GetLine();
+
 
             PerformanceInformation pi;
 
-            if (PerformanceInformation.TryParse(perf1 + perf2, out pi))
+            if (PerformanceInformation.TryParse(perf, out pi))
             {
                 if(restoreAsync)
                 StartAsync();
                 return pi;
             }
-            throw  new Exception($"GetPerformanceInformation failed for {perf1} and {perf2}");
+            throw  new Exception($"GetPerformanceInformation failed for {perf}");
         }
 
         public void MakeMove(Move move)
