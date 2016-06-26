@@ -18,15 +18,13 @@ namespace m_n_k_p_q_EnginesGenerator
     public partial class MainWindow : Window
     {
 
-        private EnginesGenerator _generator;
-
-
+        private readonly EnginesGenerator _generator;
 
         public MainWindow()
         {
             InitializeComponent();
             _generator = new EnginesGenerator(async (s) => await Dispatcher.InvokeAsync(() => outputTextBox.AppendText(s + Environment.NewLine)));
-            msbuildPathTextBox_Copy.Text = Path.Combine(
+            outputPathTextBox.Text = Path.Combine(
                 System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location),"GeneratedEngines");
 
             foreach (EngineScheme value in Enum.GetValues(typeof(EngineScheme)))
@@ -40,17 +38,17 @@ namespace m_n_k_p_q_EnginesGenerator
             batchGenerationListBox.Items.Add(new EngineParameters(5, 13, 4, 1, 1, WinCondition.K_OR_MORE_TO_WIN));
         }
 
-        private async void button2_Click(object sender, RoutedEventArgs e)
+        private async void generateButton_Click(object sender, RoutedEventArgs e)
         {
-            button2.IsEnabled = false;
+            generateButton.IsEnabled = false;
 
             var engineParameters = GetEngineParametersFromUI();
             var compilerPath = msbuildPathTextBox.Text;
-            var outputDir = msbuildPathTextBox_Copy.Text;
+            var outputDir = outputPathTextBox.Text;
             var flags = flagsTextBox.Text;
 
             await Task.Run(()=> _generator.GenerateEngine(compilerPath, outputDir, flags, engineParameters));
-            button2.IsEnabled = true;
+            generateButton.IsEnabled = true;
         }
 
         private EngineParameters GetEngineParametersFromUI()
@@ -67,21 +65,21 @@ namespace m_n_k_p_q_EnginesGenerator
             return engineParameters;
         }
 
-        private void button2_Copy_Click(object sender, RoutedEventArgs e)
+        private void runGeneratedEngineButton_Click(object sender, RoutedEventArgs e)
         {
            // _generator.GenerateEngine(msbuildPathTextBox.Text, flagsTextBox.Text);
             _generator.RunEngine();
         }
 
-        private void Button2_Copy1_OnClick(object sender, RoutedEventArgs e)
+        private void sendInputButton_OnClick(object sender, RoutedEventArgs e)
         {
             _generator.SendCommand(inputTextBox.Text);
         }
 
-        private void button_Click(object sender, RoutedEventArgs e)
+        private void loadEngineSchemeButton_Click(object sender, RoutedEventArgs e)
         {
             //load scheme
-            var engineScheme = (EngineScheme) comboBox1.SelectedIndex;
+            var engineScheme = (EngineScheme) engineSchemeComboBox.SelectedIndex;
             var engineParameters = engineScheme.ToEngineParameters();
 
             kLongUpDown.Value = (long)engineParameters.K;
@@ -92,27 +90,27 @@ namespace m_n_k_p_q_EnginesGenerator
             winingConditionComboBox.SelectedValue = engineParameters.WinCondition;
         }
 
-        private void Button2_Copy2_OnClick(object sender, RoutedEventArgs e)
+        private void cleanOutputButton_OnClick(object sender, RoutedEventArgs e)
         {
             _generator.CleanOutput(msbuildPathTextBox.Text);
         }
 
-        private void button1_Copy_Click(object sender, RoutedEventArgs e)
+        private void openEnginesDirectoryButton_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start(msbuildPathTextBox_Copy.Text);
+            Process.Start(outputPathTextBox.Text);
         }
 
-        private void Button1_Copy_OnClick(object sender, RoutedEventArgs e)
+        private void changeEnginesOutputDirectoryButton_OnClick(object sender, RoutedEventArgs e)
         {
-            var dialog = new System.Windows.Forms.FolderBrowserDialog() {SelectedPath = msbuildPathTextBox_Copy.Text,ShowNewFolderButton = true};
+            var dialog = new System.Windows.Forms.FolderBrowserDialog() {SelectedPath = outputPathTextBox.Text,ShowNewFolderButton = true};
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                msbuildPathTextBox_Copy.Text = dialog.SelectedPath;
+                outputPathTextBox.Text = dialog.SelectedPath;
             }
 
         }
 
-        private void button1_Click(object sender, RoutedEventArgs e)
+        private void changeCompilerPathButton_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new System.Windows.Forms.OpenFileDialog();//{ CheckPathExists = true,InitialDirectory = msbuildPathTextBox.Text,  DefaultExt = "exe",FileName = msbuildPathTextBox.Text };
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -132,7 +130,7 @@ namespace m_n_k_p_q_EnginesGenerator
             batchGenerateButton.IsEnabled = false;
 
             var compilerPath = msbuildPathTextBox.Text;
-            var outputDir = msbuildPathTextBox_Copy.Text;
+            var outputDir = outputPathTextBox.Text;
             var flags = flagsTextBox.Text;
             var engineParameters = batchGenerationListBox.Items.Cast<EngineParameters>();
 
