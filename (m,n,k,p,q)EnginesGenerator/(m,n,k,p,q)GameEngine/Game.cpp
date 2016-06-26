@@ -48,7 +48,22 @@ bool Game::MakeMove(coord x, coord y)
 }
 
 
+Move* Game::GetMoves() const
+{
+	auto moves = new Move[BOARD_SIZE - movesMade];
+	auto i = 0;
+	for (coord y = 0; y < board.Height(); y++)
+		for (coord x = 0; x < board.Width(); x++)
+			if (board.IsEmpty(x, y))
+			{
+				Move m;
+				m.x = x;
+				m.y = y;
+				moves[i++] = m;
+			}
 
+	return moves;
+}
 
 bool Game::GetMove()
 {
@@ -74,7 +89,7 @@ bool Game::GetMove()
 
 		auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(t2 - t1).count();
 		
-		aiGetMoveTimesInMicroseconds.push_back(duration);
+		aiGetMoveTimes.push_back(duration);
 		
 		////////////////////sync_cout << "aiPlayer.GetMove() duration is " << duration <<"microseconds"<< sync_endl;
 
@@ -130,7 +145,7 @@ bool Game::CheckGameEnd(coord x, coord y)
 	
 	auto t2 = std::chrono::high_resolution_clock::now();
 	auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(t2 - t1).count();
-	checkGameEndTimesInMicroseconds.push_back(duration);
+	checkGameEndTimes.push_back(duration);
 
 /////////////////	sync_cout << "CheckWin() duration is " << duration << "microseconds" << sync_endl;
 
@@ -237,8 +252,9 @@ void Game::GameLoop(int argc, char* argv[])
 		else if (token == "isready") sync_cout << "readyok" << sync_endl;
 		else if (token == "perf")
 		{
-			sync_cout << "average AIPlayer::GetMove() execution is " << std::accumulate(aiGetMoveTimesInMicroseconds.begin(), aiGetMoveTimesInMicroseconds.end(), 0.0) / aiGetMoveTimesInMicroseconds.size() << " ns " << sync_endl;
-			sync_cout << "average Game::CheckWin() execution is " << std::accumulate(checkGameEndTimesInMicroseconds.begin(), checkGameEndTimesInMicroseconds.end(), 0.0) / checkGameEndTimesInMicroseconds.size() << " ns " << sync_endl;
+			sync_cout << "average AIPlayer::GetMove() execution is " << std::accumulate(aiGetMoveTimes.begin(), aiGetMoveTimes.end(), 0.0) / aiGetMoveTimes.size() << " ns " << sync_endl;
+			sync_cout << "average Game::CheckWin() execution is " << std::accumulate(checkGameEndTimes.begin(), checkGameEndTimes.end(), 0.0) / checkGameEndTimes.size() << " ns " << sync_endl;
+			sync_cout << "average Game::GetMoves() execution is " << std::accumulate(getMovesTimes.begin(), getMovesTimes.end(), 0.0) / getMovesTimes.size() << " ns " << sync_endl;
 		}
 		else if (token == "printboard")
 		{
@@ -290,6 +306,24 @@ void Game::GameLoop(int argc, char* argv[])
 		else if (token == "getplayer" && gameStarted)
 		{
 				sync_cout << (currentColor == Color::Black ? "black" : currentColor==Color::White ? "white" : "none") << sync_endl;
+		}
+		else if (token == "getmoves" && gameStarted)
+		{
+			auto t1 = std::chrono::high_resolution_clock::now();
+			auto moves = GetMoves();
+			auto t2 = std::chrono::high_resolution_clock::now();
+			auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(t2 - t1).count();
+
+			getMovesTimes.push_back(duration);
+
+			sync_cout << "moves:";
+
+			for (arrayIndex_t i=0;i<BOARD_SIZE-movesMade;i++)
+			sync_cout << " ("<<std::to_string(moves[i].x+1)<<" "<<std::to_string(moves[i].y+1)<<")";
+
+			delete[] moves;
+
+			sync_cout << sync_endl;
 		}
 		else if (token == "movesleft" && gameStarted)
 		{
