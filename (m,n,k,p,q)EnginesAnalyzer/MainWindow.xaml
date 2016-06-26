@@ -8,22 +8,38 @@
         xmlns:xcdg="http://schemas.xceed.com/wpf/xaml/datagrid"
         x:Class="_m_n_k_p_q_EnginesAnalyzer.MainWindow"
         mc:Ignorable="d"
-        Title="(m,n,k,p,q)EnginesAnalyzer v1.0.0 © Pawel Troka" Height="700" Width="700">
+        Title="(m,n,k,p,q)EnginesAnalyzer v1.0.0 © Pawel Troka" Height="700" Width="700" FontSize="14">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="200"/>
+            <RowDefinition Height="110"/>
+            <RowDefinition Height="110"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        <GroupBox Margin="5 5 5 5" Grid.Row="0" Header="Engines directory">
+            <Grid>
+                <TextBox x:Name="enginesDirectoryTextBox"  Height="24"  Margin="17,38,150,0" Text="" VerticalAlignment="Top" />
+                <Button x:Name="changeDirectoryButton" Content="Change directory..." HorizontalAlignment="Right" Margin="0,38,5,0" VerticalAlignment="Top" Width="139" Height="24" Click="changeDirectoryButton_OnClick"/>
+                <Button x:Name="openDirectoryButton" Content="Open directory" HorizontalAlignment="Right" Margin="0,10,5,0" VerticalAlignment="Top" Width="139" Height="24" Click="openDirectoryButton_Click"/>
+            </Grid>
+            </GroupBox>
+        
+        <TabControl Grid.Row="1" Margin="5 5 5 5">
+            <TabItem Header="Performance">
+<Grid>
+                    <Button x:Name="runPerformanceTestsButton" Content="Run performance tests..." HorizontalAlignment="Right" Margin="0,13,10,0" VerticalAlignment="Top" Width="305" Height="46" FontSize="20" Click="runPerformanceTestsButton_Click"/>
+                 <xctk:LongUpDown x:Name="iterationsLongUpDown" Minimum="1" Value="100" HorizontalAlignment="Left" Margin="174,23,0,0" VerticalAlignment="Top" Width="56"/>
+                    <Label  Content="Number of iterations =" HorizontalAlignment="Left" Margin="17,20,0,0" VerticalAlignment="Top"/>
 
-         <TextBox x:Name="msbuildPathTextBox_Copy" HorizontalAlignment="Left" Height="24"  Margin="17,38,0,0" Text="" VerticalAlignment="Top" Width="513"/>
-        <Label x:Name="label2_Copy" Content="Engines directory:" HorizontalAlignment="Left" Margin="17,8,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="button1_Copy" Content="Change directory..." HorizontalAlignment="Left" Margin="543,38,0,0" VerticalAlignment="Top" Width="139" Height="24" Click="Button1_Copy_OnClick"/>
-        <Button x:Name="button1_Copy1" Content="Open directory" HorizontalAlignment="Left" Margin="543,10,0,0" VerticalAlignment="Top" Width="139" Height="24" Click="button1_Copy_Click"/>
-    <Button x:Name="button" Content="Run performance tests..." HorizontalAlignment="Left" Margin="17,113,0,0" VerticalAlignment="Top" Width="305" Height="46" FontSize="24" Click="button_Click"/>
-        <Button x:Name="button_Copy" Content="Run correctness tests..." HorizontalAlignment="Left" Margin="376,113,0,0" VerticalAlignment="Top" Width="306" Height="46" FontSize="24" Click="button_Copy_Click"/>
-        <xctk:LongUpDown x:Name="iterationsLongUpDown" Minimum="1" Value="100" HorizontalAlignment="Left" Margin="154,85,0,0" VerticalAlignment="Top" Width="56"/>
-        <Label x:Name="label3" Content="Number of iterations =" HorizontalAlignment="Left" Margin="17,82,0,0" VerticalAlignment="Top"/>
-        <TabControl x:Name="tabControl"  Grid.Row="1">
+                </Grid>
+            </TabItem>
+            <TabItem Header="Correctness">
+                <Grid>
+                    <Button x:Name="runCorrectnessTestsButton" Content="Run correctness tests..." HorizontalAlignment="Right" Margin="0,13,10,10" VerticalAlignment="Top" Width="306" Height="46" FontSize="20" Click="runCorrectnessTestsButton_Click"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+        <TabControl  Margin="5 5 5 5"  Grid.Row="2">
             <TabItem Header="Output">
                 <Grid>
                     <TextBox AcceptsReturn="True" TextWrapping="Wrap" IsReadOnly="True" x:Name="OutputTextBox"/>

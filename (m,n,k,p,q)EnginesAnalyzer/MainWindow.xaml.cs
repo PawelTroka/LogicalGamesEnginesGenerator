@@ -31,40 +31,40 @@ namespace _m_n_k_p_q_EnginesAnalyzer
             }));
         }
 
-        private void button1_Copy_Click(object sender, RoutedEventArgs e)
+        private void openDirectoryButton_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start(msbuildPathTextBox_Copy.Text);
+            Process.Start(enginesDirectoryTextBox.Text);
         }
 
-        private void Button1_Copy_OnClick(object sender, RoutedEventArgs e)
+        private void changeDirectoryButton_OnClick(object sender, RoutedEventArgs e)
         {
-            var dialog = new System.Windows.Forms.FolderBrowserDialog() { SelectedPath = msbuildPathTextBox_Copy.Text, ShowNewFolderButton = true };
+            var dialog = new System.Windows.Forms.FolderBrowserDialog() { SelectedPath = enginesDirectoryTextBox.Text, ShowNewFolderButton = true };
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                msbuildPathTextBox_Copy.Text = dialog.SelectedPath;
+                enginesDirectoryTextBox.Text = dialog.SelectedPath;
             }
 
         }
 
-        private async void button_Click(object sender, RoutedEventArgs e)
+        private async void runPerformanceTestsButton_Click(object sender, RoutedEventArgs e)
         {
-            button.IsEnabled = false;
+            runPerformanceTestsButton.IsEnabled = false;
 
-            var txt = msbuildPathTextBox_Copy.Text;
+            var txt = enginesDirectoryTextBox.Text;
             var val = iterationsLongUpDown.Value.Value;
             await Task.Run(()=> _tester.RunPerformanceTests(txt, val));
 
-            button.IsEnabled = true;
+            runPerformanceTestsButton.IsEnabled = true;
         }
 
-        private async void button_Copy_Click(object sender, RoutedEventArgs e)
+        private async void runCorrectnessTestsButton_Click(object sender, RoutedEventArgs e)
         {
 
-            button_Copy.IsEnabled = false;
-            var tst = msbuildPathTextBox_Copy.Text;
+            runCorrectnessTestsButton.IsEnabled = false;
+            var tst = enginesDirectoryTextBox.Text;
             await Task.Run(()=> _tester.RunCorrectnessTests(tst));
 
-            button_Copy.IsEnabled = true;
+            runCorrectnessTestsButton.IsEnabled = true;
 
         }
     }
