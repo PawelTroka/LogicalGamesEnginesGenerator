@@ -38,12 +38,7 @@ namespace m_n_k_p_q_EnginesGenerator
                 outputDir = outputDir.Substring(0, outputDir.Length - 1);//+= @"\";
 
 
-             _engineAssemblyName = $@"({engineParameters.M},{engineParameters.N},{engineParameters.K},{engineParameters.P},{engineParameters.Q})GameEngine";
-
-
-
-            if (engineParameters.K < Math.Max(engineParameters.M, engineParameters.N))
-                _engineAssemblyName += "_" + engineParameters.WinCondition.ToString();
+            _engineAssemblyName = engineParameters.ToString();
 
 
             _engineExeFullPath = Path.Combine(outputDir, _engineAssemblyName);

@@ -3,26 +3,9 @@ using System.Text.RegularExpressions;
 
 namespace _m_n_k_p_q_EngineWrapper
 {
-    public struct ValueWithUnit
-    {
-        public ValueWithUnit(double value, string unit)
-        {
-            Value = value;
-            Unit = unit;
-        }
-
-        public double Value { get; }
-        public string Unit { get; }
-
-        public override string ToString()
-        {
-            return $"{Value} {Unit}";
-        }
-    }
     public class PerformanceInformation
     {
         private static readonly Regex AiGetMovePerfCallbackRegex = new Regex(@".*ai.+?move.+?(\d+(?:\.|,)?\d*)\s*(\w*)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-
         private static readonly Regex GameCheckWinPerfCallbackRegex = new Regex(@".*checkwin.+?(\d+(?:\.|,)?\d*)\s*(\w*)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex GameGetMovesPerfCallbackRegex = new Regex(@".*getmoves.+?(\d+(?:\.|,)?\d*)\s*(\w*)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 

@@ -1,13 +1,79 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 
 namespace _m_n_k_p_q_EngineWrapper
 {
-    public class EngineParameters : INotifyPropertyChanged
+    public class EngineParameters : INotifyPropertyChanged, IEquatable<EngineParameters>
     {
+        public EngineParameters()
+        {
+            
+        }
+
+        public EngineParameters(ulong m, ulong n, ulong k, ulong p, ulong q, WinCondition w)
+        {
+            M = m;
+            N = n;
+            K = k;
+            P = p;
+            Q = q;
+            WinCondition = w;
+        }
+
+        public bool Equals(EngineParameters other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return _m == other._m && _n == other._n && _k == other._k && _p == other._p && _q == other._q && _winCondition == other._winCondition;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((EngineParameters) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var hashCode = _m.GetHashCode();
+                hashCode = (hashCode*397) ^ _n.GetHashCode();
+                hashCode = (hashCode*397) ^ _k.GetHashCode();
+                hashCode = (hashCode*397) ^ _p.GetHashCode();
+                hashCode = (hashCode*397) ^ _q.GetHashCode();
+                hashCode = (hashCode*397) ^ (int) _winCondition;
+                return hashCode;
+            }
+        }
+
+        public static bool operator ==(EngineParameters left, EngineParameters right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(EngineParameters left, EngineParameters right)
+        {
+            return !Equals(left, right);
+        }
+
         private static readonly Regex _engineInfoRegex = new Regex(@"\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)\s*_?\s*(EXACTLY_K_TO_WIN|K_OR_MORE_TO_WIN)?", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
+        public override string ToString()
+        {
+            var ret = $@"({M},{N},{K},{P},{Q})GameEngine";
+
+            if (Math.Max(M, N) > K)
+            {
+                ret += $"_{WinCondition}";
+            }
+
+            return ret;
+        }
 
         public static bool TryParse(string str, out EngineParameters engineParameters)
         {

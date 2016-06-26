@@ -51,6 +51,7 @@
     <Compile Include="Player.cs" />
     <Compile Include="ProcessInBackground.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ValueWithUnit.cs" />
     <Compile Include="WinCondition.cs" />
     <Compile Include="WrapperMode.cs" />
   </ItemGroup>
