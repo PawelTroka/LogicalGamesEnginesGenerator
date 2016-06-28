@@ -17,4 +17,3 @@ private:
 	Random random;
 	Board* board;
 };
-

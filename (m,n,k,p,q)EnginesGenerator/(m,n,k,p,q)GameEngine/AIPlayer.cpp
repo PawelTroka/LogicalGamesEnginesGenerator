@@ -12,19 +12,19 @@ AIPlayer::~AIPlayer()
 {
 }
 
-Move AIPlayer::GetMove() 
+Move AIPlayer::GetMove()
 {
 	Move move;
 	std::vector<Move> empties;
 
-	for (move.y = 0; move.y<board->Height(); move.y++)
-		for (move.x = 0; move.x<board->Width(); move.x++)
+	for (move.y = 0; move.y < board->Height(); move.y++)
+		for (move.x = 0; move.x < board->Width(); move.x++)
 		{
 			if (IsAdjacent(move.x, move.y))
 				empties.push_back(move);
 		}
-	
-	if(empties.empty())
+
+	if (empties.empty())
 	{
 		move.y = board->Height() / 2;
 		move.x = board->Width() / 2;
@@ -39,13 +39,13 @@ Move AIPlayer::GetMove()
 
 bool AIPlayer::IsAdjacent(coord x, coord y) const
 {
-	if (!(this->board->IsEmpty(x,y)))
+	if (!(this->board->IsEmpty(x, y)))
 		return false;
 	for (char dy = -1; dy < 2; dy++)
 	{
 		for (char dx = -1; dx < 2; dx++)
 		{
-			if (dx==0 && dy==0)
+			if (dx == 0 && dy == 0)
 				continue;
 			Color breakingColor;
 			auto count = board->CountPieces(x, y, Color::None, dx, dy, &breakingColor);
@@ -55,5 +55,3 @@ bool AIPlayer::IsAdjacent(coord x, coord y) const
 	}
 	return false;
 }
-
-

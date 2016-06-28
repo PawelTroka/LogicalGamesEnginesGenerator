@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,8 +10,9 @@ namespace _m_n_k_p_q_EngineWrapper
 {
     public class EngineWrapper : IDisposable //TODO: handle duration callbacks
     {
+        private static readonly Regex GetMovesRegex = new Regex(@"\s*moves:\s*");
+        private static readonly Regex MoveFromGetMovesRegex = new Regex(@"\s*\(\s*(\d+)\s+(\d+)\s*\)\s*");
         private readonly ProcessInBackground _engine;
-        private readonly List<Move> _movesOutput = new List<Move>();
 
         private readonly List<string> _engineOutputs = new List<string>();
 
@@ -22,12 +20,33 @@ namespace _m_n_k_p_q_EngineWrapper
 
 
         private readonly Action<Move> _moveMadeCallback;
-        private WrapperMode _mode=WrapperMode.Async;
+        private readonly List<Move> _movesOutput = new List<Move>();
+
+        private bool _gameOver;
+
+        private ConcurrentQueue<string> _messages = new ConcurrentQueue<string>();
+        private WrapperMode _mode = WrapperMode.Async;
+
+        public EngineWrapper(string path, Action<GameState> gameStateChangedCallback, Action<Move> moveMadeCallback)
+        {
+            _gameStateChangedCallback = gameStateChangedCallback;
+            _moveMadeCallback = moveMadeCallback;
+            _engine = new ProcessInBackground(path, "", CallbackHandler, true);
+            EngineName = Path.GetFileName(path);
+        }
+
+        public string EngineName { get; }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
         public void StopAsync()
-        {        
-            _mode=WrapperMode.Sync;
-        //    _lastLine = null;//??????????????????????
+        {
+            _mode = WrapperMode.Sync;
+            //    _lastLine = null;//??????????????????????
         }
 
         public void StartAsync()
@@ -35,21 +54,21 @@ namespace _m_n_k_p_q_EngineWrapper
             _mode = WrapperMode.Async;
         }
 
-      //  private string _lastLine = null;
+        //  private string _lastLine = null;
 
         public string GetLine()
         {
             string ret;
-            while (!_messages.TryDequeue(out ret))//(_lastLine == null)
+            while (!_messages.TryDequeue(out ret)) //(_lastLine == null)
             {
                 Thread.Sleep(20);
             }
-          //  var ret = ;//lastLine;
+            //  var ret = ;//lastLine;
             //_lastLine = null;
 
             return ret;
         }
-        
+
 
         public GameState GetGameStateSync()
         {
@@ -73,10 +92,6 @@ namespace _m_n_k_p_q_EngineWrapper
             return move;
         }
 
-
-        private static readonly Regex GetMovesRegex = new Regex(@"\s*moves:\s*");
-        private static readonly Regex MoveFromGetMovesRegex = new Regex(@"\s*\(\s*(\d+)\s+(\d+)\s*\)\s*");
-
         public IEnumerable<Move> GetMovesSync()
         {
             var restoreAsync = false;
@@ -88,7 +103,7 @@ namespace _m_n_k_p_q_EngineWrapper
             _engine.Send("getmoves");
 
 
-            string line = "";
+            var line = "";
 
             while (!GetMovesRegex.IsMatch(line))
             {
@@ -101,22 +116,12 @@ namespace _m_n_k_p_q_EngineWrapper
             while (match.Success)
             {
                 moves.Add(new Move(byte.Parse(match.Groups[1].Value), byte.Parse(match.Groups[2].Value)));
-                match=match.NextMatch();
+                match = match.NextMatch();
             }
 
             if (restoreAsync)
                 StartAsync();
             return moves;
-        }
-
-        public string EngineName { get; }
-
-        public EngineWrapper(string path, Action<GameState> gameStateChangedCallback, Action<Move> moveMadeCallback)
-        {
-            _gameStateChangedCallback = gameStateChangedCallback;
-            _moveMadeCallback = moveMadeCallback;
-            _engine = new ProcessInBackground(path,"", CallbackHandler,true);
-            EngineName = Path.GetFileName(path);
         }
 
         public void Close()
@@ -126,17 +131,15 @@ namespace _m_n_k_p_q_EngineWrapper
             //var response = GetLine();
             while (!GetLine().ToLowerInvariant().Contains("has exited"))
             {
-                
             }
             //    throw new Exception($"Engine didnt exit properly {response}");
         }
-
-        private ConcurrentQueue<string> _messages = new ConcurrentQueue<string>();
 
         public void ClearMessageQueue()
         {
             _messages = new ConcurrentQueue<string>();
         }
+
         public void CallbackHandler(string message)
         {
             _engineOutputs.Add(message);
@@ -158,20 +161,18 @@ namespace _m_n_k_p_q_EngineWrapper
                     _movesOutput.Add(move);
                     _moveMadeCallback?.Invoke(move);
                     return;
-                
                 }
 
                 GameState gs;
-                if (GameStateExtensions.TryParse(message,out gs))
+                if (GameStateExtensions.TryParse(message, out gs))
                 {
                     _gameStateChangedCallback?.Invoke(gs);
                     _gameOver = gs.IsGameOver();
-                    return;
                 }
             }
         }
 
-        
+
         public EngineParameters GetEngineInfo()
         {
             var restoreAsync = false;
@@ -188,11 +189,11 @@ namespace _m_n_k_p_q_EngineWrapper
 
             if (EngineParameters.TryParse(info, out engineParameters))
             {
-                if(restoreAsync)
+                if (restoreAsync)
                     StartAsync();
                 return engineParameters;
             }
-             throw new Exception($"engine info wrong {info}");
+            throw new Exception($"engine info wrong {info}");
         }
 
         public void Run()
@@ -216,14 +217,13 @@ namespace _m_n_k_p_q_EngineWrapper
             {
             }
 
-            if(restoreAsync)
+            if (restoreAsync)
                 StartAsync();
 
             return player;
-            
+
             throw new Exception("GetCurrentPlayer() failed");
         }
-
 
 
         public PerformanceInformation GetPerformanceInformation()
@@ -242,11 +242,11 @@ namespace _m_n_k_p_q_EngineWrapper
 
             if (PerformanceInformation.TryParse(perf, out pi))
             {
-                if(restoreAsync)
-                StartAsync();
+                if (restoreAsync)
+                    StartAsync();
                 return pi;
             }
-            throw  new Exception($"GetPerformanceInformation failed for {perf}");
+            throw new Exception($"GetPerformanceInformation failed for {perf}");
         }
 
         public void MakeMove(Move move)
@@ -258,14 +258,16 @@ namespace _m_n_k_p_q_EngineWrapper
         {
             return Task.Run(() =>
             {
-                while (!_gameOver) { Thread.Sleep(20); }
+                while (!_gameOver)
+                {
+                    Thread.Sleep(20);
+                }
             });
         }
 
-        private bool _gameOver = false;
         public void StartGame(GameType gameType)
         {
-            _messages = new ConcurrentQueue<string>();/////////////////???????????????????????????????????????
+            _messages = new ConcurrentQueue<string>(); /////////////////???????????????????????????????????????
 
             var restoreAsync = false;
             if (_mode == WrapperMode.Async)
@@ -293,18 +295,12 @@ namespace _m_n_k_p_q_EngineWrapper
                 default:
                     throw new ArgumentOutOfRangeException(nameof(gameType), gameType, null);
             }
-            while(!GetLine().Contains("game started"))
+            while (!GetLine().Contains("game started"))
                 //throw new Exception($"StartGame failed for {gameType}");
-            _gameStateChangedCallback?.Invoke(GameState.Started);
+                _gameStateChangedCallback?.Invoke(GameState.Started);
 
             if (!restoreAsync)
                 StartAsync();
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
         }
 
         protected virtual void Dispose(bool disposing)
@@ -312,7 +308,6 @@ namespace _m_n_k_p_q_EngineWrapper
             if (disposing)
             {
                 // free managed resources
-                
             }
             // free native resources if there are any.
             Close();

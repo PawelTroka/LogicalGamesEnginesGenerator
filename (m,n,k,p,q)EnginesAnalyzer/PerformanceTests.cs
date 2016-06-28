@@ -45,7 +45,7 @@ namespace _m_n_k_p_q_EnginesAnalyzer
 
         public IEnumerable<MethodInfo> GetTests()
         {
-            var methods = this.GetType().GetMethods();
+            var methods = GetType().GetMethods();
             foreach (var methodInfo in methods)
             {
                 if (!methodInfo.IsConstructor && !methodInfo.IsAbstract && !methodInfo.GetParameters().Any() &&

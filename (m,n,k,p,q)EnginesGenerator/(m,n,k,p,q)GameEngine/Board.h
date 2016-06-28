@@ -27,9 +27,17 @@ public:
 	Board(const Board& b);
 	Color GetColor(coord x, coord y) const;
 
-	static inline coord Height() { return M; }
-	static inline coord Width() { return N; }
-	#define POSITION(x,y) (y*N + x)
+	static inline coord Height()
+	{
+		return M;
+	}
+
+	static inline coord Width()
+	{
+		return N;
+	}
+
+#define POSITION(x,y) (y*N + x)
 	bool IsEmpty(coord x, coord y) const;
 	bool IsColor(coord x, coord y, Color color) const;
 	uint16_t CountPieces(char x, char y, Color color, char dx, char dy, Color* breakingColor) const;

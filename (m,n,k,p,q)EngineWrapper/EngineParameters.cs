@@ -7,9 +7,21 @@ namespace _m_n_k_p_q_EngineWrapper
 {
     public class EngineParameters : INotifyPropertyChanged, IEquatable<EngineParameters>
     {
+        private static readonly Regex _engineInfoRegex =
+            new Regex(
+                @"\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)\s*_?\s*(EXACTLY_K_TO_WIN|K_OR_MORE_TO_WIN)?",
+                RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+        private ulong _k;
+
+        private ulong _m;
+        private ulong _n;
+        private ulong _p;
+        private ulong _q;
+        private WinCondition _winCondition;
+
         public EngineParameters()
         {
-            
         }
 
         public EngineParameters(ulong m, ulong n, ulong k, ulong p, ulong q, WinCondition w)
@@ -22,18 +34,81 @@ namespace _m_n_k_p_q_EngineWrapper
             WinCondition = w;
         }
 
+        public ulong M
+        {
+            get { return _m; }
+            set
+            {
+                _m = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ulong N
+        {
+            get { return _n; }
+            set
+            {
+                _n = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ulong K
+        {
+            get { return _k; }
+            set
+            {
+                _k = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ulong P
+        {
+            get { return _p; }
+            set
+            {
+                _p = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ulong Q
+        {
+            get { return _q; }
+            set
+            {
+                _q = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public WinCondition WinCondition
+        {
+            get { return _winCondition; }
+            set
+            {
+                _winCondition = value;
+                OnPropertyChanged();
+            }
+        }
+
         public bool Equals(EngineParameters other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return _m == other._m && _n == other._n && _k == other._k && _p == other._p && _q == other._q && _winCondition == other._winCondition;
+            return _m == other._m && _n == other._n && _k == other._k && _p == other._p && _q == other._q &&
+                   _winCondition == other._winCondition;
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != this.GetType()) return false;
+            if (obj.GetType() != GetType()) return false;
             return Equals((EngineParameters) obj);
         }
 
@@ -61,8 +136,6 @@ namespace _m_n_k_p_q_EngineWrapper
             return !Equals(left, right);
         }
 
-        private static readonly Regex _engineInfoRegex = new Regex(@"\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)\s*_?\s*(EXACTLY_K_TO_WIN|K_OR_MORE_TO_WIN)?", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-
         public override string ToString()
         {
             var ret = $@"({M},{N},{K},{P},{Q})GameEngine";
@@ -89,56 +162,11 @@ namespace _m_n_k_p_q_EngineWrapper
             engineParameters.Q = ulong.Parse(match.Groups[5].Value);
 
             engineParameters.WinCondition =
-                (match.Groups[6].Value.ToLowerInvariant().Contains("EXACTLY_K_TO_WIN".ToLowerInvariant()))
+                match.Groups[6].Value.ToLowerInvariant().Contains("EXACTLY_K_TO_WIN".ToLowerInvariant())
                     ? WinCondition.EXACTLY_K_TO_WIN
                     : WinCondition.K_OR_MORE_TO_WIN;
             return true;
         }
-
-        private ulong _m;
-        private ulong _n;
-        private ulong _k;
-        private ulong _p;
-        private ulong _q;
-        private WinCondition _winCondition;
-
-        public ulong M
-        {
-            get { return _m; }
-            set { _m = value; OnPropertyChanged();}
-        }
-
-        public ulong N
-        {
-            get { return _n; }
-            set { _n = value;OnPropertyChanged(); }
-        }
-
-        public ulong K
-        {
-            get { return _k; }
-            set { _k = value;OnPropertyChanged(); }
-        }
-
-        public ulong P
-        {
-            get { return _p; }
-            set { _p = value; OnPropertyChanged(); }
-        }
-
-        public ulong Q
-        {
-            get { return _q; }
-            set { _q = value; OnPropertyChanged(); }
-        }
-
-        public WinCondition WinCondition
-        {
-            get { return _winCondition; }
-            set { _winCondition = value; OnPropertyChanged(); }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {

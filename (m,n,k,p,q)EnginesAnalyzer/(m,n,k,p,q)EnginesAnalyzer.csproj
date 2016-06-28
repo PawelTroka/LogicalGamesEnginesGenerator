@@ -89,6 +89,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="MatrixHashTable.cs" />
     <Compile Include="PerformanceTests.cs" />
     <Compile Include="RandomProvider.cs" />
     <Page Include="MainWindow.xaml">

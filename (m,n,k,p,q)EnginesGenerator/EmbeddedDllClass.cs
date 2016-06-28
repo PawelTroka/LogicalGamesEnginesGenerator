@@ -123,9 +123,9 @@ namespace m_n_k_p_q_EnginesGenerator
         /// <param name="dllName"></param>
         public static void LoadDll(string dllName)
         {
-       //     if (tempFolder == "")
+            //     if (tempFolder == "")
             {
-         //       throw new Exception("Please call ExtractEmbeddedDlls before LoadDll");
+                //       throw new Exception("Please call ExtractEmbeddedDlls before LoadDll");
             }
             var h = LoadLibrary(dllName);
             if (h == IntPtr.Zero)

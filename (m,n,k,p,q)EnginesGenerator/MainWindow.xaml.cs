@@ -1,37 +1,36 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Windows;
-using Microsoft.Build.Utilities;
-using Microsoft.Practices.Unity;
-using _m_n_k_p_q_EngineWrapper;
+using System.Reflection;
 using System.Threading.Tasks;
-using Task = System.Threading.Tasks.Task;
+using System.Windows;
+using System.Windows.Forms;
+using _m_n_k_p_q_EngineWrapper;
 
 namespace m_n_k_p_q_EnginesGenerator
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    ///     Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
-
         private readonly EnginesGenerator _generator;
 
         public MainWindow()
         {
             InitializeComponent();
-            _generator = new EnginesGenerator(async (s) => await Dispatcher.InvokeAsync(() => outputTextBox.AppendText(s + Environment.NewLine)));
+            _generator =
+                new EnginesGenerator(
+                    async s => await Dispatcher.InvokeAsync(() => outputTextBox.AppendText(s + Environment.NewLine)));
             outputPathTextBox.Text = Path.Combine(
-                System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location),"GeneratedEngines");
+                Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "GeneratedEngines");
 
             foreach (EngineScheme value in Enum.GetValues(typeof(EngineScheme)))
             {
                 batchGenerationListBox.Items.Add(value.ToEngineParameters());
             }
-            batchGenerationListBox.Items.Add(new EngineParameters(8,8,4,2,1,WinCondition.K_OR_MORE_TO_WIN));
+            batchGenerationListBox.Items.Add(new EngineParameters(8, 8, 4, 2, 1, WinCondition.K_OR_MORE_TO_WIN));
             batchGenerationListBox.Items.Add(new EngineParameters(8, 8, 4, 1, 1, WinCondition.K_OR_MORE_TO_WIN));
 
             batchGenerationListBox.Items.Add(new EngineParameters(5, 13, 4, 2, 1, WinCondition.K_OR_MORE_TO_WIN));
@@ -47,27 +46,27 @@ namespace m_n_k_p_q_EnginesGenerator
             var outputDir = outputPathTextBox.Text;
             var flags = flagsTextBox.Text;
 
-            await Task.Run(()=> _generator.GenerateEngine(compilerPath, outputDir, flags, engineParameters));
+            await Task.Run(() => _generator.GenerateEngine(compilerPath, outputDir, flags, engineParameters));
             generateButton.IsEnabled = true;
         }
 
         private EngineParameters GetEngineParametersFromUI()
         {
-            var engineParameters = new EngineParameters()
+            var engineParameters = new EngineParameters
             {
                 K = (ulong) kLongUpDown.Value,
                 M = (ulong) mLongUpDown.Value,
                 N = (ulong) nLongUpDown.Value,
                 P = (ulong) pLongUpDown.Value,
                 Q = (ulong) qLongUpDown.Value,
-                WinCondition = (WinCondition) winingConditionComboBox.SelectedIndex,
+                WinCondition = (WinCondition) winingConditionComboBox.SelectedIndex
             };
             return engineParameters;
         }
 
         private void runGeneratedEngineButton_Click(object sender, RoutedEventArgs e)
         {
-           // _generator.GenerateEngine(msbuildPathTextBox.Text, flagsTextBox.Text);
+            // _generator.GenerateEngine(msbuildPathTextBox.Text, flagsTextBox.Text);
             _generator.RunEngine();
         }
 
@@ -82,11 +81,11 @@ namespace m_n_k_p_q_EnginesGenerator
             var engineScheme = (EngineScheme) engineSchemeComboBox.SelectedIndex;
             var engineParameters = engineScheme.ToEngineParameters();
 
-            kLongUpDown.Value = (long)engineParameters.K;
-            mLongUpDown.Value = (long)engineParameters.M;
-            nLongUpDown.Value = (long)engineParameters.N;
-            pLongUpDown.Value = (long)engineParameters.P;
-            qLongUpDown.Value = (long)engineParameters.Q;
+            kLongUpDown.Value = (long) engineParameters.K;
+            mLongUpDown.Value = (long) engineParameters.M;
+            nLongUpDown.Value = (long) engineParameters.N;
+            pLongUpDown.Value = (long) engineParameters.P;
+            qLongUpDown.Value = (long) engineParameters.Q;
             winingConditionComboBox.SelectedValue = engineParameters.WinCondition;
         }
 
@@ -102,17 +101,17 @@ namespace m_n_k_p_q_EnginesGenerator
 
         private void changeEnginesOutputDirectoryButton_OnClick(object sender, RoutedEventArgs e)
         {
-            var dialog = new System.Windows.Forms.FolderBrowserDialog() {SelectedPath = outputPathTextBox.Text,ShowNewFolderButton = true};
+            var dialog = new FolderBrowserDialog {SelectedPath = outputPathTextBox.Text, ShowNewFolderButton = true};
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 outputPathTextBox.Text = dialog.SelectedPath;
             }
-
         }
 
         private void changeCompilerPathButton_Click(object sender, RoutedEventArgs e)
         {
-            var dialog = new System.Windows.Forms.OpenFileDialog();//{ CheckPathExists = true,InitialDirectory = msbuildPathTextBox.Text,  DefaultExt = "exe",FileName = msbuildPathTextBox.Text };
+            var dialog = new OpenFileDialog();
+                //{ CheckPathExists = true,InitialDirectory = msbuildPathTextBox.Text,  DefaultExt = "exe",FileName = msbuildPathTextBox.Text };
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 msbuildPathTextBox.Text = dialog.FileName;
@@ -144,7 +143,6 @@ namespace m_n_k_p_q_EnginesGenerator
 
 
             batchGenerateButton.IsEnabled = true;
-
         }
 
         private void RemoveFromBatchGeneration_OnClick(object sender, RoutedEventArgs e)

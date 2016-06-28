@@ -1,4 +1,3 @@
-
 #include "Types.h"
 #include "Board.h"
 
@@ -40,7 +39,7 @@ bool Board::IsEmpty(coord x, coord y) const
 #endif		
 }
 
-bool Board::IsColor(coord x, coord y,Color color) const
+bool Board::IsColor(coord x, coord y, Color color) const
 {
 	//arrayIndex_t position = POSITION(x, y);
 
@@ -51,15 +50,15 @@ bool Board::IsColor(coord x, coord y,Color color) const
 #if REQUIRES_ARRAYS
 		return blackPieces[POSITION(x, y)];
 #else
-		return CHECK_BIT(blackPieces, POSITION(x, y))!=0;
+		return CHECK_BIT(blackPieces, POSITION(x, y)) != 0;
 #endif
 	}
-	else if(color == Color::White)
+	else if (color == Color::White)
 	{
 #if REQUIRES_ARRAYS
 		return whitePieces[POSITION(x, y)];
 #else
-		return CHECK_BIT(whitePieces, POSITION(x, y))!=0;
+		return CHECK_BIT(whitePieces, POSITION(x, y)) != 0;
 #endif
 	}
 	return false;
@@ -68,14 +67,14 @@ bool Board::IsColor(coord x, coord y,Color color) const
 uint16_t Board::CountPieces(char x, char y, Color color, char dx, char dy, Color* breakingColor) const
 {
 	arrayIndex_t count;
-	auto currentColor=Color::None;
+	auto currentColor = Color::None;
 
-	if (dx==0 && dy==0)
-		return IsColor(x,y,color) ? 1 : 0;
+	if (dx == 0 && dy == 0)
+		return IsColor(x, y, color) ? 1 : 0;
 	for (count = 0; x >= 0 && x < Width() && y >= 0 && y < Height(); count++)
-	{	
+	{
 		currentColor = GetColor(x, y);
-		if (color!=currentColor)
+		if (color != currentColor)
 			break;
 		x += dx;
 		y += dy;

@@ -18,7 +18,6 @@ Game::Game(): board(), aiPlayer(board)
 {
 	players[Color::Black] = PlayerType::Human;
 	players[Color::White] = PlayerType::AI;
-
 }
 
 void Game::StartGame()
@@ -33,12 +32,12 @@ void Game::StartGame()
 
 bool Game::IsValidMove(coord x, coord y) const
 {
-	return board.IsEmpty(x, y) && players[currentColor] == PlayerType::Human && x<N && y<M && movesLeft>0;
+	return board.IsEmpty(x, y) && players[currentColor] == PlayerType::Human && x < N && y < M && movesLeft > 0;
 }
 
 bool Game::MakeMove(coord x, coord y)
 {
-	if (board.IsEmpty(x, y) && players[currentColor] == PlayerType::Human && x<N && y<M && movesLeft>0)
+	if (board.IsEmpty(x, y) && players[currentColor] == PlayerType::Human && x < N && y < M && movesLeft > 0)
 	{
 		board.PlacePiece(x, y, currentColor == Color::Black);
 
@@ -67,7 +66,7 @@ Move* Game::GetMoves() const
 
 bool Game::GetMove()
 {
-	if(players[currentColor] == PlayerType::AI && movesLeft>0 && gameStarted)
+	if (players[currentColor] == PlayerType::AI && movesLeft > 0 && gameStarted)
 	{
 		/*
 		coord x = N/2;
@@ -88,14 +87,14 @@ bool Game::GetMove()
 
 
 		auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(t2 - t1).count();
-		
+
 		aiGetMoveTimes.push_back(duration);
-		
+
 		////////////////////sync_cout << "aiPlayer.GetMove() duration is " << duration <<"microseconds"<< sync_endl;
 
 		WriteMove(aiMove.x, aiMove.y);
 		movesMade++;
-		if(!CheckGameEnd(aiMove.x, aiMove.y))
+		if (!CheckGameEnd(aiMove.x, aiMove.y))
 			NextTurn();
 		return true;
 	}
@@ -105,12 +104,13 @@ bool Game::GetMove()
 bool Game::CheckWin(coord x, coord y, coord& x1, coord& y1, coord& x2, coord& y2) const
 {
 	uint16_t c1, c2;
-	char xs[] = { 1, 1, 0, -1 }, ys[] = { 0, 1, 1, 1 };
+	char xs[] = {1, 1, 0, -1}, ys[] = {0, 1, 1, 1};
 
-	if (board.IsEmpty(x,y))
+	if (board.IsEmpty(x, y))
 		return false;
 
-	for (char i = 0; i < 4; i++) {
+	for (char i = 0; i < 4; i++)
+	{
 		c1 = board.CountPieces(x, y, currentColor, xs[i], ys[i], nullptr);
 		c2 = board.CountPieces(x, y, currentColor, -xs[i], -ys[i], nullptr);
 
@@ -120,10 +120,10 @@ bool Game::CheckWin(coord x, coord y, coord& x1, coord& y1, coord& x2, coord& y2
 		if (c1 + c2 - 1 == K)
 #endif
 		{
-				x1 = coord(x + xs[i] * (c1 - 1));
-				y1 = coord(y + ys[i] * (c1 - 1));
-				x2 = coord(x - xs[i] * (c2 - 1));
-				y2 = coord(y - ys[i] * (c2 - 1));
+			x1 = coord(x + xs[i] * (c1 - 1));
+			y1 = coord(y + ys[i] * (c1 - 1));
+			x2 = coord(x - xs[i] * (c2 - 1));
+			y2 = coord(y - ys[i] * (c2 - 1));
 			return true;
 		}
 	}
@@ -142,12 +142,12 @@ bool Game::CheckGameEnd(coord x, coord y)
 	auto t1 = std::chrono::high_resolution_clock::now();
 
 	auto isWin = CheckWin(x, y, x1, y1, x2, y2);
-	
+
 	auto t2 = std::chrono::high_resolution_clock::now();
 	auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(t2 - t1).count();
 	checkGameEndTimes.push_back(duration);
 
-/////////////////	sync_cout << "CheckWin() duration is " << duration << "microseconds" << sync_endl;
+	/////////////////	sync_cout << "CheckWin() duration is " << duration << "microseconds" << sync_endl;
 
 
 	if (isWin)
@@ -157,7 +157,7 @@ bool Game::CheckGameEnd(coord x, coord y)
 		gameStarted = false;
 		return true;
 	}
-	else if(movesMade==BOARD_SIZE)
+	else if (movesMade == BOARD_SIZE)
 	{
 		sync_cout << "draw" << sync_endl;
 		gameStarted = false;
@@ -181,9 +181,9 @@ void Game::NextTurn()
 
 std::string Game::engine_info(bool b)
 {
-	if(b)
+	if (b)
 	{
-		std::string ret = "("+std::to_string(M)+","+std::to_string(N)+","+std::to_string(K)+","+std::to_string(P)+","+std::to_string(Q)+")";
+		std::string ret = "(" + std::to_string(M) + "," + std::to_string(N) + "," + std::to_string(K) + "," + std::to_string(P) + "," + std::to_string(Q) + ")";
 
 #if defined(K_OR_MORE_TO_WIN)
 		ret += "K_OR_MORE_TO_WIN";
@@ -207,7 +207,9 @@ void Game::GameLoop(int argc, char* argv[])
 	do
 	{
 		if (gameStarted)
-			while (GetMove()) {}
+			while (GetMove())
+			{
+			}
 
 		if (argc == 1 && !getline(std::cin, cmd)) // Block here waiting for input or EOF
 			cmd = "quit";
@@ -262,50 +264,45 @@ void Game::GameLoop(int argc, char* argv[])
 			{
 				for (coord x = 0; x < board.Width(); x++)
 				{
-
-					if(board.IsEmpty(x,y))
-						sync_cout << " ";
+					if (board.IsEmpty(x, y))
+					sync_cout << " ";
 					else if (board.IsColor(x, y, Color::Black))
-						sync_cout << "X";
+					sync_cout << "X";
 					else if (board.IsColor(x, y, Color::White))
-						sync_cout << "O";
-				
-						
+					sync_cout << "O";
 				}
 				sync_cout << sync_endl;
 			}
 		}
 		else if (token == "info")
-			sync_cout << "engine info: " << engine_info(true) << sync_endl;
+		sync_cout << "engine info: " << engine_info(true) << sync_endl;
 
 		else if (token == "quit"
-	|| token == "exit" || token == "stop")
-			sync_cout << "(m,n,k,p,q)GameEngine has exited" << sync_endl;
-
-
+			|| token == "exit" || token == "stop")
+		sync_cout << "(m,n,k,p,q)GameEngine has exited" << sync_endl;
 
 
 		//makemove x y
-		else if(token=="makemove" && gameStarted)
+		else if (token == "makemove" && gameStarted)
 		{
 			is >> token;
-			coord x = coord(atoi(token.c_str()))-1;
+			coord x = coord(atoi(token.c_str())) - 1;
 			is >> token;
-			coord y = coord(atoi(token.c_str()))-1;
+			coord y = coord(atoi(token.c_str())) - 1;
 			if (MakeMove(x, y))
 			{
 				WriteMove(x, y);
 				movesMade++;
-				if(!CheckGameEnd(x,y))
+				if (!CheckGameEnd(x, y))
 					NextTurn();
 				//sync_cout << "move ok" << cmd << sync_endl;
 			}
 			else
-				sync_cout << "invalid move"<< sync_endl;
+			sync_cout << "invalid move" << sync_endl;
 		}
 		else if (token == "getplayer" && gameStarted)
 		{
-				sync_cout << (currentColor == Color::Black ? "black" : currentColor==Color::White ? "white" : "none") << sync_endl;
+			sync_cout << (currentColor == Color::Black ? "black" : currentColor == Color::White ? "white" : "none") << sync_endl;
 		}
 		else if (token == "getmoves" && gameStarted)
 		{
@@ -318,8 +315,8 @@ void Game::GameLoop(int argc, char* argv[])
 
 			sync_cout << "moves:";
 
-			for (arrayIndex_t i=0;i<BOARD_SIZE-movesMade;i++)
-			sync_cout << " ("<<std::to_string(moves[i].x+1)<<" "<<std::to_string(moves[i].y+1)<<")";
+			for (arrayIndex_t i = 0; i < BOARD_SIZE - movesMade; i++)
+			sync_cout << " (" << std::to_string(moves[i].x + 1) << " " << std::to_string(moves[i].y + 1) << ")";
 
 			delete[] moves;
 
