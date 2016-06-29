@@ -2,7 +2,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
+using System.Linq;
 using _m_n_k_p_q_EngineWrapper;
 
 namespace _m_n_k_p_q_EnginesAnalyzer
@@ -22,13 +24,22 @@ namespace _m_n_k_p_q_EnginesAnalyzer
             // _enginesPaths.Select(path => new EngineWrapper(path,gs => ))
         }
 
-        public Dictionary<string, PerformanceInformation> PerformanceResults { get; } =
-            new Dictionary<string, PerformanceInformation>();
-        
+        public DataTable PerformanceResults { get; private set; }
+        public DataTable CorrectnessResults { get; private set; }
 
         public void RunPerformanceTests(string enginesDirectory, long iterations)
         {
-            PerformanceResults.Clear();
+            // PerformanceResults.Clear();
+            PerformanceInformation performanceInformation;
+            PerformanceResults = new DataTable()
+            {
+                Columns = {
+                    { "Engine",typeof(string)},
+                    { nameof(performanceInformation.AverageAiGetMoveExecution)+" ns", typeof(double) },
+                    { nameof(performanceInformation.AverageGetMovesExecution)+" ns" , typeof(double) },
+                    { nameof(performanceInformation.AverageCheckWinExecution)+" ns" , typeof(double) },
+                }
+            };
 
             _enginesPaths = Directory.GetFiles(enginesDirectory, @"*.exe");
             _progressHandler.Report(
@@ -47,15 +58,24 @@ namespace _m_n_k_p_q_EnginesAnalyzer
                     }
 
                     var pi = engine.GetPerformanceInformation();
-                    PerformanceResults[engine.EngineName] = pi;
                     _progressHandler.Report(
                         $"----{Environment.NewLine}{engine.EngineName}{Environment.NewLine}{pi}{Environment.NewLine}----{Environment.NewLine}");
+                    PerformanceResults.Rows.Add(engine.EngineName, pi.AverageAiGetMoveExecution.Value,
+                                                pi.AverageGetMovesExecution.Value, pi.AverageCheckWinExecution.Value);
                 }
             }
         }
 
         public void RunCorrectnessTests(string enginesDirectory)
         {
+            CorrectnessResults = new DataTable()
+            {
+                Columns = {
+                    { "Engine",typeof(string)}
+                }
+            };
+            CorrectnessResults.Columns.AddRange(CorrectnessTests.GetTests().Select(t => new DataColumn(t.Name, typeof(bool))).ToArray());
+
             _enginesPaths = Directory.GetFiles(enginesDirectory, @"*.exe");
             _progressHandler.Report(
                 $"{Environment.NewLine}---- Testing correctness of engines from {enginesDirectory} ----{Environment.NewLine}");
@@ -67,16 +87,24 @@ namespace _m_n_k_p_q_EnginesAnalyzer
                 {
                     _progressHandler.Report($"---- Testing engine: {engine.EngineName}{Environment.NewLine}");
                     engine.Run();
-
+                    
                     var correctnessTests = new CorrectnessTests(engine);
+                    var tests = CorrectnessTests.GetTests().ToArray();
 
-                    foreach (var correctnessTest in correctnessTests.GetTests())
+                    var row = new List<object>() {engine.EngineName};
+                    row.AddRange(Enumerable.Repeat((object)false,tests.Length));
+                    CorrectnessResults.Rows.Add(row.ToArray());
+
+                    for (int index = 0; index < tests.Length; index++)
                     {
+                        var correctnessTest = tests[index];
                         testCount++;
                         var result = (bool) correctnessTest.Invoke(correctnessTests, null);
                         if (result) successCount++;
                         _progressHandler.Report(
                             $"  {correctnessTest.Name} - {(result ? "Succes!" : "failed...")}--{Environment.NewLine}");
+                        CorrectnessResults.Rows[CorrectnessResults.Rows.Count - 1][index + 1] = result;
+
                     }
                 }
             }

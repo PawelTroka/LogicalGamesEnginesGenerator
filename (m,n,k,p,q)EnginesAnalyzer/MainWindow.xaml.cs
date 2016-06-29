@@ -56,72 +56,9 @@ namespace _m_n_k_p_q_EnginesAnalyzer
             await Task.Run(() => _tester.RunPerformanceTests(enginesDirectory, iterations));
 
             runPerformanceTestsButton.IsEnabled = true;
-            SetPerformanceDataGrid();
+            performanceDataGrid.ItemsSource = _tester.PerformanceResults.DefaultView;
         }
 
-        private void SetCorrectnessDataGrid()
-        {
-            var dt = new DataTable();
-            PerformanceInformation pi;
-
-            dt.Columns.Add(new DataColumn(null, typeof(string)) { ColumnName = "Engine" });
-            dt.Columns.Add(new DataColumn(null, typeof(double))
-            {
-                ColumnName =
-                    nameof(pi.AverageAiGetMoveExecution) +
-                    $" {_tester.PerformanceResults.Values.First().AverageAiGetMoveExecution.Unit}"
-            });
-            dt.Columns.Add(new DataColumn(null, typeof(double))
-            {
-                ColumnName =
-                    nameof(pi.AverageGetMovesExecution) +
-                    $" {_tester.PerformanceResults.Values.First().AverageGetMovesExecution.Unit}"
-            });
-            dt.Columns.Add(new DataColumn(null, typeof(double))
-            {
-                ColumnName =
-                    nameof(pi.AverageCheckWinExecution) +
-                    $" {_tester.PerformanceResults.Values.First().AverageCheckWinExecution.Unit}"
-            });
-
-            foreach (var performanceInformation in _tester.PerformanceResults)
-                dt.Rows.Add(performanceInformation.Key, performanceInformation.Value.AverageAiGetMoveExecution.Value,
-                    performanceInformation.Value.AverageGetMovesExecution.Value,
-                    performanceInformation.Value.AverageCheckWinExecution.Value);
-            performanceDataGrid.ItemsSource = dt.DefaultView;
-        }
-
-        private void SetPerformanceDataGrid()
-        {
-            var dt = new DataTable();
-            PerformanceInformation pi;
-
-            dt.Columns.Add(new DataColumn(null, typeof(string)) {ColumnName = "Engine"});
-            dt.Columns.Add(new DataColumn(null, typeof(double))
-            {
-                ColumnName =
-                    nameof(pi.AverageAiGetMoveExecution) +
-                    $" {_tester.PerformanceResults.Values.First().AverageAiGetMoveExecution.Unit}"
-            });
-            dt.Columns.Add(new DataColumn(null, typeof(double))
-            {
-                ColumnName =
-                    nameof(pi.AverageGetMovesExecution) +
-                    $" {_tester.PerformanceResults.Values.First().AverageGetMovesExecution.Unit}"
-            });
-            dt.Columns.Add(new DataColumn(null, typeof(double))
-            {
-                ColumnName =
-                    nameof(pi.AverageCheckWinExecution) +
-                    $" {_tester.PerformanceResults.Values.First().AverageCheckWinExecution.Unit}"
-            });
-
-            foreach (var performanceInformation in _tester.PerformanceResults)
-                dt.Rows.Add(performanceInformation.Key, performanceInformation.Value.AverageAiGetMoveExecution.Value,
-                    performanceInformation.Value.AverageGetMovesExecution.Value,
-                    performanceInformation.Value.AverageCheckWinExecution.Value);
-            performanceDataGrid.ItemsSource = dt.DefaultView;
-        }
 
         private async void runCorrectnessTestsButton_Click(object sender, RoutedEventArgs e)
         {
@@ -130,6 +67,7 @@ namespace _m_n_k_p_q_EnginesAnalyzer
             await Task.Run(() => _tester.RunCorrectnessTests(enginesDirectory));
 
             runCorrectnessTestsButton.IsEnabled = true;
+            correctnessDataGrid.ItemsSource = _tester.CorrectnessResults.DefaultView;
         }
     }
 }

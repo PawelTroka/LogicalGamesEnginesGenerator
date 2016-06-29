@@ -58,9 +58,9 @@ namespace _m_n_k_p_q_EnginesAnalyzer
             _possibleMoves = possibleMovesList.ToArray();
         }
 
-        public IEnumerable<MethodInfo> GetTests()
+        public static IEnumerable<MethodInfo> GetTests()
         {
-            var methods = GetType().GetMethods();
+            var methods = typeof(CorrectnessTests).GetMethods();
             foreach (var methodInfo in methods)
             {
                 if (!methodInfo.IsConstructor && !methodInfo.IsAbstract && !methodInfo.GetParameters().Any() &&

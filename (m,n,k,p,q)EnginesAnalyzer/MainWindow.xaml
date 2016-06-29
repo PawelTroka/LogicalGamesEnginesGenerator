@@ -63,7 +63,7 @@
             </TabItem>
             <TabItem Header="Correctness results">
                 <Grid>
-                    <pt:DataGrid CanDelete="False" CanInsert="False" x:Name="correctnessDataGrid" />
+                    <DataGrid IsReadOnly="True" x:Name="correctnessDataGrid" />
                 </Grid>
             </TabItem>
         </TabControl>
