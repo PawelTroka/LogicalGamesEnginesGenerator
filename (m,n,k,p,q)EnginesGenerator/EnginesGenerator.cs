@@ -37,11 +37,9 @@ namespace m_n_k_p_q_EnginesGenerator
             EngineParameters engineParameters)
         {
             if (outputDir.Last() == '\\')
-                outputDir = outputDir.Substring(0, outputDir.Length - 1); //+= @"\";
-
+                outputDir = outputDir.Substring(0, outputDir.Length - 1);
 
             _engineAssemblyName = engineParameters.ToString();
-
 
             _engineExeFullPath = Path.Combine(outputDir, _engineAssemblyName);
 
@@ -51,16 +49,16 @@ namespace m_n_k_p_q_EnginesGenerator
                     ? "EXACTLY_K_TO_WIN;"
                     : "")}M={engineParameters.M};N={engineParameters.N};K={engineParameters.K};Q={engineParameters.Q};P={engineParameters
                         .P};"" /p:OutDir=""{outputDir}""  /p:AssemblyName=""{_engineAssemblyName}""";
-                // /p:AssemblyName=""{assemblyName}""
+
             new ProcessInBackground(compilerPath,
-                _engineProjectFullPath + BuildBasicFlags + engineParametersAsCompilerFlags + flags, _callback, false)
+                "\""+_engineProjectFullPath+ "\"" + BuildBasicFlags + engineParametersAsCompilerFlags + flags, _callback, false)
                 .Run();
         }
 
         /// p:OutDir=D:\location\ /p:AssemblyName=Foo
         public void CleanOutput(string compilerPath)
         {
-            new ProcessInBackground(compilerPath, _engineProjectFullPath + CleanBasicFlags, _callback, false).Run();
+            new ProcessInBackground(compilerPath, "\"" + _engineProjectFullPath + "\"" + CleanBasicFlags, _callback, false).Run();
         }
 
         // /p:AdditionalPreprocessorDefinitions="_USE_LOCAL_DEFINES"

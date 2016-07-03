@@ -7,7 +7,8 @@ namespace _m_n_k_p_q_EngineWrapper
 {
     public class EngineParameters : INotifyPropertyChanged, IEquatable<EngineParameters>
     {
-        private static readonly Regex _engineInfoRegex =
+
+        private static readonly Regex EngineParametersRegex =
             new Regex(
                 @"\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)\s*_?\s*(EXACTLY_K_TO_WIN|K_OR_MORE_TO_WIN)?",
                 RegexOptions.IgnoreCase | RegexOptions.Compiled);
@@ -139,19 +140,17 @@ namespace _m_n_k_p_q_EngineWrapper
         public override string ToString()
         {
             var ret = $@"({M},{N},{K},{P},{Q})GameEngine";
-
             if (Math.Max(M, N) > K)
             {
                 ret += $"_{WinCondition}";
             }
-
             return ret;
         }
 
         public static bool TryParse(string str, out EngineParameters engineParameters)
         {
             engineParameters = new EngineParameters();
-            var match = _engineInfoRegex.Match(str);
+            var match = EngineParametersRegex.Match(str);
             if (!match.Success)
                 return false;
 

@@ -47,6 +47,7 @@ namespace m_n_k_p_q_EnginesGenerator
             var flags = flagsTextBox.Text;
 
             await Task.Run(() => _generator.GenerateEngine(compilerPath, outputDir, flags, engineParameters));
+
             generateButton.IsEnabled = true;
         }
 
