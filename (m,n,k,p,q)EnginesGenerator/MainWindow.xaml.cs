@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -16,13 +17,14 @@ namespace m_n_k_p_q_EnginesGenerator
     public partial class MainWindow : Window
     {
         private readonly EnginesGenerator _generator;
-
+        private readonly Action<string> _callback;
         public MainWindow()
         {
             InitializeComponent();
-            _generator =
-                new EnginesGenerator(
-                    async s => await Dispatcher.InvokeAsync(() => outputTextBox.AppendText(s + Environment.NewLine)));
+
+            _callback = async s => await Dispatcher.InvokeAsync(() => outputTextBox.AppendText(s + Environment.NewLine));
+            _generator = new EnginesGenerator(_callback);
+
             outputPathTextBox.Text = Path.Combine(
                 Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "GeneratedEngines");
 
@@ -67,7 +69,6 @@ namespace m_n_k_p_q_EnginesGenerator
 
         private void runGeneratedEngineButton_Click(object sender, RoutedEventArgs e)
         {
-            // _generator.GenerateEngine(msbuildPathTextBox.Text, flagsTextBox.Text);
             _generator.RunEngine();
         }
 
@@ -122,33 +123,49 @@ namespace m_n_k_p_q_EnginesGenerator
         private void AddToBatchGenerationButton_OnClick(object sender, RoutedEventArgs e)
         {
             var engineParameters = GetEngineParametersFromUI();
-            batchGenerationListBox.Items.Add(engineParameters);
+            if(!batchGenerationListBox.Items.Contains(engineParameters))
+                batchGenerationListBox.Items.Add(engineParameters);
         }
 
         private async void BatchGenerateButton_OnClick(object sender, RoutedEventArgs e)
         {
-            batchGenerateButton.IsEnabled = false;
+            batchGenerateButton.IsEnabled = measurePerformanceCheckBox.IsEnabled = false;
 
             var compilerPath = msbuildPathTextBox.Text;
             var outputDir = outputPathTextBox.Text;
             var flags = flagsTextBox.Text;
             var engineParameters = batchGenerationListBox.Items.Cast<EngineParameters>();
+            var measurePerformance = measurePerformanceCheckBox.IsChecked.Value;
+
+            var performanceDict = new Dictionary<EngineParameters,double>();
 
             await Task.Run(() =>
             {
-                foreach (var engineParameterse in engineParameters)
-                {
-                    _generator.GenerateEngine(compilerPath, outputDir, flags, engineParameterse);
-                }
+                foreach (var engine in engineParameters)
+                    if (measurePerformance)
+                    {
+                        _generator.CleanOutput(compilerPath);
+                        var stw = Stopwatch.StartNew();
+                        _generator.GenerateEngine(compilerPath, outputDir, flags, engine);
+                        stw.Stop();
+                        performanceDict.Add(engine, stw.Elapsed.TotalMilliseconds);
+                    }
+                    else
+                        _generator.GenerateEngine(compilerPath, outputDir, flags, engine);
+
+                if (!measurePerformance) return;
+                _callback("Generation times:");
+                foreach (var key in performanceDict.Keys)
+                    _callback($"  {key}: {performanceDict[key]}ms");
+                _callback($" average: {performanceDict.Values.Average()}ms");
             });
 
-
-            batchGenerateButton.IsEnabled = true;
+            batchGenerateButton.IsEnabled = measurePerformanceCheckBox.IsEnabled = true;
         }
 
         private void RemoveFromBatchGeneration_OnClick(object sender, RoutedEventArgs e)
         {
-            if (batchGenerationListBox.SelectedItems != null)
+            if (batchGenerationListBox.SelectedItems != null && batchGenerationListBox.SelectedIndex>=0)
             {
                 batchGenerationListBox.Items.RemoveAt(batchGenerationListBox.SelectedIndex);
             }

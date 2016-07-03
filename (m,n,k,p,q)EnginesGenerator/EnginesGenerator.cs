@@ -13,7 +13,6 @@ namespace m_n_k_p_q_EnginesGenerator
 
         /// p:DefineConstants="M 2; N 2"
         private const string BuildBasicFlags = @" /p:Configuration=Release /p:Platform=x64 /t:Build ";
-
         private const string CleanBasicFlags = @" /p:Configuration=Release /p:Platform=x64 /t:Clean ";
         private readonly Action<string> _callback;
 
@@ -67,7 +66,6 @@ namespace m_n_k_p_q_EnginesGenerator
         {
             _engine = new ProcessInBackground(_engineExeFullPath, "", _callback, true);
             _engine.Run();
-            // engine.Send("2\n");
             _callback.Invoke($@"{_engineAssemblyName}.exe started");
         }
 

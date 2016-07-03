@@ -130,17 +130,19 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="150" />
                     </Grid.ColumnDefinitions>
+                  
                     <ListBox x:Name="batchGenerationListBox" Grid.Column="0" FontSize="10" />
                     <Button x:Name="addToBatchGenerationButton" Click="AddToBatchGenerationButton_OnClick"
-                            Content="Add to job queue" Grid.Column="1" HorizontalAlignment="Left" Margin="10,10,0,0"
+                            Content="Add to job queue" Grid.Column="1" HorizontalAlignment="Right" Margin="10,10,10,0"
                             VerticalAlignment="Top" Width="130" Height="30" />
-                    <Button x:Name="batchGenerateButton" Click="BatchGenerateButton_OnClick" Content="Batch generate"
-                            Grid.Column="1" HorizontalAlignment="Left" Margin="10,80,0,0" VerticalAlignment="Top"
+                    <Button x:Name="batchGenerateButton" Content="Batch generate" Click="BatchGenerateButton_OnClick"
+                            Grid.Column="1" HorizontalAlignment="Right" Margin="10,80,10,0" VerticalAlignment="Top"
                             Width="130" Height="68" FontSize="18" />
                     <Button x:Name="removeFromBatchGeneration" Click="RemoveFromBatchGeneration_OnClick"
-                            Content="Remove from job queue" Grid.Column="1" HorizontalAlignment="Left"
-                            Margin="10,45,0,0" VerticalAlignment="Top" Width="130" Height="30" />
+                            Content="Remove from job queue" Grid.Column="1" HorizontalAlignment="Right"
+                            Margin="10,45,10,0" VerticalAlignment="Top" Width="130" Height="30" />
 
+                    <CheckBox Grid.Column="1" x:Name="measurePerformanceCheckBox" Content="Measure performance?" Margin="13,80,10,10" VerticalAlignment="Bottom" HorizontalAlignment="Left" FontSize="10"></CheckBox>
 
                 </Grid>
             </TabItem>
