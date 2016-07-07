@@ -1,12 +1,4 @@
 #pragma once
-/*
-#define M {_m_placeholder_}
-#define N {_n_placeholder_}
-#define K {_k_placeholder_}
-#define P {_p_placeholder_}
-#define Q {_q_placeholder_}
-*/
-
 //#define _USE_GENERATOR_DEFINES
 
 #ifndef _USE_GENERATOR_DEFINES
@@ -28,8 +20,6 @@
 
 #define BOARD_SIZE M*N
 #define REQUIRES_ARRAYS BOARD_SIZE > 64
-#define ENGINE_INFO "("+M","+N+","+K+","+P+","+Q+")"
-
 
 #if BOARD_SIZE > 32
 #define CHECK_BIT(var,pos) ((var) & (1i64<<(pos)))
