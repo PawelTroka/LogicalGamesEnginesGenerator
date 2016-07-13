@@ -54,7 +54,7 @@ private:
 #elif BOARD_SIZE > 8
 	uint16_t blackPieces;
 	uint16_t whitePieces;
-#else//if BOARD_SIZE > 4
+#else
 	uint8_t blackPieces;
 	uint8_t whitePieces;
 #endif

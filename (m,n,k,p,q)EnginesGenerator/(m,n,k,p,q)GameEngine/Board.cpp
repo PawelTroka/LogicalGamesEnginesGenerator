@@ -31,7 +31,6 @@ Color Board::GetColor(coord x, coord y) const
 
 bool Board::IsEmpty(coord x, coord y) const
 {
-	//arrayIndex_t position = POSITION(x, y);
 #if REQUIRES_ARRAYS
 	return !blackPieces[POSITION(x, y)] && !whitePieces[POSITION(x, y)];
 #else
@@ -41,8 +40,6 @@ bool Board::IsEmpty(coord x, coord y) const
 
 bool Board::IsColor(coord x, coord y, Color color) const
 {
-	//arrayIndex_t position = POSITION(x, y);
-
 	if (color == Color::None)
 		return IsEmpty(x, y);
 	else if (color == Color::Black)
