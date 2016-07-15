@@ -30,7 +30,6 @@
 #endif
 
 #include <cstdint>
-#include <iostream>
 #include <ostream>
 typedef uint8_t coord;
 typedef uint16_t arrayIndex_t;

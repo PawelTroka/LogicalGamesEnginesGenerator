@@ -1,18 +1,16 @@
 #include "AIPlayer.h"
 #include <vector>
-#include <ctime>
 
 AIPlayer::AIPlayer(Board& board) : random()
 {
 	this->board = &board;
-	//std::srand(std::time(nullptr)); //use current time as seed for random generator
 }
 
 AIPlayer::~AIPlayer()
 {
 }
 
-Move AIPlayer::GetMove()
+Move AIPlayer::GetMove() const
 {
 	Move move;
 	std::vector<Move> empties;
@@ -39,7 +37,7 @@ Move AIPlayer::GetMove()
 
 bool AIPlayer::IsAdjacent(coord x, coord y) const
 {
-	if (!(this->board->IsEmpty(x, y)))
+	if (!this->board->IsEmpty(x, y))
 		return false;
 	for (char dy = -1; dy < 2; dy++)
 	{
