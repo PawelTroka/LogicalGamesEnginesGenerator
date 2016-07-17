@@ -25,14 +25,14 @@ void Game::StartGame()
 	movesMade = 0;
 }
 
-bool Game::IsValidMove(coord x, coord y) const
+inline bool Game::IsValidMove(coord x, coord y) const
 {
 	return board.IsEmpty(x, y) && players[currentColor] == PlayerType::Human && x < N && y < M && movesLeft > 0;
 }
 
 bool Game::MakeMove(coord x, coord y)
 {
-	if (board.IsEmpty(x, y) && players[currentColor] == PlayerType::Human && x < N && y < M && movesLeft > 0)
+	if (IsValidMove(x, y))
 	{
 		board.PlacePiece(x, y, currentColor == Color::Black);
 		return true;
@@ -175,16 +175,13 @@ void Game::GameLoop(int argc, char* argv[])
 {
 	std::string token, cmd;
 
-
 	for (auto i = 1; i < argc; ++i)
 		cmd += std::string(argv[i]) + " ";
 
 	do
 	{
 		if (gameStarted)
-			while (GetMove())
-			{
-			}
+			while (GetMove()) { }
 
 		if (argc == 1 && !getline(std::cin, cmd)) // Block here waiting for input or EOF
 			cmd = "quit";
@@ -194,8 +191,6 @@ void Game::GameLoop(int argc, char* argv[])
 		token.clear(); // getline() could return empty or blank line
 		is >> std::skipws >> token;
 
-		//black ai
-		//white human
 		if (token == "newgame")
 		{
 			players[Color::Black] = PlayerType::Human;
@@ -256,8 +251,6 @@ void Game::GameLoop(int argc, char* argv[])
 			|| token == "exit" || token == "stop")
 		sync_cout << "(m,n,k,p,q)GameEngine has exited" << sync_endl;
 
-
-		//makemove x y
 		else if (token == "makemove" && gameStarted)
 		{
 			is >> token;
