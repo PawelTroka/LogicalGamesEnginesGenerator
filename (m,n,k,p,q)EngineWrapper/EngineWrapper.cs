@@ -295,7 +295,7 @@ namespace _m_n_k_p_q_EngineWrapper
                 default:
                     throw new ArgumentOutOfRangeException(nameof(gameType), gameType, null);
             }
-            while (!GetLine().Contains("game started"))
+            while (!GetLine().Contains("game started")) { }
                 //throw new Exception($"StartGame failed for {gameType}");
                 _gameStateChangedCallback?.Invoke(GameState.Started);
 

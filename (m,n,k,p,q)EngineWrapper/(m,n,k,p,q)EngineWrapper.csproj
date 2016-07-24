@@ -41,7 +41,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EngineCallback.cs" />
     <Compile Include="EngineParameters.cs" />
     <Compile Include="EngineWrapper.cs" />
     <Compile Include="GameState.cs" />
