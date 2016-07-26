@@ -9,15 +9,26 @@
     x:Class="m_n_k_p_q_EnginesGenerator.MainWindow"
     mc:Ignorable="d"
     Title="(m,n,k,p,q)EnginesGenerator v1.0.0 © Pawel Troka" Height="800" Width="700" FontSize="14">
+    
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="20"></RowDefinition>
             <RowDefinition Height="120" />
             <RowDefinition Height="100" />
             <RowDefinition Height="190" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-
-        <Grid Grid.Row="0">
+        <DockPanel Grid.Row="0">
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="_Batch generation list">
+                    <MenuItem Header="_Load" Click="LoadBatchListMenuItem_OnClick"/>
+                    <MenuItem Header="_Save" Click="SaveBatchListMenuItem_OnClick"/>
+                    <MenuItem Header="_Close" Click="CloseMenuItem_OnClick"/>
+                </MenuItem>
+            </Menu>
+            <StackPanel></StackPanel>
+        </DockPanel>
+        <Grid Grid.Row="1">
             <GroupBox Header="Wining condition" HorizontalAlignment="Left" Margin="356,16,0,0" VerticalAlignment="Top"
                       Height="101" Width="182">
                 <Grid>
@@ -71,13 +82,13 @@
         </Grid>
 
 
-        <TextBox Grid.Row="3" x:Name="outputTextBox" Margin="10 30 10 10" VerticalScrollBarVisibility="Auto"
+        <TextBox Grid.Row="4" x:Name="outputTextBox" Margin="10 30 10 10" VerticalScrollBarVisibility="Auto"
                  IsReadOnly="True" IsReadOnlyCaretVisible="False" TextWrapping="Wrap" AcceptsReturn="True" Text=""
                  FontFamily="Consolas" FontSize="16" />
-        <Label Grid.Row="3" Content="Output:" HorizontalAlignment="Left" Margin="10 2 10 10" VerticalAlignment="Top" />
+        <Label Grid.Row="4" Content="Output:" HorizontalAlignment="Left" Margin="10 2 10 10" VerticalAlignment="Top" />
 
 
-        <TabControl Grid.Row="2" x:Name="tabControl" Height="186" Margin="0,0,0,0" VerticalAlignment="Top">
+        <TabControl Grid.Row="3" x:Name="tabControl" Height="186" Margin="0,0,0,0" VerticalAlignment="Top">
             <TabItem Header="Generation">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -148,7 +159,7 @@
             </TabItem>
 
         </TabControl>
-        <GroupBox Grid.Row="1" Header="C++ compiler" HorizontalAlignment="Left" Margin="10,5,0,0"
+        <GroupBox Grid.Row="2" Header="C++ compiler" HorizontalAlignment="Left" Margin="10,5,0,0"
                   VerticalAlignment="Top" Height="89" Width="672">
             <Grid>
 
