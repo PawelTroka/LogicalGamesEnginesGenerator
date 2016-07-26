@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
@@ -37,6 +38,83 @@ namespace m_n_k_p_q_EnginesGenerator
 
             batchGenerationListBox.Items.Add(new EngineParameters(5, 13, 4, 2, 1, WinCondition.K_OR_MORE_TO_WIN));
             batchGenerationListBox.Items.Add(new EngineParameters(5, 13, 4, 1, 1, WinCondition.K_OR_MORE_TO_WIN));
+
+            //AddBenchmarkEngineParamaters();
+        }
+
+        private void AddBenchmarkEngineParamaters()
+        {
+
+
+
+            for (ulong x = 4; x <= 20; x++)
+            {
+                batchGenerationListBox.Items.Add(new EngineParameters(4, x, 4, 1, 1, WinCondition.K_OR_MORE_TO_WIN));
+            }
+
+            for (ulong x = 4; x <= 20; x++)
+            {
+                batchGenerationListBox.Items.Add(new EngineParameters(x, 4, 4, 1, 1, WinCondition.K_OR_MORE_TO_WIN));
+            }
+
+            for (ulong x = 4; x <= 20; x++)
+            {
+                batchGenerationListBox.Items.Add(new EngineParameters(x, x, 4, 1, 1, WinCondition.K_OR_MORE_TO_WIN));
+            }
+
+
+            for (ulong x = 50; x <= 250; x += 50)
+            {
+                batchGenerationListBox.Items.Add(new EngineParameters(x, x, 6, 2, 1, WinCondition.K_OR_MORE_TO_WIN));
+            }
+
+
+            for (ulong k = 10; k <= 100; k+=10)
+            {
+                batchGenerationListBox.Items.Add(new EngineParameters(250, 250, k, 1, 1, WinCondition.K_OR_MORE_TO_WIN));
+            }
+
+            for (ulong k = 3; k <= 8; k++)
+            {
+                batchGenerationListBox.Items.Add(new EngineParameters(5, 13, k, 1, 1, WinCondition.K_OR_MORE_TO_WIN));
+            }
+
+            for (ulong k = 3; k <= 8; k++)
+            {
+                batchGenerationListBox.Items.Add(new EngineParameters(8, 8, k, 1, 1, WinCondition.K_OR_MORE_TO_WIN));
+            }
+
+            for (ulong p = 1; p <= 4; p++)
+            {
+                for (ulong q = 1; q <= 4; q++)
+                {
+
+                    batchGenerationListBox.Items.Add(new EngineParameters(250,250, 100, p*10, q*10, WinCondition.K_OR_MORE_TO_WIN));
+                    batchGenerationListBox.Items.Add(new EngineParameters(250, 250, 6, p , q, WinCondition.K_OR_MORE_TO_WIN));
+
+
+                    batchGenerationListBox.Items.Add(new EngineParameters(8, 8, 4, p, q, WinCondition.K_OR_MORE_TO_WIN));
+                    batchGenerationListBox.Items.Add(new EngineParameters(20, 20, 4, p, q, WinCondition.K_OR_MORE_TO_WIN));
+
+                    batchGenerationListBox.Items.Add(new EngineParameters(8, 8, 8, p, q, WinCondition.K_OR_MORE_TO_WIN));
+                    batchGenerationListBox.Items.Add(new EngineParameters(20, 20, 8, p, q, WinCondition.K_OR_MORE_TO_WIN));
+                }
+            }
+
+
+            foreach (WinCondition winCondition in Enum.GetValues(typeof(WinCondition)))
+            {
+                batchGenerationListBox.Items.Add(new EngineParameters(250, 250, 100, 1, 1, winCondition));
+                batchGenerationListBox.Items.Add(new EngineParameters(250, 250, 6, 1, 1, winCondition));
+
+
+                batchGenerationListBox.Items.Add(new EngineParameters(8, 8, 3, 1, 1, winCondition));
+                batchGenerationListBox.Items.Add(new EngineParameters(5, 13, 3, 1, 1, winCondition));
+
+
+                batchGenerationListBox.Items.Add(new EngineParameters(5, 13, 7, 1, 1, winCondition));
+                batchGenerationListBox.Items.Add(new EngineParameters(8, 8, 7, 1, 1, winCondition));
+            }
         }
 
         private async void generateButton_Click(object sender, RoutedEventArgs e)
@@ -169,6 +247,45 @@ namespace m_n_k_p_q_EnginesGenerator
             {
                 batchGenerationListBox.Items.RemoveAt(batchGenerationListBox.SelectedIndex);
             }
+        }
+
+        private void LoadBatchListMenuItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            var loadFileDialog = new OpenFileDialog();
+            if (loadFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                using (Stream stream = File.Open(loadFileDialog.FileName, FileMode.Open))
+                {
+                    var bin = new BinaryFormatter();
+
+                    var engineParameters = (List<EngineParameters>)bin.Deserialize(stream);
+                    batchGenerationListBox.Items.Clear();////////////////
+                    foreach (var engineParameterse in engineParameters)
+                    {
+                        batchGenerationListBox.Items.Add(engineParameterse);
+                    }
+                    
+                }
+            }
+        }
+
+        private void SaveBatchListMenuItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            var saveFileDialog = new SaveFileDialog();
+            if (saveFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                var engineParameters = batchGenerationListBox.Items.Cast<EngineParameters>().ToList();
+                using (Stream stream = File.Open(saveFileDialog.FileName, FileMode.Create))
+                {
+                    var bin = new BinaryFormatter();
+                    bin.Serialize(stream, engineParameters);
+                }
+            }
+        }
+
+        private void CloseMenuItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

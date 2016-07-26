@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace _m_n_k_p_q_EngineWrapper
 {
+    [Serializable]
     public class EngineParameters : INotifyPropertyChanged, IEquatable<EngineParameters>
     {
 
