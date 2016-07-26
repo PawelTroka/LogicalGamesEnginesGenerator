@@ -11,7 +11,7 @@ public:
 
 	void StartGame();
 
-	bool IsValidMove(coord x, coord y) const;
+	inline bool IsValidMove(coord x, coord y) const;
 
 	bool MakeMove(coord x, coord y);
 	bool GetMove();

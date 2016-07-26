@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using _m_n_k_p_q_EngineWrapper;
 
 namespace _m_n_k_p_q_EnginesAnalyzer
@@ -155,8 +156,10 @@ namespace _m_n_k_p_q_EnginesAnalyzer
             _engine.StartGame(GameType.TwoHumans);
             _engine.StopAsync();
 
-            for (ulong i = 0; i < _engineParameters.M*_engineParameters.N; i++)
+            for (int i = 0; i < _possibleMoves.Length; i++)
+            {
                 _engine.MakeMove(_possibleMoves[i]);
+            }
 
             return _engine.GetGameStateSync().IsGameOver();
         }

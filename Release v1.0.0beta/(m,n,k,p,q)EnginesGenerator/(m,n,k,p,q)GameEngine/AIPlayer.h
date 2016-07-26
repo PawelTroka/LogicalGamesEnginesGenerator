@@ -6,14 +6,11 @@
 class AIPlayer
 {
 public:
-	AIPlayer(Board& board);
+	AIPlayer(const Board& board);
 	~AIPlayer();
-	Move GetMove();
-	bool IsAdjacent(coord x, coord y) const;
-
+	Move GetMove() const;
 private:
-
-
+	bool IsAdjacent(coord x, coord y) const;
 	Random random;
-	Board* board;
+	const Board* board;
 };

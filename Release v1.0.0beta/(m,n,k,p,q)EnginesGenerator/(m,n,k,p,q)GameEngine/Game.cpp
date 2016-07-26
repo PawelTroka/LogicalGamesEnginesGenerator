@@ -1,7 +1,3 @@
-// (m,n,k,p,q)GameEngine.cpp : Defines the exported functions for the DLL application.
-//
-
-
 #include <sstream>
 #include <iostream>
 #include <vector>
@@ -27,25 +23,22 @@ void Game::StartGame()
 	gameStarted = true;
 	currentColor = Color::Black;
 	movesMade = 0;
-	//GetMove();
 }
 
-bool Game::IsValidMove(coord x, coord y) const
+inline bool Game::IsValidMove(coord x, coord y) const
 {
 	return board.IsEmpty(x, y) && players[currentColor] == PlayerType::Human && x < N && y < M && movesLeft > 0;
 }
 
 bool Game::MakeMove(coord x, coord y)
 {
-	if (board.IsEmpty(x, y) && players[currentColor] == PlayerType::Human && x < N && y < M && movesLeft > 0)
+	if (IsValidMove(x, y))
 	{
 		board.PlacePiece(x, y, currentColor == Color::Black);
-
 		return true;
 	}
 	return false;
 }
-
 
 Move* Game::GetMoves() const
 {
@@ -68,29 +61,14 @@ bool Game::GetMove()
 {
 	if (players[currentColor] == PlayerType::AI && movesLeft > 0 && gameStarted)
 	{
-		/*
-		coord x = N/2;
-		coord y = M/2;
-
-		std::vector<Move> empties;
-
-		for (coord iy = 0; iy<M; iy++)
-			for (coord ix = 0; ix<N; ix++)
-			{m
-				
-			}
-		*/
 		auto t1 = std::chrono::high_resolution_clock::now();
+
 		auto aiMove = aiPlayer.GetMove();
+		
 		board.PlacePiece(aiMove.x, aiMove.y, currentColor == Color::Black);
 		auto t2 = std::chrono::high_resolution_clock::now();
-
-
 		auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(t2 - t1).count();
-
 		aiGetMoveTimes.push_back(duration);
-
-		////////////////////sync_cout << "aiPlayer.GetMove() duration is " << duration <<"microseconds"<< sync_endl;
 
 		WriteMove(aiMove.x, aiMove.y);
 		movesMade++;
@@ -147,9 +125,6 @@ bool Game::CheckGameEnd(coord x, coord y)
 	auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(t2 - t1).count();
 	checkGameEndTimes.push_back(duration);
 
-	/////////////////	sync_cout << "CheckWin() duration is " << duration << "microseconds" << sync_endl;
-
-
 	if (isWin)
 	{
 		sync_cout << "winner is " << (currentColor == Color::Black ? "black" : "white") << sync_endl;
@@ -183,7 +158,7 @@ std::string Game::engine_info(bool b)
 {
 	if (b)
 	{
-		std::string ret = "(" + std::to_string(M) + "," + std::to_string(N) + "," + std::to_string(K) + "," + std::to_string(P) + "," + std::to_string(Q) + ")";
+		auto ret = "(" + std::to_string(M) + "," + std::to_string(N) + "," + std::to_string(K) + "," + std::to_string(P) + "," + std::to_string(Q) + ")";
 
 #if defined(K_OR_MORE_TO_WIN)
 		ret += "K_OR_MORE_TO_WIN";
@@ -200,16 +175,13 @@ void Game::GameLoop(int argc, char* argv[])
 {
 	std::string token, cmd;
 
-
-	for (int i = 1; i < argc; ++i)
+	for (auto i = 1; i < argc; ++i)
 		cmd += std::string(argv[i]) + " ";
 
 	do
 	{
 		if (gameStarted)
-			while (GetMove())
-			{
-			}
+			while (GetMove()) { }
 
 		if (argc == 1 && !getline(std::cin, cmd)) // Block here waiting for input or EOF
 			cmd = "quit";
@@ -219,8 +191,6 @@ void Game::GameLoop(int argc, char* argv[])
 		token.clear(); // getline() could return empty or blank line
 		is >> std::skipws >> token;
 
-		//black ai
-		//white human
 		if (token == "newgame")
 		{
 			players[Color::Black] = PlayerType::Human;
@@ -281,8 +251,6 @@ void Game::GameLoop(int argc, char* argv[])
 			|| token == "exit" || token == "stop")
 		sync_cout << "(m,n,k,p,q)GameEngine has exited" << sync_endl;
 
-
-		//makemove x y
 		else if (token == "makemove" && gameStarted)
 		{
 			is >> token;
@@ -295,7 +263,6 @@ void Game::GameLoop(int argc, char* argv[])
 				movesMade++;
 				if (!CheckGameEnd(x, y))
 					NextTurn();
-				//sync_cout << "move ok" << cmd << sync_endl;
 			}
 			else
 			sync_cout << "invalid move" << sync_endl;

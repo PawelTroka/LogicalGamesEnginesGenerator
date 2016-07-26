@@ -251,7 +251,7 @@ namespace _m_n_k_p_q_EngineWrapper
 
         public void MakeMove(Move move)
         {
-            _engine.Send($"makemove {move.X} {move.Y}");
+            _engine.Send($"makemove {move.X} {move.Y}{Environment.NewLine}");
         }
 
         public Task WaitForGameOver()
