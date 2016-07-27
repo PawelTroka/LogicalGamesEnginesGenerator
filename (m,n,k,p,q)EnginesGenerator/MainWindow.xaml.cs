@@ -93,9 +93,13 @@ namespace m_n_k_p_q_EnginesGenerator
                     batchGenerationListBox.Items.Add(new EngineParameters(250, 250, 6, p , q, WinCondition.K_OR_MORE_TO_WIN));
 
 
-                    batchGenerationListBox.Items.Add(new EngineParameters(8, 8, 4, p, q, WinCondition.K_OR_MORE_TO_WIN));
-                    batchGenerationListBox.Items.Add(new EngineParameters(20, 20, 4, p, q, WinCondition.K_OR_MORE_TO_WIN));
-
+                    if (p < 4 && q < 4)
+                    {
+                        batchGenerationListBox.Items.Add(new EngineParameters(8, 8, 4, p, q,
+                            WinCondition.K_OR_MORE_TO_WIN));
+                        batchGenerationListBox.Items.Add(new EngineParameters(20, 20, 4, p, q,
+                            WinCondition.K_OR_MORE_TO_WIN));
+                    }
                     batchGenerationListBox.Items.Add(new EngineParameters(8, 8, 8, p, q, WinCondition.K_OR_MORE_TO_WIN));
                     batchGenerationListBox.Items.Add(new EngineParameters(20, 20, 8, p, q, WinCondition.K_OR_MORE_TO_WIN));
                 }
@@ -226,7 +230,10 @@ namespace m_n_k_p_q_EnginesGenerator
                         var stw = Stopwatch.StartNew();
                         _generator.GenerateEngine(compilerPath, outputDir, flags, engine);
                         stw.Stop();
-                        performanceDict.Add(engine, stw.Elapsed.TotalMilliseconds);
+                        if (!performanceDict.ContainsKey(engine))
+                            performanceDict.Add(engine, stw.Elapsed.TotalMilliseconds);
+                        else
+                            performanceDict[engine] = (performanceDict[engine] + stw.Elapsed.TotalMilliseconds)/2.0;
                     }
                     else
                         _generator.GenerateEngine(compilerPath, outputDir, flags, engine);

@@ -6,13 +6,13 @@ namespace _m_n_k_p_q_EngineWrapper
     public class PerformanceInformation
     {
         private static readonly Regex AiGetMovePerfCallbackRegex = new Regex(
-            @".*ai.+?move.+?(\d+(?:\.|,)?\d*)\s*(\w*)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+            @".*ai.+?move.+?([+-]?\d+(?:[\.,]\d+)?(?:[Ee][+-]?\d+)?)\s*(\w*)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         private static readonly Regex GameCheckWinPerfCallbackRegex =
-            new Regex(@".*checkwin.+?(\d+(?:\.|,)?\d*)\s*(\w*)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+            new Regex(@".*checkwin.+?([+-]?\d+(?:[\.,]\d+)?(?:[Ee][+-]?\d+)?)\s*(\w*)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         private static readonly Regex GameGetMovesPerfCallbackRegex =
-            new Regex(@".*getmoves.+?(\d+(?:\.|,)?\d*)\s*(\w*)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+            new Regex(@".*getmoves.+?([+-]?\d+(?:[\.,]\d+)?(?:[Ee][+-]?\d+)?)\s*(\w*)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         public ValueWithUnit AverageAiGetMoveExecution { get; set; }
         public ValueWithUnit AverageCheckWinExecution { get; set; }
