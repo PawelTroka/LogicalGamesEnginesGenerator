@@ -12,12 +12,10 @@ namespace _m_n_k_p_q_EngineWrapper
         {
             X = x;
             Y = y;
-            //this.Player = player;
         }
 
         public byte X { get; set; }
         public byte Y { get; set; }
-
         public Player Player { get; set; }
 
         public bool Equals(Move other)
@@ -59,7 +57,7 @@ namespace _m_n_k_p_q_EngineWrapper
         public bool IsAdjacent(Move move)
         {
             // ReSharper disable once RedundantCast
-            return Math.Abs((int) X - move.X) <= 1 && Math.Abs(Y - move.Y) <= 1;
+            return Math.Abs(((int) X) - move.X) <= 1 && Math.Abs(((int)Y) - move.Y) <= 1;
         }
 
         public static bool TryParse(string str, out Move move)
