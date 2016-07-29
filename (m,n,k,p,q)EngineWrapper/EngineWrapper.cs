@@ -8,24 +8,25 @@ using System.Threading.Tasks;
 
 namespace _m_n_k_p_q_EngineWrapper
 {
-    public class EngineWrapper : IDisposable //TODO: handle duration callbacks
+    public class EngineWrapper : IDisposable
     {
         private static readonly Regex GetMovesRegex = new Regex(@"\s*moves:\s*");
         private static readonly Regex MoveFromGetMovesRegex = new Regex(@"\s*\(\s*(\d+)\s+(\d+)\s*\)\s*");
+
         private readonly ProcessInBackground _engine;
-
-        private readonly List<string> _engineOutputs = new List<string>();
-
+        
         private readonly Action<GameState> _gameStateChangedCallback;
-
-
         private readonly Action<Move> _moveMadeCallback;
-        private readonly List<Move> _movesOutput = new List<Move>();
-
+        
         private bool _gameOver;
+        private WrapperMode _mode = WrapperMode.Async;
 
         private ConcurrentQueue<string> _messages = new ConcurrentQueue<string>();
-        private WrapperMode _mode = WrapperMode.Async;
+
+        private readonly List<string> _engineOutputs = new List<string>();
+        private readonly List<Move> _movesOutput = new List<Move>();
+
+        public string EngineName { get; }
 
         public EngineWrapper(string path, Action<GameState> gameStateChangedCallback, Action<Move> moveMadeCallback)
         {
@@ -35,7 +36,7 @@ namespace _m_n_k_p_q_EngineWrapper
             EngineName = Path.GetFileName(path);
         }
 
-        public string EngineName { get; }
+
 
         public void Dispose()
         {
@@ -46,7 +47,6 @@ namespace _m_n_k_p_q_EngineWrapper
         public void StopAsync()
         {
             _mode = WrapperMode.Sync;
-            //    _lastLine = null;//??????????????????????
         }
 
         public void StartAsync()
@@ -54,17 +54,13 @@ namespace _m_n_k_p_q_EngineWrapper
             _mode = WrapperMode.Async;
         }
 
-        //  private string _lastLine = null;
-
         public string GetLine()
         {
             string ret;
-            while (!_messages.TryDequeue(out ret)) //(_lastLine == null)
+            while (!_messages.TryDequeue(out ret))
             {
                 Thread.Sleep(20);
             }
-            //  var ret = ;//lastLine;
-            //_lastLine = null;
 
             return ret;
         }
@@ -128,11 +124,9 @@ namespace _m_n_k_p_q_EngineWrapper
         {
             StopAsync();
             _engine.Send("quit");
-            //var response = GetLine();
             while (!GetLine().ToLowerInvariant().Contains("has exited"))
             {
             }
-            //    throw new Exception($"Engine didnt exit properly {response}");
         }
 
         public void ClearMessageQueue()
@@ -147,11 +141,6 @@ namespace _m_n_k_p_q_EngineWrapper
             if (_mode == WrapperMode.Sync)
             {
                 _messages.Enqueue(message);
-                /*while (_lastLine != null)
-                {
-
-                }
-                _lastLine = message;*/
             }
             else
             {
@@ -221,8 +210,6 @@ namespace _m_n_k_p_q_EngineWrapper
                 StartAsync();
 
             return player;
-
-            throw new Exception("GetCurrentPlayer() failed");
         }
 
 
