@@ -202,9 +202,7 @@ namespace _m_n_k_p_q_EngineWrapper
             _engine.Send("getplayer");
             Player player;
 
-            while (!PlayerExtensions.TryParse(GetLine(), out player))
-            {
-            }
+            while (!PlayerExtensions.TryParse(GetLine(), out player)) { }
 
             if (restoreAsync)
                 StartAsync();
