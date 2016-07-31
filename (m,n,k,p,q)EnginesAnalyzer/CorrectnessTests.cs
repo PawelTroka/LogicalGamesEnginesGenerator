@@ -10,9 +10,7 @@ namespace _m_n_k_p_q_EnginesAnalyzer
     public class CorrectnessTests
     {
         private readonly EngineWrapper _engine;
-
         private readonly EngineParameters _engineParameters;
-
         private readonly Move[] _possibleMoves;
 
         public CorrectnessTests(EngineWrapper engine)
@@ -20,42 +18,12 @@ namespace _m_n_k_p_q_EnginesAnalyzer
             _engine = engine;
             _engineParameters = _engine.GetEngineInfo();
 
-
             var possibleMovesList = new List<Move>();
 
-
-            //  byte x = 1, y = 1;
-
-            /*
-            possibleMovesList.Add(new Move(x,y));
-
-
-
-            for (ulong i = 0; i < engineParameters.N*engineParameters.M; i++)
-            {
-                if (x == engineParameters.N && y < engineParameters.M)
-                    possibleMovesList.Add(new Move(x, ++y));
-                else if (x < engineParameters.N && y == engineParameters.M)
-                    possibleMovesList.Add(new Move(++x, y));
-                else if (x < engineParameters.N && y < engineParameters.M)
-                {
-                    if (i%3 == 0)
-                        possibleMovesList.Add(new Move((byte) (x+1), y));
-                    else if(i % 3 == 1)
-                        possibleMovesList.Add(new Move(x, (byte)(y +1)));
-                    else
-                        possibleMovesList.Add(new Move(++x, ++y));
-                }
-                else throw new Exception("generating possible moves failed");
-            }*/
-
             for (byte x = 1; x <= _engineParameters.N; x++)
-            {
                 for (byte y = 1; y <= _engineParameters.M; y++)
                     possibleMovesList.Add(new Move(x, y));
-            }
 
-            ///////////////////////////////// possibleMovesList.Sort((m1,m2) => (m1.X+m1.Y).CompareTo(m2.X + m2.Y));
             _possibleMoves = possibleMovesList.ToArray();
         }
 

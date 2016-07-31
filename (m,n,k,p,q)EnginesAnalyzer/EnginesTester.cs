@@ -12,16 +12,11 @@ namespace _m_n_k_p_q_EnginesAnalyzer
     public class EnginesTester
     {
         private readonly IProgress<string> _progressHandler;
-        // private readonly string _enginesDirectory;
         private string[] _enginesPaths;
 
         public EnginesTester(IProgress<string> progressHandler)
         {
-            //  _enginesDirectory = enginesDirectory;
             _progressHandler = progressHandler;
-
-
-            // _enginesPaths.Select(path => new EngineWrapper(path,gs => ))
         }
 
         public DataTable PerformanceResults { get; private set; }

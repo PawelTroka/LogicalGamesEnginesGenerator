@@ -98,7 +98,6 @@ namespace _m_n_k_p_q_EngineWrapper
             }
             _engine.Send("getmoves");
 
-
             var line = "";
 
             while (!GetMovesRegex.IsMatch(line))

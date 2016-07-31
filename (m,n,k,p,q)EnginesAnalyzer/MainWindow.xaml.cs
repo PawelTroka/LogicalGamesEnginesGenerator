@@ -20,13 +20,6 @@ namespace _m_n_k_p_q_EnginesAnalyzer
         {
             InitializeComponent();
             _tester = new EnginesTester(new Progress<string>(s => { OutputTextBox.AppendText(s); }));
-
-            // performanceDataGrid.Columns.Add(new DataGridTextColumn() {Header = "chuj"});
-            //   performanceDataGrid.Rows
-
-
-            //correctnessDataGrid.Columns.Add(new Column() {Title = "dads"});
-            //correctnessDataGrid.
         }
 
         private void openDirectoryButton_Click(object sender, RoutedEventArgs e)
