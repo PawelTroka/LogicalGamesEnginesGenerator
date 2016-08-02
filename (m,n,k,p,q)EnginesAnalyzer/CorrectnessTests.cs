@@ -349,10 +349,8 @@ namespace _m_n_k_p_q_EnginesAnalyzer
 
             var movesMade = new List<Move>();
 
-
             var movesAvalaible = _possibleMoves.ToList();
             _engine.StartGame(GameType.BlackAIvsWhiteHuman);
-
 
             //ai's turn
             for (ulong i = 0; i < _engineParameters.Q; i++)
@@ -384,7 +382,6 @@ namespace _m_n_k_p_q_EnginesAnalyzer
 
             var movesMade = new List<Move>();
             _engine.StartGame(GameType.TwoAIs);
-
 
             //ai's two turns
             for (ulong i = 0; i < _engineParameters.Q + _engineParameters.P; i++)
