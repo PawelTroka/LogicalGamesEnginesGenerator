@@ -17,24 +17,32 @@ namespace _m_n_k_p_q_EnginesAnalyzer
         public EnginesTester(IProgress<string> progressHandler)
         {
             _progressHandler = progressHandler;
+            CorrectnessResults.Columns.AddRange(
+                CorrectnessTests.GetTests().Select(t => new DataColumn(t.Name, typeof(bool))).ToArray());
         }
 
-        public DataTable PerformanceResults { get; private set; }
-        public DataTable CorrectnessResults { get; private set; }
+        public DataTable PerformanceResults { get; } = new DataTable
+        {
+            Columns =
+            {
+                {"Engine", typeof(string)},
+                {nameof(PerformanceInformation.AverageAiGetMoveExecution) + " ns", typeof(double)},
+                {nameof(PerformanceInformation.AverageGetMovesExecution) + " ns", typeof(double)},
+                {nameof(PerformanceInformation.AverageCheckWinExecution) + " ns", typeof(double)}
+            }
+        };
+
+        public DataTable CorrectnessResults { get; } = new DataTable
+        {
+            Columns =
+            {
+                {"Engine", typeof(string)}
+            }
+        };
 
         public void RunPerformanceTests(string enginesDirectory, long iterations)
         {
-            // PerformanceResults.Clear();
-            PerformanceInformation performanceInformation;
-            PerformanceResults = new DataTable()
-            {
-                Columns = {
-                    { "Engine",typeof(string)},
-                    { nameof(performanceInformation.AverageAiGetMoveExecution)+" ns", typeof(double) },
-                    { nameof(performanceInformation.AverageGetMovesExecution)+" ns" , typeof(double) },
-                    { nameof(performanceInformation.AverageCheckWinExecution)+" ns" , typeof(double) },
-                }
-            };
+            PerformanceResults.Rows.Clear();
 
             _enginesPaths = Directory.GetFiles(enginesDirectory, @"*.exe");
             _progressHandler.Report(
@@ -56,20 +64,14 @@ namespace _m_n_k_p_q_EnginesAnalyzer
                     _progressHandler.Report(
                         $"----{Environment.NewLine}{engine.EngineName}{Environment.NewLine}{pi}{Environment.NewLine}----{Environment.NewLine}");
                     PerformanceResults.Rows.Add(engine.EngineName, pi.AverageAiGetMoveExecution.Value,
-                                                pi.AverageGetMovesExecution.Value, pi.AverageCheckWinExecution.Value);
+                        pi.AverageGetMovesExecution.Value, pi.AverageCheckWinExecution.Value);
                 }
             }
         }
 
         public void RunCorrectnessTests(string enginesDirectory)
         {
-            CorrectnessResults = new DataTable()
-            {
-                Columns = {
-                    { "Engine",typeof(string)}
-                }
-            };
-            CorrectnessResults.Columns.AddRange(CorrectnessTests.GetTests().Select(t => new DataColumn(t.Name, typeof(bool))).ToArray());
+            CorrectnessResults.Rows.Clear();
 
             _enginesPaths = Directory.GetFiles(enginesDirectory, @"*.exe");
             _progressHandler.Report(
@@ -82,15 +84,15 @@ namespace _m_n_k_p_q_EnginesAnalyzer
                 {
                     _progressHandler.Report($"---- Testing engine: {engine.EngineName}{Environment.NewLine}");
                     engine.Run();
-                    
+
                     var correctnessTests = new CorrectnessTests(engine);
                     var tests = CorrectnessTests.GetTests().ToArray();
 
-                    var row = new List<object>() {engine.EngineName};
-                    row.AddRange(Enumerable.Repeat((object)false,tests.Length));
+                    var row = new List<object> {engine.EngineName};
+                    row.AddRange(Enumerable.Repeat((object) false, tests.Length));
                     CorrectnessResults.Rows.Add(row.ToArray());
 
-                    for (int index = 0; index < tests.Length; index++)
+                    for (var index = 0; index < tests.Length; index++)
                     {
                         var correctnessTest = tests[index];
                         testCount++;
@@ -99,7 +101,6 @@ namespace _m_n_k_p_q_EnginesAnalyzer
                         _progressHandler.Report(
                             $"  {correctnessTest.Name} - {(result ? "Succes!" : "failed...")}--{Environment.NewLine}");
                         CorrectnessResults.Rows[CorrectnessResults.Rows.Count - 1][index + 1] = result;
-
                     }
                 }
             }
