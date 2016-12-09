@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{5383056D-DAA9-45DC-B53A-51106ED53392}"
 EndProject
@@ -39,6 +39,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "(m,n,k,p,q)EnginesAnalyzer", "(m,n,k,p,q)EnginesAnalyzer\(m,n,k,p,q)EnginesAnalyzer.csproj", "{D7A642B8-EE69-4C1D-A72B-E359B4CA0568}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "(m,n,k,p,q)EngineWrapper", "(m,n,k,p,q)EngineWrapper\(m,n,k,p,q)EngineWrapper.csproj", "{0DA77162-C401-404E-AF05-8E1E3316AF24}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "receiving diploma", "receiving diploma", "{0D9186CE-EDF3-4D42-9DC3-CE26E5AADB85}"
+	ProjectSection(SolutionItems) = preProject
+		docs\formalities\receiving diploma\KartaAbsolwenta_2016_12_09.pdf = docs\formalities\receiving diploma\KartaAbsolwenta_2016_12_09.pdf
+		docs\formalities\receiving diploma\KartaObiegowa_132334.pdf = docs\formalities\receiving diploma\KartaObiegowa_132334.pdf
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -105,5 +111,6 @@ Global
 		{A9922550-FDFA-4C48-B0B9-565E47D19932} = {5383056D-DAA9-45DC-B53A-51106ED53392}
 		{5FA5E8E3-D6AC-4BDB-856E-6CAB3B4999AD} = {5383056D-DAA9-45DC-B53A-51106ED53392}
 		{09E866AF-45C1-4212-8DD5-5587B1E27CB2} = {5383056D-DAA9-45DC-B53A-51106ED53392}
+		{0D9186CE-EDF3-4D42-9DC3-CE26E5AADB85} = {A9922550-FDFA-4C48-B0B9-565E47D19932}
 	EndGlobalSection
 EndGlobal
