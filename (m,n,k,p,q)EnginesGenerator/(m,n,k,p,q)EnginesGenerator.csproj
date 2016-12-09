@@ -134,9 +134,6 @@
     <Content Include="%28m,n,k,p,q%29GameEngine\%28m,n,k,p,q%29GameEngine.vcxproj.filters">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="%28m,n,k,p,q%29GameEngine\%28m,n,k,p,q%29GameEngine.vcxproj.user">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="%28m,n,k,p,q%29GameEngine\AIPlayer.cpp">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
